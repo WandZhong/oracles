@@ -1,0 +1,3 @@
+[submodule "submodules/contract-deployments"]
+	path = submodules/contract-deployments
+	url = git@bitbucket.org:sweetbridge/contract-deployments.git

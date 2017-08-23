@@ -1,0 +1,60 @@
+###### APPS
+
+###### VENDOR
+!vendor/
+vendor/*
+!client/vendor
+
+###### Custom .ackrc
+.ackrc
+
+###### GO
+# Compiled Object files, Static and Dynamic libs (Shared Objects), test applications
+*.o
+*.test
+
+
+###### TESTS
+# Unit test / coverage reports
+.coverage
+coverage.out
+.tox
+
+
+###### WATCHER
+.watcher.*
+jobs.yml
+
+
+###### OTHERS
+
+/package*
+VERSION
+tmp
+_private*
+
+# Translations
+*.mo
+
+
+
+###### EDITOR tmp files
+
+*~
+*.swp
+/.emacs.desktop
+/.emacs.desktop.lock
+.dir-locals.el
+.elc
+auto-save-list
+tramp
+.\#*
+Session.vim
+.netrwhist
+.idea/
+sftp-config.json
+.DS_Store
+
+# Org-mode
+.org-id-locations
+*_archive
