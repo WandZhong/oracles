@@ -39,6 +39,10 @@ go-generate:
 # validate-go-generate-is-uptodate:
 # 	@./test/validate_go_generate_is_up_to_date.sh || exit 1
 
+abigen-backstage:
+	@node scripts/abigen.js submodules/contract-deployments/backstage/
+
+
 ###############################
 # linting
 
