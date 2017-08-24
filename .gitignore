@@ -6,6 +6,11 @@
 vendor/*
 !client/vendor
 
+
+###### Temporary files
+tmp-contracts-abi
+
+
 ###### Custom .ackrc
 .ackrc
 
@@ -14,6 +19,9 @@ vendor/*
 *.o
 *.test
 
+
+##### JS
+.tern-port
 
 ###### TESTS
 # Unit test / coverage reports
@@ -28,7 +36,6 @@ jobs.yml
 
 
 ###### OTHERS
-
 /package*
 VERSION
 tmp
@@ -40,7 +47,6 @@ _private*
 
 
 ###### EDITOR tmp files
-
 *~
 *.swp
 /.emacs.desktop
