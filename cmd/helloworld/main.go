@@ -59,7 +59,7 @@ func main() {
 
 func registerUser() {
 	connect()
-	curr := [3]byte{'U', 'S', 'D'}
+	curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
 	addr, tx, ud, err := contracts.DeployUserDirectory(mkTransactor(*pkFile, *pkPwd),
 		client, rootAddress, curr)
 	if err != nil {

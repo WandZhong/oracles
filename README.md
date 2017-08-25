@@ -5,18 +5,32 @@ This repository contains blockchain Oracles used by Sweetbridge project.
 ## Setting up
 
 1. Install `go` and `node.js`
-2. Clone this repository into your GOPATH. Install dependencies:
+2. Clone this repository into your `GOPATH` (`go env`). Install dependencies:
 
+	mkdir -p ~/go/src/bitbucket.org/sweetbridge/
+	cd ~/go/src/bitbucket.org/sweetbridge/
+	git clone bitbucket.org/sweetbridge/oracles
 	make install-deps
 
-2. (alternative). Use `go get`:
+2. (alternative). Use `go get` (this will work only if the repo is open) and hack the git config a bit: https://gist.github.com/shurcooL/6927554
 
     go get bitbucket.org/sweetbridge/oracles/cmd/helloworld
+
+3. Make sure `GO` is in your `PATH`
 
 ### for development:
 This is not required for building application, but required for proper development.
 
 	make setup-dev
+
+### Building
+
+	make build
+
+If you have issues with `zb` then just use plain `go` command:
+
+	cd cmd/<app name>
+	go build
 
 
 ## Applictions
