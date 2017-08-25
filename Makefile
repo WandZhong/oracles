@@ -28,6 +28,8 @@ setup-dev:
 		jrubin.io/zb
 #		rsc.io/gt
 
+install-deps:
+	@go get -v jrubin.io/zb github.com/ethereum/go-ethereum/ethclient github.com/robert-zaremba/log15
 
 ###############################
 # generating
