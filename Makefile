@@ -18,21 +18,22 @@ endef
 	lint lint-go
 
 
-setup-dev:
+setup-dev: install-deps
 	@echo -en $(IBLACK)fetching server GO lib dependencies... $(NC)
 	@echo "*** (Don't forget to add GOBIN to your PATH) ***"
 	@go get -v -u github.com/golang/lint/golint \
 		github.com/kisielk/errcheck \
-		github.com/kardianos/govendor \
-		github.com/golang/mock \
-		jrubin.io/zb
+		honnef.co/go/tools/cmd/megacheck \
+		github.com/golang/mock
 #		rsc.io/gt
 
+# check https://github.com/govend/govend for dependency management
 install-deps:
-	@go get -v jrubin.io/zb \
-		github.com/ethereum/go-ethereum/ethclient \
-		github.com/robert-zaremba/log15 \
-		github.com/stvp/rollbar
+	@go get -v github.com/govend/govend
+	@echo -e $(IBLACK)checking if all dependencies are installed... $(NC)
+	@govend
+	@echo -e $(CHECK)
+
 
 ###############################
 # generating
@@ -70,6 +71,5 @@ lint-go-mega:
 # building
 
 build:
-#TODO: @./test/gomfile.py --check
 #  -ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w"
-	@zb build -v
+	@GOBIN=`pwd`/bin go install -v ./cmd/...
