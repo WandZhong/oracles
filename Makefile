@@ -4,7 +4,7 @@ IBLACK='\e[1;30m'
 GREEN='\e[0;32m'
 NC='\e[0m'              # No Color
 
-VERSION=`git describe`
+VERSION=`git log  -n 1 --format="%h-%cI"`  #`git describe`
 GO=go
 # GOLIB=$(shell find go-lib -type f -name \*.go)
 
@@ -71,5 +71,6 @@ lint-go-mega:
 # building
 
 build:
-#  -ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w"
-	@GOBIN=`pwd`/bin go install -v ./cmd/...
+	@GOBIN=`pwd`/bin go install -v \
+		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w" \
+		./cmd/...

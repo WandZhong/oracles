@@ -8,7 +8,10 @@ import (
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
-var root = log15.Get("sweetbridge")
+// RootName is the default logger name
+const RootName = "sweetbridge"
+
+var root = log15.Get(RootName)
 
 // timeFMT is the map of predefined time formats for TerminalFmt
 var timeFMT = map[string]string{

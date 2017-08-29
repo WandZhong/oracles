@@ -10,6 +10,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
+	"bitbucket.org/sweetbridge/oracles/go-lib/log"
+	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 )
 
 var client *ethclient.Client
@@ -18,7 +20,12 @@ var pkFile = flag.String("pk", "", "path to the private key json file")
 var pkPwd = flag.String("pwd", "", "key file password")
 var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically")
 
+var logger = log.Root()
+
 func main() {
+	setup.Init()
+	logger.Info("Hello World!", "version", setup.GitVersion)
+
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
 			"Usage of %s options command [command option]:\nOPTIONS:\n", os.Args[0])
@@ -58,6 +65,8 @@ func main() {
 }
 
 func registerUser() {
+	logger.Info("Registering user")
+
 	connect()
 	curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
 	addr, tx, ud, err := contracts.DeployUserDirectory(mkTransactor(*pkFile, *pkPwd),
@@ -71,6 +80,7 @@ func registerUser() {
 }
 
 func checkUser(addrStr string) {
+	logger.Info("Checking user addStr")
 	connect()
 	userAddr := mustBeAnAddress(addrStr, "<user address> must be specified correctly")
 	root, err := contracts.NewRoot(rootAddress, client)
