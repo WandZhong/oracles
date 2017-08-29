@@ -29,7 +29,10 @@ setup-dev:
 #		rsc.io/gt
 
 install-deps:
-	@go get -v jrubin.io/zb github.com/ethereum/go-ethereum/ethclient github.com/robert-zaremba/log15
+	@go get -v jrubin.io/zb \
+		github.com/ethereum/go-ethereum/ethclient \
+		github.com/robert-zaremba/log15 \
+		github.com/stvp/rollbar
 
 ###############################
 # generating
