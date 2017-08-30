@@ -2,13 +2,23 @@ vendors:
 - path: github.com/aristanetworks/goarista
   rev: 84976fcf47727b2718cad84d78aac163b4309125
 - path: github.com/btcsuite/btcd
-  rev: 3cb87afa2fc078efc2b12d16458cce15daab311c
-- path: github.com/cespare/cp
-  rev: 165db2f241fd235aec29ba6d9b1ccd5f1c14637c
+  rev: 0b50802d52cdb7e5560ea6ff3a453b7378e3d5f7
+- path: github.com/btcsuite/btclog
+  rev: 84c8d2346e9fc8c7b947e243b9c24e6df9fd206a
+- path: github.com/btcsuite/btcutil
+  rev: 501929d3d046174c3d39f0ea54ece471aa17238c
+- path: github.com/btcsuite/go-socks
+  rev: 4720035b7bfd2a9bb130b1c184f8bbe41b6f0d0f
+- path: github.com/btcsuite/goleveldb
+  rev: 7834afc9e8cd15233b6c3d97e12674a31ca24602
+- path: github.com/btcsuite/snappy-go
+  rev: 0bdef8d067237991ddaa1bb6072a740bc40601ba
+- path: github.com/btcsuite/websocket
+  rev: 31079b6807923eb23992c421b114992b95131b55
+- path: github.com/btcsuite/winsvc
+  rev: f8fb11f83f7e860e3769a08e6811d1b399a43722
 - path: github.com/davecgh/go-spew
-  rev: adab96458c51a58dc1783b3335dcce5461522e75
-- path: github.com/edsrzf/mmap-go
-  rev: 0bce6a6887123b67a60366d2c9fe2dfb74289d2e
+  rev: a476722483882dd40b8111f0eb64e1d7f43f56e4
 - path: github.com/ethereum/go-ethereum
   rev: d70536b5d4e8580a39a9887ce58c4a21c74344ee
 - path: github.com/facebookgo/stack
@@ -19,8 +29,10 @@ vendors:
   rev: ab9f9a6dab164b7d1246e0e688b0ab7b94d8553e
 - path: github.com/golang/snappy
   rev: 553a641470496b2327abcac10b36396bd98e45c9
-- path: github.com/hashicorp/golang-lru
-  rev: 0a025b7e63adc15a622f29b0b2c4c3848243bbf6
+- path: github.com/jessevdk/go-flags
+  rev: 6cf8f02b4ae8ba723ddc64dcfd403e530c06d927
+- path: github.com/jrick/logrotate
+  rev: a93b200c26cbae3bb09dd0dc2c7c7fe1468a034a
 - path: github.com/kardianos/osext
   rev: ae77be60afb1dcacde03767a8c37337fad28ac14
 - path: github.com/mattn/go-colorable
@@ -38,11 +50,11 @@ vendors:
 - path: github.com/rjeczalik/notify
   rev: 88a54d914928e1faebb1c2195605dc87bd98dc27
 - path: github.com/robert-zaremba/errstack
-  rev: a54f6aa5869a448a68651e93128e1002371f08d6
+  rev: 771a323b2fc0fdf03bbd1299ce460448742543e5
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15
-  rev: 4e139aafb94f01c7983a155c8f9dba21ff593102
+  rev: 7ffa121d509e0da5683c4ed6c4e29ca34eac8b7d
 - path: github.com/rs/cors
   rev: eabcc6af4bbe5ad3a949d36450326a2b0b9894b8
 - path: github.com/scale-it/checkers
@@ -58,11 +70,11 @@ vendors:
 - path: golang.org/x/sync
   rev: f52d1811a62927559de87708c8913c1650ce4f26
 - path: golang.org/x/sys
-  rev: 2d6f6f883a06fc0d5f4b14a81e4c28705ea64c15
+  rev: ab9e364efd8b52800ff7ee48a9ffba4e0ed78dfb
 - path: golang.org/x/text
   rev: 18c65dde6afd36dbc39197ca72008895b8dfbfb6
 - path: golang.org/x/tools
-  rev: 1736caf17f29e06c0475c0d334e921f1d96a6598
+  rev: 2d19ab38faf14664c76088411c21bf4fafea960b
 - path: gopkg.in/check.v1
   rev: 20d25e2804050c1cd24a7eea1e7a6447dd0e74ec
 - path: gopkg.in/fatih/set.v0

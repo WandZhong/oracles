@@ -14,13 +14,12 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 )
 
-var client *ethclient.Client
-var rootAddress common.Address
-var pkFile = flag.String("pk", "", "path to the private key json file")
-var pkPwd = flag.String("pwd", "", "key file password")
-var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically")
-
 var logger = log.Root()
+var client *ethclient.Client
+var rootAddr common.Address
+var pkFile = flag.String("pk", "", "path to the private key json file [required]")
+var pkPwd = flag.String("pwd", "", "key file password [required]")
+var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
 
 func main() {
 	setup.Init()
@@ -28,7 +27,7 @@ func main() {
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"Usage of %s options command [command option]:\nOPTIONS:\n", os.Args[0])
+			"Usage of %s options command [command option]:\nPARAMETERS:\n", os.Args[0])
 		flag.PrintDefaults()
 		fmt.Fprintln(os.Stderr, `COMMANDS:
   check-user <user address>
@@ -39,27 +38,26 @@ func main() {
 	}
 
 	flag.Parse()
-	var err error
-	if rootAddress, err = toAddress(os.Getenv("SB_ETH_ROOT")); err != nil {
-		panic("Define correct SB_ETH_ROOT env to root address. " + err.Error())
-	}
+	rootAddr = mustBeAnAddress(os.Getenv("SB_ETH_ROOT"),
+		"Define correct SB_ETH_ROOT env to root address.")
 	if stat, err := os.Stat(*pkFile); err != nil || stat.IsDir() {
-		fmt.Println(err)
-		panic("-pk (" + *pkFile + ") parameter must be a  valid file path.")
+		logger.Fatal("-pk must be a valid file path.", "-pk", *pkFile, err)
 	}
-	if *pkPwd == "" {
-		panic("-pwd parameter is required.")
-	}
-	if flag.NArg() < 0 {
+	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
+		logger.Error("Wrong CMD parameters")
 		flag.Usage()
 		return
 	}
+
+	client = setup.EthClient(*ethHost)
+
 	switch flag.Arg(0) {
 	case "register":
 		registerUser()
 	case "check-user":
 		checkUser(flag.Arg(1))
 	default:
+		logger.Error("Wrong command")
 		flag.Usage()
 	}
 }
@@ -67,10 +65,8 @@ func main() {
 func registerUser() {
 	logger.Info("Registering user")
 
-	connect()
 	curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
-	addr, tx, ud, err := contracts.DeployUserDirectory(mkTransactor(*pkFile, *pkPwd),
-		client, rootAddress, curr)
+	addr, tx, ud, err := contracts.DeployUserDirectory(mustMkTx(), client, rootAddr, curr)
 	if err != nil {
 		fmt.Println("Can't deploy UserDirectory", err)
 		os.Exit(1)
@@ -81,9 +77,9 @@ func registerUser() {
 
 func checkUser(addrStr string) {
 	logger.Info("Checking user addStr")
-	connect()
+
 	userAddr := mustBeAnAddress(addrStr, "<user address> must be specified correctly")
-	root, err := contracts.NewRoot(rootAddress, client)
+	root, err := contracts.NewRoot(rootAddr, client)
 	if err != nil {
 		panic("Can't get root contract" + err.Error())
 	}
