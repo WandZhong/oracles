@@ -93,7 +93,6 @@ func transferSWT(records []Record, swtAddr common.Address) {
 			logger.Error("Can't transfer TOKEN", err)
 		} else {
 			logger.Debug("Transferred", "gas", tx.Gas(), "gas_price", tx.GasPrice())
-			fmt.Println(txo.Nonce, tx.Nonce())
 			if txo.Nonce == nil {
 				txo.Nonce = big.NewInt(int64(tx.Nonce()))
 			}

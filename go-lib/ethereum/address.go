@@ -17,7 +17,7 @@ func ToAddress(addr string) (a common.Address, err errstack.E) {
 		return a, errstack.NewReq("Address is not specifed")
 	}
 	if !common.IsHexAddress(addr) {
-		return a, errstack.NewReq("Malformed address")
+		return a, errstack.NewReq("Invalid address")
 	}
 	return common.HexToAddress(addr), nil
 }

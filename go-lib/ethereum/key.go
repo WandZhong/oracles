@@ -8,8 +8,6 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
-// for private key: crypto.HexToECDSA("b71c71a67e1177ad4e901695e1b4b9ee17ae16c6668d313eac2f96dbcda3f291")
-
 // NewKeyTxr creates new transactor using a hex string of a ECDSA key.
 func NewKeyTxr(hexkey string) (*bind.TransactOpts, errstack.E) {
 	key, err := crypto.HexToECDSA(hexkey)
