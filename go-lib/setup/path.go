@@ -10,6 +10,7 @@ import (
 )
 
 // Root returns an absolute path to the project root
+// It panics if root can't be located
 func Root() string {
 	root, callerErr := findRootFromRuntimeCaller()
 	if callerErr == nil {
@@ -19,7 +20,8 @@ func Root() string {
 	if executableErr == nil {
 		return root
 	}
-	panic(fmt.Sprint(callerErr, "\n", executableErr))
+	logger.Fatal("Can't locate project root", callerErr, executableErr)
+	return root
 }
 
 func findRootFromRuntimeCaller() (string, error) {
