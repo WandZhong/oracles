@@ -49,6 +49,8 @@ vendors:
   rev: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
 - path: github.com/rjeczalik/notify
   rev: 88a54d914928e1faebb1c2195605dc87bd98dc27
+- path: github.com/robert-zaremba/bat
+  rev: b8a6628b9f2254c732182170db84d619110263e9
 - path: github.com/robert-zaremba/errstack
   rev: 771a323b2fc0fdf03bbd1299ce460448742543e5
 - path: github.com/robert-zaremba/go-tty

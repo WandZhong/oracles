@@ -14,10 +14,10 @@ import (
 // -ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(git describe)
 var GitVersion string
 
-var logger log.Logger
+var logger = log.Root()
 
-// Init initializes packages
-func Init() {
+// init initializes packages
+func init() {
 	var err error
 	logger, err = log.New(log.RootName,
 		log.Config{Color: true, TimeFmt: "sec", Level: "DEBUG"}, rollbar.Config{})

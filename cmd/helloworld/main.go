@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 
@@ -21,13 +20,10 @@ var pkFile = flag.String("pk", "", "path to the private key json file [required]
 var pkPwd = flag.String("pwd", "", "key file password [required]")
 var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
 
-func main() {
-	setup.Init()
-	logger.Info("Hello World!", "version", setup.GitVersion)
-
+func flagsSetup() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"Usage of %s options command [command option]:\nPARAMETERS:\n", os.Args[0])
+			"Usage of %s parameters command [command option]:\nPARAMETERS:\n", os.Args[0])
 		flag.PrintDefaults()
 		fmt.Fprintln(os.Stderr, `COMMANDS:
   check-user <user address>
@@ -38,17 +34,22 @@ func main() {
 	}
 
 	flag.Parse()
-	rootAddr = mustBeAnAddress(os.Getenv("SB_ETH_ROOT"),
-		"Define correct SB_ETH_ROOT env to root address.")
 	if stat, err := os.Stat(*pkFile); err != nil || stat.IsDir() {
 		logger.Fatal("-pk must be a valid file path.", "-pk", *pkFile, err)
 	}
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
 		logger.Error("Wrong CMD parameters")
 		flag.Usage()
-		return
+		os.Exit(1)
 	}
+}
 
+func main() {
+	flagsSetup()
+	logger.Info("Hello World!", "version", setup.GitVersion)
+
+	rootAddr = mustBeAnAddress(os.Getenv("SB_ETH_ROOT"),
+		"Define correct SB_ETH_ROOT env to root address.")
 	client = setup.EthClient(*ethHost)
 
 	switch flag.Arg(0) {
@@ -66,7 +67,7 @@ func registerUser() {
 	logger.Info("Registering user")
 
 	curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
-	addr, tx, ud, err := contracts.DeployUserDirectory(mustMkTx(), client, rootAddr, curr)
+	addr, tx, ud, err := contracts.DeployUserDirectory(mkTxr(), client, rootAddr, curr)
 	if err != nil {
 		fmt.Println("Can't deploy UserDirectory", err)
 		os.Exit(1)
@@ -83,15 +84,14 @@ func checkUser(addrStr string) {
 	if err != nil {
 		panic("Can't get root contract" + err.Error())
 	}
-	opts := new(bind.CallOpts)
 
-	addrOut, err := root.Owner(opts)
+	addrOut, err := root.Owner(nil)
 	if err != nil {
 		panic("Can't check root owner: " + err.Error())
 	}
 	fmt.Println("Root owner is", addrOut.String())
 
-	if addrOut, err = root.UserDirectories(opts, userAddr); err != nil {
+	if addrOut, err = root.UserDirectories(nil, userAddr); err != nil {
 		panic("Error:" + err.Error())
 	} else {
 		fmt.Println("Is user registered? ", addrOut != common.Address{})

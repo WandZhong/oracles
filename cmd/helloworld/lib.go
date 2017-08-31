@@ -14,10 +14,6 @@ func mustBeAnAddress(addrStr, comment string) common.Address {
 	return addr
 }
 
-func mustMkTx() *bind.TransactOpts {
-	tx, err := ethereum.JKeyTransactor(*pkFile, *pkPwd)
-	if err != nil {
-		logger.Fatal("Can't create transactor", err)
-	}
-	return tx
+func mkTxr() *bind.TransactOpts {
+	return ethereum.MustFileTxr(*pkFile, *pkPwd)
 }
