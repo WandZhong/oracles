@@ -38,7 +38,7 @@ function generateGoInterfaces() {
   for (let fname of fs.readdirSync(abiDir)) {
     if (!fname.endsWith('.abi'))
       continue
-    if (fname.indexOf('Lib.json') >= 0) {
+    if (fname.indexOf('Lib.json') >= 0 || fname.indexOf('Events.json') ) {
       console.log("ignoring", fname)
       continue
     }
