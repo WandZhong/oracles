@@ -15,7 +15,7 @@ import (
 	bat "github.com/robert-zaremba/go-bat"
 )
 
-// Record represent SWT distribution record
+// Record represent SWC distribution record
 type Record struct {
 	List    string
 	Address common.Address
@@ -79,9 +79,9 @@ func validate(rs []Record) bool {
 	return ok
 }
 
-func transferSWT(records []Record, swtAddr common.Address) {
+func transferSWC(records []Record, swcAddr common.Address) {
 	client := setup.EthClient(*ethHost)
-	token, err := contracts.NewSweetToken(swtAddr, client)
+	token, err := contracts.NewSweetToken(swcAddr, client)
 	if err != nil {
 		logger.Fatal("Can't obtain TOKEN contract", err)
 	}

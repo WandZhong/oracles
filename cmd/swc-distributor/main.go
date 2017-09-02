@@ -51,23 +51,23 @@ func main() {
 		return
 	}
 
-	swtSchema, err := ethereum.ReadSchema(*contractsPath, "SweetToken")
+	swcSchema, err := ethereum.ReadSchema(*contractsPath, "SweetToken")
 	if err != nil {
-		logger.Fatal("Can't read SWT contract schema", err)
+		logger.Fatal("Can't read SWC contract schema", err)
 	}
-	swtAddr, err := swtSchema.Address(*network)
+	swcAddr, err := swcSchema.Address(*network)
 	if err != nil {
-		logger.Fatal("Can't get SWT address", err)
+		logger.Fatal("Can't get SWC address", err)
 	}
-	distributeSWT(flag.Arg(0), swtAddr)
+	distributeSWC(flag.Arg(0), swcAddr)
 }
 
-func distributeSWT(fname string, swtAddr common.Address) {
-	logger.Debug("SWT addr: " + swtAddr.Hex())
+func distributeSWC(fname string, swcAddr common.Address) {
+	logger.Debug("SWC addr: " + swcAddr.Hex())
 	records, ok := readRecords(fname)
 	checkOK(ok)
 	checkOK(validate(records))
-	transferSWT(records, swtAddr)
+	transferSWC(records, swcAddr)
 }
 
 func checkOK(ok bool) {
