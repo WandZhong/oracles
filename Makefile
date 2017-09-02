@@ -67,6 +67,14 @@ lint-go:
 lint-go-mega:
 	megacheck ./cmd/... ./go-lib/...
 
+
+###############################
+# testing
+
+test:
+	@go test ./go-lib/... ./cmd/...
+
+
 ###############################
 # building
 
