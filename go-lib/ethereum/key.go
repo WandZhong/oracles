@@ -1,11 +1,15 @@
 package ethereum
 
 import (
+	"encoding/hex"
+	"encoding/json"
 	"os"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/robert-zaremba/errstack"
+	bat "github.com/robert-zaremba/go-bat"
 )
 
 // NewKeyTxr creates new transactor using a hex string of a ECDSA key.
@@ -47,4 +51,47 @@ func MustFileTxr(JSONFile string, password string) *bind.TransactOpts {
 		logger.Fatal("Can't make transactor from JSON pk file", "file", JSONFile, err)
 	}
 	return tx
+}
+
+// KeySimple is a simple version of keystore.Key structure
+type KeySimple struct {
+	Address common.Address
+	ID      string
+	Version int
+}
+
+// UnmarshalJSON implement interface for json.Unmrashall
+func (k *KeySimple) UnmarshalJSON(j []byte) (err error) {
+	var tmp = struct {
+		Address string `json:"address"`
+		ID      string `json:"id"`
+		Version int    `json:"version"`
+	}{}
+	err = json.Unmarshal(j, &tmp)
+	if err != nil {
+		return nil
+	}
+	addr, err := hex.DecodeString(tmp.Address)
+	if err != nil {
+		return err
+	}
+	k.ID = tmp.Address
+	k.Version = tmp.Version
+	k.Address = common.BytesToAddress(addr)
+	return nil
+}
+
+// ReadKeySimple reads the JSON key into the key object
+func ReadKeySimple(JSONFile string) (KeySimple, errstack.E) {
+	var k KeySimple
+	return k, bat.DecodeJSONFile(JSONFile, &k, logger)
+}
+
+// MustReadKeySimple calls ReadKeySimple and panics if it get's an error
+func MustReadKeySimple(JSONFile string) KeySimple {
+	k, err := ReadKeySimple(JSONFile)
+	if err != nil {
+		logger.Fatal("Can't read file", "path", JSONFile, err)
+	}
+	return k
 }

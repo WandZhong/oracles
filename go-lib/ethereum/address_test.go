@@ -14,6 +14,7 @@ func checkIsZeroAddr(testcases []string, expected bool, t *testing.T) {
 		}
 	}
 }
+
 func TestIsZeroAddr(t *testing.T) {
 	// check invalid or zero addresses
 	var as = []string{"", "0", "0x0",
