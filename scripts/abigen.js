@@ -35,6 +35,7 @@ function extractAbi() {
 }
 
 function generateGoInterfaces() {
+  console.log("writing go bindings to " + goDir)
   for (let fname of fs.readdirSync(abiDir)) {
     if (!fname.endsWith('.abi'))
       continue

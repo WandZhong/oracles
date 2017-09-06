@@ -1,10 +1,13 @@
 package main
 
 import (
+	"crypto/md5"
 	"encoding/csv"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"math/big"
 
@@ -12,6 +15,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
 )
 
@@ -20,6 +24,7 @@ type Record struct {
 	List    string
 	Address common.Address
 	Amount  int64
+	Idx     int
 }
 
 // String implements stringer interface
@@ -29,13 +34,18 @@ func (r Record) String() string {
 
 func readRecords(fname string) ([]Record, bool) {
 	f, err := os.Open(fname)
+	defer errstack.CallAndLog(logger, f.Close)
 	if err != nil {
 		logger.Fatal("Can't open csv file", "filename", fname, err)
 	}
-	reader := csv.NewReader(f)
+	var hasher = md5.New()
+	var reader = csv.NewReader(io.TeeReader(f, hasher))
+	reader.Comment = '#'
+
 	var records []Record
 	var row []string
 	var ok = true
+	var notDone = []string{"", "0", "no", "false"}
 	if _, err = reader.Read(); err != nil { // skip the header
 		logger.Fatal("Can't read CSV header", err)
 	}
@@ -44,37 +54,54 @@ func readRecords(fname string) ([]Record, bool) {
 			break
 		} else if err != nil {
 			logger.Fatal("Can't read the row", "row", i, err)
-		} else if len(row) < 3 {
-			logger.Error("Not enough columns in the row. Required >= 3", "cols", len(row))
+		} else if len(row) < 5 {
+			logger.Error("Not enough columns in the row. Required >= 5", "cols", len(row))
 			ok = false
 		}
-		var r = Record{List: row[0]}
+		var r = Record{List: row[0], Idx: i}
 		if r.Address, err = ethereum.ToAddress(row[1]); err != nil {
-			logger.Error("Malformed address", "row", i, "value", row[1], err)
+			logger.Error("Malformed address", "row", i, "value", row[1])
 			ok = false
 		}
 		if r.Amount, err = bat.Atoi64(row[2]); err != nil {
 			logger.Error("Wrong amount", "row", i, "value", row[1], err)
 			ok = false
 		}
+		if bat.StrSliceIdx(notDone, strings.ToLower(row[4])) < 0 {
+			logger.Info("Ignoring done row", "row", i)
+			continue
+		}
 		records = append(records, r)
+	}
+
+	md5sum := hex.EncodeToString(hasher.Sum(nil))
+	if *expectedMd5 == "" {
+		logger.Debug("Control sum not specified. Input file md5sum", "hash", md5sum)
+	} else if *expectedMd5 != md5sum {
+		logger.Error("Input file doesn't match the control sum", "computed_md5", md5sum)
+		ok = false
 	}
 	return records, ok
 }
 
 func validate(rs []Record) bool {
 	var ok = true
-	var i = 1
+	var dup = 0
+	var dupMap = map[common.Address]int{}
 	for _, r := range rs {
-		i++
 		if len(r.List) < 3 {
-			logger.Error("List name should be at least 3 character long", "row", i)
+			logger.Error("List name should be at least 3 character long", "row", r.Idx)
 			ok = false
 		}
 		if r.Amount < 0 {
-			logger.Error("Amount can't be negative", "row", i)
+			logger.Error("Amount can't be negative", "row", r.Idx)
 			ok = false
 		}
+		if dup = dupMap[r.Address]; dup > 0 {
+			logger.Error("Detected duplicated rows (addresses)", "row1", dup, "row2", r.Idx)
+			ok = false
+		}
+		dupMap[r.Address] = r.Idx
 	}
 	return ok
 }

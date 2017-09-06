@@ -19,6 +19,7 @@ var (
 	contractsPath = flag.String("contracts", "", "path to contract schemas directory [required]")
 	network       = flag.String("network", "", "blockchain network name [required]")
 	ethHost       = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically.")
+	expectedMd5   = flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum.")
 )
 
 func flagsSetup() {
@@ -67,7 +68,7 @@ func distributeSWC(fname string, swcAddr common.Address) {
 	records, ok := readRecords(fname)
 	checkOK(ok)
 	checkOK(validate(records))
-	transferSWC(records, swcAddr)
+	// transferSWC(records, swcAddr)
 }
 
 func checkOK(ok bool) {
