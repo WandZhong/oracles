@@ -68,7 +68,7 @@ func distributeSWC(fname string, swcAddr common.Address) {
 	records, ok := readRecords(fname)
 	checkOK(ok)
 	checkOK(validate(records))
-	// transferSWC(records, swcAddr)
+	transferSWC(records, swcAddr)
 }
 
 func checkOK(ok bool) {

@@ -112,6 +112,7 @@ func transferSWC(records []Record, swcAddr common.Address) {
 	if err != nil {
 		logger.Fatal("Can't obtain TOKEN contract", err)
 	}
+	checkSWCbalance(records, token)
 	txo := ethereum.MustFileTxr(*pkFile, *pkPwd)
 	for _, r := range records {
 		logger.Info(fmt.Sprint("Transferring: ", r))
@@ -125,5 +126,23 @@ func transferSWC(records []Record, swcAddr common.Address) {
 			}
 			ethereum.IncNonce(txo.Nonce)
 		}
+	}
+}
+
+func checkSWCbalance(records []Record, token *contracts.SweetToken) {
+	var total int64
+	for _, r := range records {
+		total += r.Amount
+	}
+	k := ethereum.MustReadKeySimple(*pkFile)
+	logger.Debug("Coinbase", "address", k.Address)
+	b, err := token.BalanceOf(nil, k.Address)
+	if err != nil {
+		logger.Fatal("Can't check SWC balance", err)
+	}
+	totalWei := ethereum.ToWei(total)
+	if b.Cmp(totalWei) < 0 {
+		bInt := ethereum.WeiToInt(b)
+		logger.Fatal("Not enough funds in the source account", "min_expected", total, "has", bInt)
 	}
 }
