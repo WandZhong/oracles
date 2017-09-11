@@ -32,7 +32,7 @@ install-deps:
 	@go get -v github.com/govend/govend
 	@echo -e $(IBLACK)checking if all dependencies are installed... $(NC)
 	@govend
-	@echo -e $(CHECK)
+	@echo -e "> dependencies check completed" $(CHECK)
 
 
 ###############################
@@ -82,3 +82,15 @@ build:
 	@GOBIN=`pwd`/bin go install -v \
 		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w" \
 		./cmd/...
+	@echo -e "> build completed" $(CHECK)
+
+
+###############################
+# docker
+
+docker-mk-builder:
+	@docker build -t oracle-builder ./docker
+
+docker-run-builder:
+	docker container start -a oracle-builder_1 || \
+		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
