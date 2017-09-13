@@ -9,22 +9,45 @@ if (process.argv.length != 3) {
   process.exit(1)
 }
 
+validContracts = [
+  "BridgeToken",
+  "Root",
+  "SWCqueue",
+  "SweetToken",
+  "SweetTokenLogic",
+  "TokenLogic",
+  "Treasury",
+  "UserDirectory",
+  "Vault",
+  "VaultConfig",
+  "Wallet"
+]
+
 const currentDir = process.cwd()
 const abiDir = path.join(__dirname, 'tmp-contracts-abi')
 const goDir = path.join(__dirname, '..', 'go-contracts')
 let contractsDir = process.argv[2]
+
 if (contractsDir[0] != '/')
   contractsDir = path.join(currentDir, contractsDir)
 
-if (!fs.existsSync(abiDir)){
+if (fs.existsSync(abiDir)) {
+  console.log('removing "abiDir" content: ', abiDir)
+  fs.readdirSync(abiDir).forEach(
+    fname => fs.unlinkSync(path.join(abiDir, fname)))
+} else {
   fs.mkdirSync(abiDir)
 }
-
 
 function extractAbi() {
   for (let fname of fs.readdirSync(contractsDir)) {
     if (!fname.endsWith('.json'))
       continue
+    if ( validContracts.indexOf(fname.slice(0, -5)) < 0 ) {
+      console.log("ignoring", fname)
+      continue
+    }
+
     var p = path.join(contractsDir, fname)
     var contract = require(p)
     console.log("extracting ABI and BIN", contract.contract_name)
@@ -39,10 +62,6 @@ function generateGoInterfaces() {
   for (let fname of fs.readdirSync(abiDir)) {
     if (!fname.endsWith('.abi'))
       continue
-    if (fname.indexOf('Lib.json') >= 0 || fname.indexOf('Events.json') ) {
-      console.log("ignoring", fname)
-      continue
-    }
 
     console.log('abigen', fname)
     var name = fname.slice(0, -9)  // remove .json.abi
@@ -56,5 +75,5 @@ function generateGoInterfaces() {
   }
 }
 
-extractAbi()
-generateGoInterfaces()
+// extractAbi()
+// generateGoInterfaces()
