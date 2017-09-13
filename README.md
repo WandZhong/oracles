@@ -29,10 +29,17 @@ This is not required for building application, but required for proper developme
 
 The executable are in the project root directory (oracles)
 
-If you have issues with `zb` then just use plain `go` command:
+#### Building using Docker
 
-	cd cmd/<app name>
-	go build
+We provide consistent environment to build the applications using Docker containers.
+Everything is wrapped in the make jobs.
+Firstly you need to build the image. This is suppose to be done only once:
+
+	make docker-mk-builder
+
+Next, whenever you want to build the applications:
+
+	make docker-run-builder
 
 
 ## Applications
@@ -46,6 +53,8 @@ To build all applications simply run the following command:
 All applications are compiled into self-contained binaries (no external dependencies needed). Each application support the help argument to display the usage description:
 
 	./bin/<app_name> -h
+
+
 
 
 ## Scripts
