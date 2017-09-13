@@ -11,6 +11,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 )
 
 var logger = log.Root()
@@ -34,13 +35,9 @@ func flagsSetup() {
 	}
 
 	flag.Parse()
-	if stat, err := os.Stat(*pkFile); err != nil || stat.IsDir() {
-		logger.Fatal("-pk must be a valid file path.", "-pk", *pkFile, err)
-	}
+	utils.AssertIsFile(*pkFile, "-pk")
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
-		logger.Error("Wrong CMD parameters")
-		flag.Usage()
-		os.Exit(1)
+		utils.FlagFail()
 	}
 }
 
