@@ -120,11 +120,8 @@ func transferSWC(records []Record, swcAddr common.Address) {
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
 		} else {
-			logger.Debug("Transferred", "gas", tx.Gas(), "gas_price", tx.GasPrice())
-			if txo.Nonce == nil {
-				txo.Nonce = big.NewInt(int64(tx.Nonce()))
-			}
-			ethereum.IncNonce(txo.Nonce)
+			ethereum.LogTx("Transferred", tx)
+			ethereum.IncTxoNonce(txo, tx)
 		}
 	}
 }

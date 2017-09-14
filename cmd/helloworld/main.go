@@ -9,6 +9,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
@@ -22,22 +23,14 @@ var pkPwd = flag.String("pwd", "", "key file password [required]")
 var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
 
 func flagsSetup() {
-	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr,
-			"Usage of %s parameters command [command option]:\nPARAMETERS:\n", os.Args[0])
-		flag.PrintDefaults()
-		fmt.Fprintln(os.Stderr, `COMMANDS:
+	setup.Flag("<command> [command option]", `
   check-user <user address>
       prints Root owner and checks if user is regitesred in the Root contract.
   register
-      deploys new user directory for the user represented by the '-pk'.
-`)
-	}
-
-	flag.Parse()
+      deploys new user directory for the user represented by the '-pk'`)
 	utils.AssertIsFile(*pkFile, "-pk")
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
-		utils.FlagFail()
+		setup.FlagFail()
 	}
 }
 
@@ -69,8 +62,8 @@ func registerUser() {
 		fmt.Println("Can't deploy UserDirectory", err)
 		os.Exit(1)
 	}
-	fmt.Println("Address: ", addr.Hex(), tx, ud)
-	fmt.Println("Gas: ", tx.Gas(), "\ngas price", tx.GasPrice())
+	ethereum.LogTx("UserDirectory deployed", tx)
+	fmt.Println("Address: ", addr.Hex(), ud)
 }
 
 func checkUser(addrStr string) {

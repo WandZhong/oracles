@@ -2,13 +2,13 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 
 	"github.com/ethereum/go-ethereum/common"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
+	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 )
 
@@ -24,17 +24,11 @@ var (
 )
 
 func flagsSetup() {
-	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr,
-			"Usage of %s parameters source_file.csv\n", os.Args[0])
-		flag.PrintDefaults()
-	}
-
-	flag.Parse()
+	setup.Flag("source_file.csv")
 	utils.AssertIsFile(*pkFile, "-pk")
 	if *pkPwd == "" || *ethHost == "" || *contractsPath == "" || *network == "" ||
 		flag.NArg() < 1 {
-		utils.FlagFail()
+		setup.FlagFail()
 	}
 }
 
@@ -49,14 +43,7 @@ func main() {
 		return
 	}
 
-	swcSchema, err := ethereum.ReadSchema(*contractsPath, "SweetToken")
-	if err != nil {
-		logger.Fatal("Can't read SWC contract schema", err)
-	}
-	swcAddr, err := swcSchema.Address(*network)
-	if err != nil {
-		logger.Fatal("Can't get SWC address", err)
-	}
+	_, swcAddr := ethereum.MustReadSchemaAndAddress(*contractsPath, "SweetToken", *network)
 	distributeSWC(flag.Arg(0), swcAddr)
 }
 

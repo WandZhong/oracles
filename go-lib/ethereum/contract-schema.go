@@ -10,20 +10,22 @@ import (
 
 // NetMap lists all available networks
 var NetMap = map[string]int{
-	"develop":   256,
-	"backstage": 10,
+	"development": 256,
+	"backstage":   10,
 }
 
 // Contracts is a list of available contracts
 var Contracts = []string{
-	"Assets",
 	"BridgeToken",
 	"Root",
+	"SWCqueue",
 	"SweetToken",
-	"Token",
+	"SweetTokenLogic",
+	"TokenLogic",
 	"Treasury",
 	"UserDirectory",
 	"Vault",
+	"VaultConfig",
 	"Wallet",
 }
 
@@ -55,10 +57,29 @@ func (s Schema) Address(networkName string) (a common.Address, e errstack.E) {
 }
 
 // ReadSchema reads truffle-schema file. The name should not finish with ".json"
-func ReadSchema(dir string, name string) (s Schema, e errstack.E) {
+func ReadSchema(dir, name string) (s Schema, e errstack.E) {
 	if bat.StrSliceIdx(Contracts, name) < 0 {
 		return s, errstack.NewReq("Unknown contract " + name)
 	}
 	e = bat.DecodeJSONFile(path.Join(dir, name+".json"), &s, logger)
 	return
+}
+
+// ReadSchemaAndAddress reads schema using `ReadSchema` and extract contract address
+// using then network identifier.
+func ReadSchemaAndAddress(dir, name, network string) (s Schema, a common.Address, err errstack.E) {
+	if s, err = ReadSchema(dir, name); err != nil {
+		return
+	}
+	a, err = s.Address(network)
+	return
+}
+
+// MustReadSchemaAndAddress returns contract schema and address and panics on error
+func MustReadSchemaAndAddress(dir, name, network string) (Schema, common.Address) {
+	s, a, err := ReadSchemaAndAddress(dir, name, network)
+	if err != nil {
+		logger.Fatal("Can't read schema or address", "dir", dir, "contract", name, "network", network, err)
+	}
+	return s, a
 }

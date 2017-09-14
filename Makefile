@@ -78,11 +78,18 @@ test:
 ###############################
 # building
 
-build:
+define _build
 	@GOBIN=`pwd`/bin go install -v \
 		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w" \
-		./cmd/...
+		./cmd/$(1)
 	@echo -e "> build completed" $(CHECK)
+endef
+
+build:
+	@$(call _build,"...")
+
+build-brg-swc-pledge:
+	@$(call _build,"brg-swc-pledge")
 
 
 ###############################
