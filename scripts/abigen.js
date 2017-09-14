@@ -75,5 +75,5 @@ function generateGoInterfaces() {
   }
 }
 
-// extractAbi()
-// generateGoInterfaces()
+extractAbi()
+generateGoInterfaces()
