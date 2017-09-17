@@ -17,18 +17,28 @@ vendors:
   rev: 31079b6807923eb23992c421b114992b95131b55
 - path: github.com/btcsuite/winsvc
   rev: f8fb11f83f7e860e3769a08e6811d1b399a43722
+- path: github.com/cespare/cp
+  rev: 165db2f241fd235aec29ba6d9b1ccd5f1c14637c
 - path: github.com/davecgh/go-spew
   rev: a476722483882dd40b8111f0eb64e1d7f43f56e4
+- path: github.com/edsrzf/mmap-go
+  rev: 0bce6a6887123b67a60366d2c9fe2dfb74289d2e
 - path: github.com/ethereum/go-ethereum
   rev: d70536b5d4e8580a39a9887ce58c4a21c74344ee
 - path: github.com/facebookgo/stack
   rev: 751773369052141c013c6e827a71e8f35c07879c
+- path: github.com/go-ozzo/ozzo-routing
+  rev: 70bdfc2c4a61e6d59a76f8aa6efed9f8ec04e401
 - path: github.com/go-stack/stack
   rev: 817915b46b97fd7bb80e8ab6b69f01a53ac3eebf
+- path: github.com/golang/gddo
+  rev: 2dccccb2f204bf42a2f46fc9ecd6340ec4984fd3
 - path: github.com/golang/protobuf
   rev: ab9f9a6dab164b7d1246e0e688b0ab7b94d8553e
 - path: github.com/golang/snappy
   rev: 553a641470496b2327abcac10b36396bd98e45c9
+- path: github.com/hashicorp/golang-lru
+  rev: 0a025b7e63adc15a622f29b0b2c4c3848243bbf6
 - path: github.com/jessevdk/go-flags
   rev: 6cf8f02b4ae8ba723ddc64dcfd403e530c06d927
 - path: github.com/jrick/logrotate
@@ -39,20 +49,24 @@ vendors:
   rev: ad5389df28cdac544c99bd7b9161a0b5b6ca9d1b
 - path: github.com/mattn/go-isatty
   rev: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+- path: github.com/mozillazg/go-unidecode
+  rev: 8772af720c7f2f4d216cc73c5f23de17450dd008
 - path: github.com/onsi/ginkgo
   rev: 11459a886d9cd66b319dac7ef1e917ee221372c9
 - path: github.com/onsi/gomega
   rev: dcabb60a477c2b6f456df65037cb6708210fbb02
 - path: github.com/pborman/uuid
   rev: e790cca94e6cc75c7064b1332e63811d4aae1a53
+- path: github.com/pmezard/go-difflib
+  rev: 792786c7400a136282c1664665ae0a8db921c6c2
 - path: github.com/rcrowley/go-metrics
   rev: 1f30fe9094a513ce4c700b9a54458bbb0c96996c
 - path: github.com/rjeczalik/notify
   rev: 88a54d914928e1faebb1c2195605dc87bd98dc27
-- path: github.com/robert-zaremba/bat
-  rev: b8a6628b9f2254c732182170db84d619110263e9
 - path: github.com/robert-zaremba/errstack
   rev: 771a323b2fc0fdf03bbd1299ce460448742543e5
+- path: github.com/robert-zaremba/go-bat
+  rev: b8a6628b9f2254c732182170db84d619110263e9
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15
@@ -61,10 +75,20 @@ vendors:
   rev: eabcc6af4bbe5ad3a949d36450326a2b0b9894b8
 - path: github.com/scale-it/checkers
   rev: 351d731003a9a6b59428af3129a5b8914540e1d1
+- path: github.com/scale-it/go-log
+  rev: 0bd38940b27db07b5c4887bafe3a96a79f6f5556
+- path: github.com/scale-it/go-web
+  rev: 7e4dca5224b2f5cf7bfecaf952acad645e483c56
+- path: github.com/spaolacci/murmur3
+  rev: 9f5d223c60793748f04a9d5b4b4eacddfc1f755d
+- path: github.com/stretchr/testify
+  rev: 890a5c3458b43e6104ff5da8dfa139d013d77544
 - path: github.com/stvp/rollbar
   rev: caefb75816bddf0dfab37b5490265c09511c962d
 - path: github.com/syndtr/goleveldb
   rev: b89cc31ef7977104127d34c1bd31ebd1a9db2199
+- path: github.com/ugorji/go
+  rev: 8c0409fcbb70099c748d71f714529204975f6c3f
 - path: golang.org/x/crypto
   rev: 81e90905daefcd6fd217b62423c0908922eadb30
 - path: golang.org/x/net
