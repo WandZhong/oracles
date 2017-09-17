@@ -75,9 +75,9 @@ func readRecords(fname string) ([]Record, bool) {
 	}
 
 	md5sum := hex.EncodeToString(hasher.Sum(nil))
-	if *expectedMd5 == "" {
+	if *flags.ExpectedMd5 == "" {
 		logger.Debug("Control sum not specified. Input file md5sum", "hash", md5sum)
-	} else if *expectedMd5 != md5sum {
+	} else if *flags.ExpectedMd5 != md5sum {
 		logger.Error("Input file doesn't match the control sum", "computed_md5", md5sum)
 		ok = false
 	}
@@ -107,13 +107,13 @@ func validate(rs []Record) bool {
 }
 
 func transferSWC(records []Record, swcAddr common.Address) {
-	client := setup.EthClient(*ethHost)
+	client := setup.EthClient(*flags.Host)
 	token, err := contracts.NewSweetToken(swcAddr, client)
 	if err != nil {
 		logger.Fatal("Can't obtain TOKEN contract", err)
 	}
 	checkSWCbalance(records, token)
-	txo := ethereum.MustFileTxr(*pkFile, *pkPwd)
+	txo := ethereum.MustFileTxr(*flags.PkFile, *flags.PkPwd)
 	for _, r := range records {
 		logger.Info(fmt.Sprint("Transferring: ", r))
 		tx, err := token.Transfer(txo, r.Address, big.NewInt(r.Amount))
@@ -131,7 +131,7 @@ func checkSWCbalance(records []Record, token *contracts.SweetToken) {
 	for _, r := range records {
 		total += r.Amount
 	}
-	k := ethereum.MustReadKeySimple(*pkFile)
+	k := ethereum.MustReadKeySimple(*flags.PkFile)
 	logger.Debug("Coinbase", "address", k.Address)
 	b, err := token.BalanceOf(nil, k.Address)
 	if err != nil {

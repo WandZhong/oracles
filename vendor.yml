@@ -1,8 +1,8 @@
 vendors:
 - path: github.com/aristanetworks/goarista
-  rev: 84976fcf47727b2718cad84d78aac163b4309125
+  rev: 67a76827c1fae7c37f0c9dd9048fc6d23f512cd4
 - path: github.com/btcsuite/btcd
-  rev: 0b50802d52cdb7e5560ea6ff3a453b7378e3d5f7
+  rev: 91e5ba1a80082d436cc35965d74e0a41be7f2d99
 - path: github.com/btcsuite/btclog
   rev: 84c8d2346e9fc8c7b947e243b9c24e6df9fd206a
 - path: github.com/btcsuite/btcutil
@@ -24,7 +24,7 @@ vendors:
 - path: github.com/edsrzf/mmap-go
   rev: 0bce6a6887123b67a60366d2c9fe2dfb74289d2e
 - path: github.com/ethereum/go-ethereum
-  rev: d70536b5d4e8580a39a9887ce58c4a21c74344ee
+  rev: 019dca9ba2f0ad91047129b95d91b95a9e71650e
 - path: github.com/facebookgo/stack
   rev: 751773369052141c013c6e827a71e8f35c07879c
 - path: github.com/go-ozzo/ozzo-routing
@@ -34,7 +34,7 @@ vendors:
 - path: github.com/golang/gddo
   rev: 2dccccb2f204bf42a2f46fc9ecd6340ec4984fd3
 - path: github.com/golang/protobuf
-  rev: ab9f9a6dab164b7d1246e0e688b0ab7b94d8553e
+  rev: 11b8df160996e00fd4b55cbaafb3d84ec6d50fa8
 - path: github.com/golang/snappy
   rev: 553a641470496b2327abcac10b36396bd98e45c9
 - path: github.com/hashicorp/golang-lru
@@ -66,7 +66,7 @@ vendors:
 - path: github.com/robert-zaremba/errstack
   rev: 771a323b2fc0fdf03bbd1299ce460448742543e5
 - path: github.com/robert-zaremba/go-bat
-  rev: b8a6628b9f2254c732182170db84d619110263e9
+  rev: 72c6b8b96625131efe6a545fc64f5fe0b020ecb6
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15
@@ -81,6 +81,8 @@ vendors:
   rev: 7e4dca5224b2f5cf7bfecaf952acad645e483c56
 - path: github.com/spaolacci/murmur3
   rev: 9f5d223c60793748f04a9d5b4b4eacddfc1f755d
+- path: github.com/stretchr/objx
+  rev: 1a9d0bb9f541897e62256577b352fdbc1fb4fd94
 - path: github.com/stretchr/testify
   rev: 890a5c3458b43e6104ff5da8dfa139d013d77544
 - path: github.com/stvp/rollbar
@@ -90,17 +92,17 @@ vendors:
 - path: github.com/ugorji/go
   rev: 8c0409fcbb70099c748d71f714529204975f6c3f
 - path: golang.org/x/crypto
-  rev: 81e90905daefcd6fd217b62423c0908922eadb30
+  rev: 7d9177d70076375b9a59c8fde23d52d9c4a7ecd5
 - path: golang.org/x/net
-  rev: 66aacef3dd8a676686c7ae3716979581e8b03c47
+  rev: 8351a756f30f1297fe94bbf4b767ec589c6ea6d0
 - path: golang.org/x/sync
   rev: f52d1811a62927559de87708c8913c1650ce4f26
 - path: golang.org/x/sys
-  rev: ab9e364efd8b52800ff7ee48a9ffba4e0ed78dfb
+  rev: 062cd7e4e68206d8bab9b18396626e855c992658
 - path: golang.org/x/text
-  rev: 18c65dde6afd36dbc39197ca72008895b8dfbfb6
+  rev: 1cbadb444a806fd9430d14ad08967ed91da4fa0a
 - path: golang.org/x/tools
-  rev: 2d19ab38faf14664c76088411c21bf4fafea960b
+  rev: e531a2a1c15f94033f6fa87666caeb19a688175f
 - path: gopkg.in/check.v1
   rev: 20d25e2804050c1cd24a7eea1e7a6447dd0e74ec
 - path: gopkg.in/fatih/set.v0

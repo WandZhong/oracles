@@ -21,7 +21,7 @@ func httpPostPledge(c *routing.Context) (err error) {
 	}
 	logger.Debug("BRG-SWC pledge request received", "usd", usdStr, "address", addr.Hex())
 
-	txo := ethereum.MustFileTxr(*pkFile, *pkPwd)
+	txo := ethereum.MustFileTxr(*flags.PkFile, *flags.PkPwd)
 
 	// TODO - move this code to the lib
 	tx, err := brgC.MintFor(txo, addr, usdWei)

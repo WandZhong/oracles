@@ -24,5 +24,5 @@ func ToAddress(addr string) (a common.Address, err errstack.E) {
 
 // IsZeroAddr check if `a` is zero or invalid address
 func IsZeroAddr(a common.Address) bool {
-	return bytes.Compare(a.Bytes(), zeroAddressSlice) == 0
+	return bytes.Equal(a.Bytes(), zeroAddressSlice)
 }

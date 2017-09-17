@@ -57,30 +57,44 @@ func (s Schema) Address(networkName string) (a common.Address, e errstack.E) {
 	return ToAddress(n.Address)
 }
 
-// ReadSchema reads truffle-schema file. The name should not finish with ".json"
-func ReadSchema(dir, name string) (s Schema, e errstack.E) {
+// SchemaProvider is a structure which provides contract schema functions and data
+type SchemaProvider struct {
+	Dir     string
+	Network string
+}
+
+// NewSchemaProvider creates new SchemaProvider.
+// It panics if contractsPath is a wrong directory.
+func NewSchemaProvider(contractsPath, network string) SchemaProvider {
+	bat.AssertIsDir(contractsPath, "contracts_path", logger)
+	return SchemaProvider{contractsPath, network}
+}
+
+// Read reads truffle-schema file. The name should not finish with ".json"
+func (sp SchemaProvider) Read(name string) (s Schema, e errstack.E) {
 	if bat.StrSliceIdx(Contracts, name) < 0 {
 		return s, errstack.NewReq("Unknown contract " + name)
 	}
-	e = bat.DecodeJSONFile(path.Join(dir, name+".json"), &s, logger)
+	e = bat.DecodeJSONFile(path.Join(sp.Dir, name+".json"), &s, logger)
 	return
 }
 
-// ReadSchemaAndAddress reads schema using `ReadSchema` and extract contract address
+// ReadGetAddress reads schema using `Read` and extract contract address
 // using then network identifier.
-func ReadSchemaAndAddress(dir, name, network string) (s Schema, a common.Address, err errstack.E) {
-	if s, err = ReadSchema(dir, name); err != nil {
+func (sp SchemaProvider) ReadGetAddress(name string) (s Schema, a common.Address, err errstack.E) {
+	if s, err = sp.Read(name); err != nil {
 		return
 	}
-	a, err = s.Address(network)
+	a, err = s.Address(sp.Network)
 	return
 }
 
-// MustReadSchemaAndAddress returns contract schema and address and panics on error
-func MustReadSchemaAndAddress(dir, name, network string) (Schema, common.Address) {
-	s, a, err := ReadSchemaAndAddress(dir, name, network)
+// MustReadGetAddress returns contract schema and address and panics on error
+func (sp SchemaProvider) MustReadGetAddress(name string) (Schema, common.Address) {
+	s, a, err := sp.ReadGetAddress(name)
 	if err != nil {
-		logger.Fatal("Can't read schema or address", "dir", dir, "contract", name, "network", network, err)
+		logger.Fatal("Can't read schema or address", "contract", name,
+			"dir", sp.Dir, "network", sp.Network, err)
 	}
 	return s, a
 }

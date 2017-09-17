@@ -32,7 +32,7 @@ func MemProfile(filename string, minutes int) {
 		return
 	}
 	// logger.Info(fmt.Sprintf("Writing memory profile every %d minutes to %s", minutes, filename))
-	for _ = range time.NewTicker(time.Minute * time.Duration(minutes)).C {
+	for range time.NewTicker(time.Minute * time.Duration(minutes)).C {
 		f, err := os.Create(filename)
 		if err != nil {
 			logger.Fatal("Can't create a file for memory profile dump", err)

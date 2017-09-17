@@ -7,12 +7,12 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	bat "github.com/robert-zaremba/go-bat"
 
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 )
 
 var logger = log.Root()
@@ -28,7 +28,7 @@ func flagsSetup() {
       prints Root owner and checks if user is regitesred in the Root contract.
   register
       deploys new user directory for the user represented by the '-pk'`)
-	utils.AssertIsFile(*pkFile, "-pk")
+	bat.AssertIsFile(*pkFile, "-pk", logger)
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
 		setup.FlagFail()
 	}
