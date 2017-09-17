@@ -18,9 +18,11 @@ import (
 var logger = log.Root()
 var client *ethclient.Client
 var rootAddr common.Address
-var pkFile = flag.String("pk", "", "path to the private key json file [required]")
-var pkPwd = flag.String("pwd", "", "key file password [required]")
-var ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
+var (
+	pkFile  = flag.String("pk", "", "path to the private key json file [required]")
+	pkPwd   = flag.String("pwd", "", "key file password [required]")
+	ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
+)
 
 func flagsSetup() {
 	setup.Flag("<command> [command option]", `

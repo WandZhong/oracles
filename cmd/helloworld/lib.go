@@ -15,5 +15,9 @@ func mustBeAnAddress(addrStr, comment string) common.Address {
 }
 
 func mkTxr() *bind.TransactOpts {
-	return ethereum.MustFileTxr(*pkFile, *pkPwd)
+	p, err := ethereum.NewJSONTxrFactory(*pkFile, *pkPwd)
+	if err != nil {
+		logger.Fatal("Can't create TxrFactory based on JSON file", "filename", *pkFile)
+	}
+	return p.Txo()
 }

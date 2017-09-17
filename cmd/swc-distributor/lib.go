@@ -106,17 +106,19 @@ func validate(rs []Record) bool {
 	return ok
 }
 
-func transferSWC(records []Record, swcAddr common.Address) {
+func transferSWC(records []Record) {
 	client := setup.EthClient(*flags.Host)
-	token, err := contracts.NewSweetToken(swcAddr, client)
+	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
+	swcC, addr, err := cf.GetSWC()
 	if err != nil {
-		logger.Fatal("Can't obtain TOKEN contract", err)
+		logger.Fatal("Can't instantiate Bridgecoin contract", err)
 	}
-	checkSWCbalance(records, token)
-	txo := ethereum.MustFileTxr(*flags.PkFile, *flags.PkPwd)
+	logger.Debug("Contract addresses", "swc", addr.Hex())
+	checkSWCbalance(records, swcC)
+	txo := flags.MustNewTxrFactory().Txo()
 	for _, r := range records {
 		logger.Info(fmt.Sprint("Transferring: ", r))
-		tx, err := token.Transfer(txo, r.Address, big.NewInt(r.Amount))
+		tx, err := swcC.Transfer(txo, r.Address, big.NewInt(r.Amount))
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
 		} else {
@@ -142,4 +144,5 @@ func checkSWCbalance(records []Record, token *contracts.SweetToken) {
 		bInt := ethereum.WeiToInt(b)
 		logger.Fatal("Not enough funds in the source account", "min_expected", total, "has", bInt)
 	}
+	logger.Debug("Distribution account balance", "wei", totalWei.String())
 }

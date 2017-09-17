@@ -9,12 +9,14 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/middleware"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
 var logger = log.Root()
 var client *ethclient.Client
 var brgC *contracts.BridgeToken
+var txrFactory ethereum.TxrFactory
 
 type mainFlags struct {
 	setup.EthFlags
@@ -32,15 +34,15 @@ func flagsSetup() {
 }
 
 func setupContracts() {
-	client = setup.EthClient(*flags.Host)
-	sp := ethereum.NewSchemaProvider(*flags.ContractsPath, *flags.Network)
-	_, brgAddr := sp.MustReadGetAddress("BridgeToken")
-	_, swcQueueAddr := sp.MustReadGetAddress("SWCqueue")
-	logger.Debug("Contract addresses:", "brg", brgAddr.Hex(), "swc-queue", swcQueueAddr.Hex())
 	var err error
-	if brgC, err = contracts.NewBridgeToken(brgAddr, client); err != nil {
+	var addr common.Address
+	client = setup.EthClient(*flags.Host)
+	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
+	if brgC, addr, err = cf.GetBRG(); err != nil {
 		logger.Fatal("Can't instantiate Bridgecoin contract", err)
 	}
+	logger.Debug("Contract addresses:", "brg", addr.Hex())
+	txrFactory = flags.MustNewTxrFactory()
 }
 
 func main() {

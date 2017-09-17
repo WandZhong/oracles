@@ -4,9 +4,6 @@ import (
 	"flag"
 	"os"
 
-	"github.com/ethereum/go-ethereum/common"
-
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 )
@@ -34,17 +31,14 @@ func flagsSetup() {
 
 func main() {
 	flagsSetup()
-	sp := ethereum.NewSchemaProvider(*flags.ContractsPath, *flags.Network)
-	_, swcAddr := sp.MustReadGetAddress("SweetToken")
-	distributeSWC(flag.Arg(0), swcAddr)
+	distributeSWC(flag.Arg(0))
 }
 
-func distributeSWC(fname string, swcAddr common.Address) {
-	logger.Debug("SWC addr: " + swcAddr.Hex())
+func distributeSWC(fname string) {
 	records, ok := readRecords(fname)
 	checkOK(ok)
 	checkOK(validate(records))
-	transferSWC(records, swcAddr)
+	transferSWC(records)
 }
 
 func checkOK(ok bool) {

@@ -15,21 +15,6 @@ var NetMap = map[string]int{
 	"localhost":   201,
 }
 
-// Contracts is a list of available contracts
-var Contracts = []string{
-	"BridgeToken",
-	"Root",
-	"SWCqueue",
-	"SweetToken",
-	"SweetTokenLogic",
-	"TokenLogic",
-	"Treasury",
-	"UserDirectory",
-	"Vault",
-	"VaultConfig",
-	"Wallet",
-}
-
 // Schema is a type representing truffle-schema contract file
 type Schema struct {
 	Name          string `json:"contract_name"`
@@ -57,44 +42,43 @@ func (s Schema) Address(networkName string) (a common.Address, e errstack.E) {
 	return ToAddress(n.Address)
 }
 
-// SchemaProvider is a structure which provides contract schema functions and data
-type SchemaProvider struct {
+// SchemaFactory is a structure which provides contract schema functions and data
+type SchemaFactory struct {
 	Dir     string
 	Network string
 }
 
-// NewSchemaProvider creates new SchemaProvider.
-// It panics if contractsPath is a wrong directory.
-func NewSchemaProvider(contractsPath, network string) SchemaProvider {
-	bat.AssertIsDir(contractsPath, "contracts_path", logger)
-	return SchemaProvider{contractsPath, network}
+// NewSchemaFactory creates new SchemaFactory.
+func NewSchemaFactory(contractsPath, network string) (SchemaFactory, errstack.E) {
+	return SchemaFactory{contractsPath, network},
+		bat.IsDir(contractsPath)
 }
 
 // Read reads truffle-schema file. The name should not finish with ".json"
-func (sp SchemaProvider) Read(name string) (s Schema, e errstack.E) {
-	if bat.StrSliceIdx(Contracts, name) < 0 {
+func (sf SchemaFactory) Read(name string) (s Schema, e errstack.E) {
+	if bat.StrSliceIdx(availableContracts, name) < 0 {
 		return s, errstack.NewReq("Unknown contract " + name)
 	}
-	e = bat.DecodeJSONFile(path.Join(sp.Dir, name+".json"), &s, logger)
+	e = bat.DecodeJSONFile(path.Join(sf.Dir, name+".json"), &s, logger)
 	return
 }
 
 // ReadGetAddress reads schema using `Read` and extract contract address
 // using then network identifier.
-func (sp SchemaProvider) ReadGetAddress(name string) (s Schema, a common.Address, err errstack.E) {
-	if s, err = sp.Read(name); err != nil {
+func (sf SchemaFactory) ReadGetAddress(name string) (s Schema, a common.Address, err errstack.E) {
+	if s, err = sf.Read(name); err != nil {
 		return
 	}
-	a, err = s.Address(sp.Network)
+	a, err = s.Address(sf.Network)
 	return
 }
 
 // MustReadGetAddress returns contract schema and address and panics on error
-func (sp SchemaProvider) MustReadGetAddress(name string) (Schema, common.Address) {
-	s, a, err := sp.ReadGetAddress(name)
+func (sf SchemaFactory) MustReadGetAddress(name string) (Schema, common.Address) {
+	s, a, err := sf.ReadGetAddress(name)
 	if err != nil {
 		logger.Fatal("Can't read schema or address", "contract", name,
-			"dir", sp.Dir, "network", sp.Network, err)
+			"dir", sf.Dir, "network", sf.Network, err)
 	}
 	return s, a
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	bat "github.com/robert-zaremba/go-bat"
 )
 
@@ -69,4 +70,14 @@ func NewEthFlags() EthFlags {
 func (ef EthFlags) Check() bool {
 	bat.AssertIsFile(*ef.PkFile, "-pk", logger)
 	return !(*ef.PkPwd == "" || *ef.Host == "" || *ef.ContractsPath == "" || *ef.Network == "")
+}
+
+// MustNewTxrFactory creates TxrFactory based on command flags.
+// It panics in case of error.
+func (ef EthFlags) MustNewTxrFactory() ethereum.TxrFactory {
+	p, err := ethereum.NewJSONTxrFactory(*ef.PkFile, *ef.PkPwd)
+	if err != nil {
+		logger.Fatal("Can't create TxrFactory based on JSON file", "filename", *ef.PkFile)
+	}
+	return p
 }
