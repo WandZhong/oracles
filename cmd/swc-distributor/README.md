@@ -1,6 +1,6 @@
 # swc-distributor
 
-SWT distributor uses a provided credentials to the account holding enough SWT to distribute them according to the distribution list specified as an argument to the command. The distribution list file is a CSV file with same structure as `example.csv`.
+SWC distributor uses a provided credentials to the account holding enough SWT to distribute them according to the distribution list specified as an argument to the command. The distribution list file is a CSV file with same structure as `example.csv`.
 
 ## Usage
 

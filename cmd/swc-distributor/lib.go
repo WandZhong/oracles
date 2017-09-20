@@ -14,6 +14,7 @@ import (
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
@@ -110,10 +111,8 @@ func transferSWC(records []Record) {
 	client := setup.EthClient(*flags.Host)
 	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
 	swcC, addr, err := cf.GetSWC()
-	if err != nil {
-		logger.Fatal("Can't instantiate Bridgecoin contract", err)
-	}
-	logger.Debug("Contract addresses", "swc", addr.Hex())
+	utils.Assert(err, "Can't instantiate SWT contract")
+	logger.Debug("Contract address", "swc", addr.Hex())
 	checkSWCbalance(records, swcC)
 	txo := flags.MustNewTxrFactory().Txo()
 	for _, r := range records {

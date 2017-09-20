@@ -24,7 +24,8 @@ setup-dev: install-deps
 	@go get -v -u github.com/golang/lint/golint \
 		github.com/kisielk/errcheck \
 		honnef.co/go/tools/cmd/megacheck \
-		github.com/golang/mock
+		github.com/golang/mock \
+		gopkg.in/reform.v1/reform
 #		rsc.io/gt
 
 # check https://github.com/govend/govend for dependency management
@@ -79,6 +80,7 @@ test:
 # building
 
 define _build
+	@go generate ./go-lib/...
 	@GOBIN=`pwd`/bin go install -v \
 		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w" \
 		./cmd/$(1)
@@ -90,6 +92,9 @@ build:
 
 build-brg-swc-pledge:
 	@$(call _build,"brg-swc-pledge")
+
+build-swc-queue:
+	@$(call _build,"swc-queue")
 
 
 ###############################
