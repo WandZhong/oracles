@@ -11,7 +11,8 @@ import (
 // NetMap lists all available networks
 var NetMap = map[string]int{
 	"development": 256,
-	"backstage":   10,
+	"backstage":   200,
+	"localhost":   201,
 }
 
 // Contracts is a list of available contracts
