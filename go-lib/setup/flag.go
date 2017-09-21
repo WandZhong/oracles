@@ -6,12 +6,13 @@ import (
 	"os"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
 )
 
 // FlagFail - exits the main process and displays usage information
-func FlagFail() {
-	logger.Error("Wrong CMD parameters")
+func FlagFail(err error) {
+	logger.Error("Wrong CMD parameters", err)
 	flag.Usage()
 	os.Exit(1)
 }
@@ -35,15 +36,15 @@ func Flag(positionalArgs string, commands ...string) {
 // FlagValidate runs flag checkers
 func FlagValidate(checkers ...Checker) {
 	for _, c := range checkers {
-		if !c.Check() {
-			FlagFail()
+		if err := c.Check(); err != nil {
+			FlagFail(err)
 		}
 	}
 }
 
 // Checker is an interface for type which has a Check function
 type Checker interface {
-	Check() bool
+	Check() error
 }
 
 // EthFlags represents common Ethereum client flags
@@ -63,13 +64,22 @@ func NewEthFlags() EthFlags {
 		PkPwd:         flag.String("pwd", "", "key file password [required]"),
 		ContractsPath: flag.String("contracts", "", "path to contract schemas directory [required]"),
 		Network:       flag.String("network", "", "blockchain network name [required]"),
-		Host:          flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically.")}
+		//		Host:          flag.String("host", "", "ethereum node address. 'http' prefix added automatically. If not provided, ethNetworkAddrs is used to get the address")
+	}
 }
 
 // Check validates the flags. It may panic!
-func (ef EthFlags) Check() bool {
-	bat.AssertIsFile(*ef.PkFile, "-pk", logger)
-	return !(*ef.PkPwd == "" || *ef.Host == "" || *ef.ContractsPath == "" || *ef.Network == "")
+func (ef EthFlags) Check() error {
+	if err := bat.IsFile(*ef.PkFile); err != nil {
+		return errstack.WrapAsReq(err, "Wrong pkFile")
+	}
+	if _, ok := ethNetworkAddrs[*ef.Network]; !ok {
+		return errstack.NewReq("unknown network: " + *ef.Network)
+	}
+	if *ef.PkPwd == "" || *ef.ContractsPath == "" {
+		return errstack.NewReq("All equired arguments must be specified")
+	}
+	return nil
 }
 
 // MustNewTxrFactory creates TxrFactory based on command flags.

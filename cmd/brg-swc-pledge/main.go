@@ -37,7 +37,7 @@ func flagsSetup() {
 func setupContracts() {
 	var err error
 	var addrBrg common.Address
-	client = setup.EthClient(*flags.Host)
+	client = setup.EthClient(*flags.Network)
 	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")

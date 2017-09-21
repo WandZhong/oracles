@@ -6,6 +6,7 @@ import (
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"github.com/robert-zaremba/errstack"
 )
 
 var logger = log.Root()
@@ -15,8 +16,11 @@ type mainFlags struct {
 	ExpectedMd5 *string
 }
 
-func (f mainFlags) Check() bool {
-	return f.EthFlags.Check() || flag.NArg() < 1
+func (f mainFlags) Check() error {
+	if flag.NArg() < 1 {
+		return errstack.NewReq("command argument is required")
+	}
+	return f.EthFlags.Check()
 }
 
 var flags mainFlags

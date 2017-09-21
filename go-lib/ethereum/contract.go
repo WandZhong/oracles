@@ -60,14 +60,14 @@ func MustNewContractFactorySF(c *ethclient.Client, contractsPath, network string
 }
 
 func (cf contractFactory) getSchemaAddres(contractName string) (common.Address, errstack.E) {
-	addr, ok := cf.addrs[CtrBRG]
+	addr, ok := cf.addrs[contractName]
 	if !ok {
 		var err errstack.E
 		_, addr, err = cf.sf.ReadGetAddress(contractName)
 		if err != nil {
 			return addr, err
 		}
-		cf.addrs[CtrBRG] = addr
+		cf.addrs[contractName] = addr
 	}
 	return addr, nil
 }
@@ -77,11 +77,11 @@ func (cf contractFactory) GetBRG() (*contracts.BridgeToken, common.Address, errs
 	if errE != nil {
 		return nil, addr, errE
 	}
-	brg, err := contracts.NewBridgeToken(addr, cf.client)
+	ctr, err := contracts.NewBridgeToken(addr, cf.client)
 	if err != nil {
 		return nil, addr, errstack.WrapAsInf(err, "Can't construct BRG contract instance")
 	}
-	return brg, addr, nil
+	return ctr, addr, nil
 }
 
 func (cf contractFactory) GetSWC() (*contracts.SweetToken, common.Address, errstack.E) {
@@ -89,11 +89,11 @@ func (cf contractFactory) GetSWC() (*contracts.SweetToken, common.Address, errst
 	if errE != nil {
 		return nil, addr, errE
 	}
-	swc, err := contracts.NewSweetToken(addr, cf.client)
+	ctr, err := contracts.NewSweetToken(addr, cf.client)
 	if err != nil {
 		return nil, addr, errstack.WrapAsInf(err, "Can't construct SWC contract instance")
 	}
-	return swc, addr, nil
+	return ctr, addr, nil
 }
 
 func (cf contractFactory) GetSWCqueue() (*contracts.SWCqueue, common.Address, errstack.E) {
@@ -101,9 +101,9 @@ func (cf contractFactory) GetSWCqueue() (*contracts.SWCqueue, common.Address, er
 	if errE != nil {
 		return nil, addr, errE
 	}
-	swcQueue, err := contracts.NewSWCqueue(addr, cf.client)
+	ctr, err := contracts.NewSWCqueue(addr, cf.client)
 	if err != nil {
 		return nil, addr, errstack.WrapAsInf(err, "Can't construct SWCQUEUE contract instance")
 	}
-	return swcQueue, addr, nil
+	return ctr, addr, nil
 }

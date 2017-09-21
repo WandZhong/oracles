@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -32,7 +33,7 @@ func flagsSetup() {
       deploys new user directory for the user represented by the '-pk'`)
 	bat.AssertIsFile(*pkFile, "-pk", logger)
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
-		setup.FlagFail()
+		setup.FlagFail(errors.New("All equired arguments must be specified"))
 	}
 }
 

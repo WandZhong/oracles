@@ -108,7 +108,7 @@ func validate(rs []Record) bool {
 }
 
 func transferSWC(records []Record) {
-	client := setup.EthClient(*flags.Host)
+	client := setup.EthClient(*flags.Network)
 	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
 	swcC, addr, err := cf.GetSWC()
 	utils.Assert(err, "Can't instantiate SWT contract")
