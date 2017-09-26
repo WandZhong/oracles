@@ -10,9 +10,10 @@ import (
 
 // NetMap lists all available networks
 var NetMap = map[string]int{
-	"development": 256,
-	"backstage":   200,
-	"localhost":   201,
+	"development":   9,
+	"backstage":     10,
+	"localhost":     11,
+	"backstage-dev": 12,
 }
 
 // Schema is a type representing truffle-schema contract file
