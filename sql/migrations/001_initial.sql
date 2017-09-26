@@ -9,7 +9,8 @@ CREATE TABLE swc_queue (
 CREATE TABLE swc_queue_tranche (
 	swc_queue_tranche_id  SERIAL PRIMARY KEY,
 	created_on            TIMESTAMP NOT NULL,
-	brg_usd_price         DECIMAL CHECK (wad > 0)
+	-- TODO: how to handle different flavours (brg*)
+	price_brg_usd         DECIMAL CHECK (price_brg_usd > 0)
 );
 
 CREATE TABLE swc_queue_distribution_list (
