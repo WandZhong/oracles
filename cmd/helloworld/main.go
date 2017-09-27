@@ -25,7 +25,7 @@ var (
 	ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
 )
 
-func flagsSetup() {
+func init() {
 	setup.Flag("<command> [command option]", `
   check-user <user address>
       prints Root owner and checks if user is regitesred in the Root contract.
@@ -38,7 +38,6 @@ func flagsSetup() {
 }
 
 func main() {
-	flagsSetup()
 	logger.Info("Hello World!", "version", setup.GitVersion)
 
 	rootAddr = mustBeAnAddress(os.Getenv("SB_ETH_ROOT"),

@@ -46,15 +46,16 @@ Next, whenever you want to build the applications:
 
 All applications are listed packaged in the `cmd/` sub-directories. Each package contains the README.md file with the application description.
 
-To build all applications simply run the following command:
-
-	make build
-
 All applications are compiled into self-contained binaries (no external dependencies needed). Each application support the help argument to display the usage description:
 
 	./bin/<app_name> -h
 
+## Production notes
 
+All applications should have defined following parameters:
+
++ `SB_ENV` - environment variable specifying stage (eg: production, backstage, testing ...)
++ `-rollbar` - flag with rollbar token.
 
 
 ## Scripts

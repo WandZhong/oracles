@@ -13,3 +13,9 @@ func checkAppName(name string) error {
 	}
 	return nil
 }
+
+func assert(err error) {
+	if err != nil {
+		logger.Fatal("Assertion error", err)
+	}
+}

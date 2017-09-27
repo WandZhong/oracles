@@ -5,8 +5,10 @@
 package setup
 
 import (
+	"os"
+	"strings"
+
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"github.com/robert-zaremba/log15/rollbar"
 )
 
 // GitVersion should be substituted during build time by the git version. This is done
@@ -14,14 +16,21 @@ import (
 // -ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(git describe)
 var GitVersion string
 
+// envName is the application stage environment name (eg production, dev, backstage, ...).
+// It is set using `SB_ENV` environment variable.
+var envName string
+
 var logger = log.Root()
 
 // init initializes packages
 func init() {
-	var err error
-	logger, err = log.New(log.RootName,
-		log.Config{Color: true, TimeFmt: "sec", Level: "DEBUG"}, rollbar.Config{})
-	if err != nil {
-		panic(err)
+	if envName = os.Getenv("SB_ENV"); envName == "" {
+		envName = "dev"
+	} else {
+		envName = strings.ToLower(envName)
+		assert(checkAppName(envName))
+	}
+	if envName == "prod" {
+		envName = "production"
 	}
 }

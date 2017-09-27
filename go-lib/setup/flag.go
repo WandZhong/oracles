@@ -56,7 +56,7 @@ type EthFlags struct {
 	Host          *string
 }
 
-// NewEthFlags associsate ethereum client flags with the structure fields.
+// NewEthFlags associate ethereum client flags with the structure fields.
 // This should be called before flag.Parse or Flag function.
 func NewEthFlags() EthFlags {
 	return EthFlags{
@@ -90,4 +90,26 @@ func (ef EthFlags) MustNewTxrFactory() ethereum.TxrFactory {
 		logger.Fatal("Can't create TxrFactory based on JSON file", "filename", *ef.PkFile)
 	}
 	return p
+}
+
+// RollbarFlags wraps flags for Rollbar client
+type RollbarFlags struct {
+	Rollbar *string
+}
+
+// NewRollbarFlags setups flags for Rollbar client
+func NewRollbarFlags() RollbarFlags {
+	return RollbarFlags{flag.String("rollbar", "", "rollbar token [required in production env]")}
+}
+
+// BaseOracleFlags represents common oracle flags
+type BaseOracleFlags struct {
+	EthFlags
+	RollbarFlags
+}
+
+// NewBaseOracleFlags setups common flags
+func NewBaseOracleFlags() BaseOracleFlags {
+	return BaseOracleFlags{
+		NewEthFlags(), NewRollbarFlags()}
 }

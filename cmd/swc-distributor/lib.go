@@ -76,9 +76,9 @@ func readRecords(fname string) ([]Record, bool) {
 	}
 
 	md5sum := hex.EncodeToString(hasher.Sum(nil))
-	if *flags.ExpectedMd5 == "" {
+	if *flags.expectedMd5 == "" {
 		logger.Debug("Control sum not specified. Input file md5sum", "hash", md5sum)
-	} else if *flags.ExpectedMd5 != md5sum {
+	} else if *flags.expectedMd5 != md5sum {
 		logger.Error("Input file doesn't match the control sum", "computed_md5", md5sum)
 		ok = false
 	}

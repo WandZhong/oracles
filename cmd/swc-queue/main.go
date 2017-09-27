@@ -8,6 +8,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/robert-zaremba/log15/rollbar"
 )
 
 var logger = log.Root()
@@ -17,12 +18,13 @@ var brgC *contracts.BridgeToken
 var swcQC *contracts.SWCqueue
 var addrBrg, addrSWCq common.Address
 
-var flags setup.EthFlags
+var flags setup.BaseOracleFlags
 
-func flagsSetup() {
-	flags = setup.NewEthFlags()
+func init() {
+	flags = setup.NewBaseOracleFlags()
 	setup.Flag("")
 	setup.FlagValidate(flags)
+	setup.MustLogger("swc-queue", *flags.Rollbar)
 }
 
 func setupContracts() {
@@ -39,7 +41,7 @@ func setupContracts() {
 }
 
 func main() {
-	flagsSetup()
+	defer rollbar.WaitForRollbar(logger)
 	setupContracts()
 
 	var stopChan = make(chan struct{})
