@@ -3,11 +3,18 @@ package ethereum
 import (
 	"strings"
 
+	"regexp"
+
 	"github.com/robert-zaremba/errstack"
 )
 
+var reNumber = regexp.MustCompile(`\d+(\.\d+)?`)
+
 // afToGigaInt converts float amount to giga integer
 func afToGigaInt(amount string) (string, errstack.E) {
+	if !reNumber.MatchString(amount) {
+		return "", errstack.NewReq("Malformed decimal number")
+	}
 	commaIdx := strings.IndexRune(amount, '.')
 	if len(amount)-commaIdx-1 > 9 {
 		return "", errstack.NewReq("Too many decimal places. Maximum 9 after comma is allowed.")
