@@ -17,8 +17,12 @@ import (
 
 var logger = log.Root()
 var client *ethclient.Client
-var brgC *contracts.BridgeToken
 var txrFactory ethereum.TxrFactory
+var (
+	brgC     *contracts.BridgeToken
+	swcqC    *contracts.SWCqueue
+	swcqAddr common.Address
+)
 
 type mainFlags struct {
 	setup.BaseOracleFlags
@@ -43,7 +47,8 @@ func setupContracts() {
 	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
-	logger.Debug("Contract addresses:", "brg", addrBrg.Hex())
+	swcqC, swcqAddr, err = cf.GetSWCqueue()
+	logger.Debug("Contract addresses:", "brg", addrBrg.Hex(), "swcq", swcqAddr.Hex())
 	txrFactory = flags.MustNewTxrFactory()
 }
 
