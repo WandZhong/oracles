@@ -1,6 +1,8 @@
 vendors:
+- path: github.com/AlekSi/pointer
+  rev: 08a25bac605b3fcb6cc27f3917b2c2c87451963d
 - path: github.com/aristanetworks/goarista
-  rev: 67a76827c1fae7c37f0c9dd9048fc6d23f512cd4
+  rev: fea55316ec360aac14580a95260a0a0553ce69ef
 - path: github.com/btcsuite/btcd
   rev: 4803a8291c92a1d2d41041b942a9a9e37deab065
 - path: github.com/btcsuite/btclog
@@ -21,34 +23,50 @@ vendors:
   rev: 165db2f241fd235aec29ba6d9b1ccd5f1c14637c
 - path: github.com/davecgh/go-spew
   rev: a476722483882dd40b8111f0eb64e1d7f43f56e4
+- path: github.com/denisenkom/go-mssqldb
+  rev: c7ee4153c0fc40206bde939f96eefa1f501cbcaa
 - path: github.com/edsrzf/mmap-go
   rev: 0bce6a6887123b67a60366d2c9fe2dfb74289d2e
+- path: github.com/enodata/faker
+  rev: 42b4c440d9e55560eba634971aac3b622138a9ac
 - path: github.com/ethereum/go-ethereum
-  rev: 3c8656347f67dbc8e57c663ec5c26d24c4151678
+  rev: c2d93ded35c8a2448e6cdb508bb742f5172ec218
 - path: github.com/facebookgo/stack
   rev: 751773369052141c013c6e827a71e8f35c07879c
 - path: github.com/go-ozzo/ozzo-routing
   rev: bd886380e6a7fe8d842c68b595fadae2dcc3bee8
+- path: github.com/go-sql-driver/mysql
+  rev: 7785c74297136c027fdf2fd6f8931c0e19be8aa7
 - path: github.com/go-stack/stack
   rev: 817915b46b97fd7bb80e8ab6b69f01a53ac3eebf
 - path: github.com/golang/gddo
-  rev: 2dccccb2f204bf42a2f46fc9ecd6340ec4984fd3
+  rev: ddb3324051ddfcb05fae4c8a05321cb4d33d1878
 - path: github.com/golang/protobuf
   rev: 130e6b02ab059e7b717a096f397c5b60111cae74
 - path: github.com/golang/snappy
   rev: 553a641470496b2327abcac10b36396bd98e45c9
+- path: github.com/hashicorp/go-version
+  rev: fc61389e27c71d120f87031ca8c88a3428f372dd
 - path: github.com/hashicorp/golang-lru
   rev: 0a025b7e63adc15a622f29b0b2c4c3848243bbf6
+- path: github.com/jackc/fake
+  rev: 812a484cc733c387d8dcf11ce9b15d75e0ddb865
+- path: github.com/jackc/pgx
+  rev: 63f58fd32edb5684b9e9f4cfaac847c6b42b3917
 - path: github.com/jessevdk/go-flags
   rev: 6cf8f02b4ae8ba723ddc64dcfd403e530c06d927
 - path: github.com/jrick/logrotate
   rev: a93b200c26cbae3bb09dd0dc2c7c7fe1468a034a
 - path: github.com/kardianos/osext
   rev: ae77be60afb1dcacde03767a8c37337fad28ac14
+- path: github.com/lib/pq
+  rev: b77235e3890a962fe8a6f8c4c7198679ca7814e7
 - path: github.com/mattn/go-colorable
   rev: ad5389df28cdac544c99bd7b9161a0b5b6ca9d1b
 - path: github.com/mattn/go-isatty
-  rev: fc9e8d8ef48496124e79ae0df75490096eccf6fe
+  rev: a5cdd64afdee435007ee3e9f6ed4684af949d568
+- path: github.com/mattn/go-sqlite3
+  rev: 5160b48509cf5c877bc22c11c373f8c7738cdb38
 - path: github.com/mozillazg/go-unidecode
   rev: 8772af720c7f2f4d216cc73c5f23de17450dd008
 - path: github.com/onsi/ginkgo
@@ -57,6 +75,8 @@ vendors:
   rev: dcabb60a477c2b6f456df65037cb6708210fbb02
 - path: github.com/pborman/uuid
   rev: e790cca94e6cc75c7064b1332e63811d4aae1a53
+- path: github.com/pkg/errors
+  rev: 2b3a18b5f0fb6b4f9190549597d3f962c02bc5eb
 - path: github.com/pmezard/go-difflib
   rev: 792786c7400a136282c1664665ae0a8db921c6c2
 - path: github.com/rcrowley/go-metrics
@@ -64,21 +84,25 @@ vendors:
 - path: github.com/rjeczalik/notify
   rev: 88a54d914928e1faebb1c2195605dc87bd98dc27
 - path: github.com/robert-zaremba/errstack
-  rev: 771a323b2fc0fdf03bbd1299ce460448742543e5
+  rev: 480bfed4995dfd5e5d8668ebb0055ca8be802a02
 - path: github.com/robert-zaremba/go-bat
   rev: dda462545a55b3b1a13c467f3a8271eee55735f8
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15
-  rev: 7ffa121d509e0da5683c4ed6c4e29ca34eac8b7d
+  rev: 41a8dab9117421626a8c750320c0c55b40d39a6f
 - path: github.com/rs/cors
   rev: eabcc6af4bbe5ad3a949d36450326a2b0b9894b8
+- path: github.com/satori/go.uuid
+  rev: 5bf94b69c6b68ee1b541973bb8e1144db23a194b
 - path: github.com/scale-it/checkers
-  rev: 351d731003a9a6b59428af3129a5b8914540e1d1
+  rev: c8f4179e410a5b7737a5551d4c689b2fe973ba08
 - path: github.com/scale-it/go-log
   rev: 0bd38940b27db07b5c4887bafe3a96a79f6f5556
 - path: github.com/scale-it/go-web
   rev: 7e4dca5224b2f5cf7bfecaf952acad645e483c56
+- path: github.com/shopspring/decimal
+  rev: aed1bfe463fa3c9cc268d60dcc1491db613bff7e
 - path: github.com/spaolacci/murmur3
   rev: 9f5d223c60793748f04a9d5b4b4eacddfc1f755d
 - path: github.com/stretchr/objx
@@ -86,23 +110,25 @@ vendors:
 - path: github.com/stretchr/testify
   rev: 890a5c3458b43e6104ff5da8dfa139d013d77544
 - path: github.com/stvp/rollbar
-  rev: caefb75816bddf0dfab37b5490265c09511c962d
+  rev: 3814ef2c7807e794bdf0e6a30c2b5066190dca47
 - path: github.com/syndtr/goleveldb
   rev: b89cc31ef7977104127d34c1bd31ebd1a9db2199
 - path: github.com/ugorji/go
   rev: 54210f4e076c57f351166f0ed60e67d3fca57a36
+- path: github.com/ziutek/mymysql
+  rev: 1d19cbf98d83564cc561192ae7d7183d795f7ac7
 - path: golang.org/x/crypto
-  rev: 7d9177d70076375b9a59c8fde23d52d9c4a7ecd5
+  rev: 9419663f5a44be8b34ca85f08abc5fe1be11f8a3
 - path: golang.org/x/net
-  rev: b60f3a92103dfd93dfcb900ec77c6d0643510868
+  rev: 0a9397675ba34b2845f758fe3cd68828369c6517
 - path: golang.org/x/sync
-  rev: f52d1811a62927559de87708c8913c1650ce4f26
+  rev: 8e0aa688b654ef28caa72506fa5ec8dba9fc7690
 - path: golang.org/x/sys
-  rev: b6e1ae21643682ce023deb8d152024597b0e9bb4
+  rev: 314a259e304ff91bd6985da2a7149bbf91237993
 - path: golang.org/x/text
   rev: 1cbadb444a806fd9430d14ad08967ed91da4fa0a
 - path: golang.org/x/tools
-  rev: e531a2a1c15f94033f6fa87666caeb19a688175f
+  rev: 68e087e2a5786de2c035ed544b1c5a42e31f1933
 - path: gopkg.in/check.v1
   rev: 20d25e2804050c1cd24a7eea1e7a6447dd0e74ec
 - path: gopkg.in/fatih/set.v0
@@ -111,5 +137,7 @@ vendors:
   rev: 8dcd6a7f4951f6ff3ee9cbb919a06d8925822e57
 - path: gopkg.in/natefinch/npipe.v2
   rev: c1b8fa8bdccecb0b8db834ee0b92fdbcfa606dd6
+- path: gopkg.in/reform.v1
+  rev: aa2ae077c28edaf600cb1b9067e15aca0b0179bd
 - path: gopkg.in/yaml.v2
   rev: eb3733d160e74a9c7e442f435eb3bea458e1d19f
