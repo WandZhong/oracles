@@ -14,6 +14,7 @@ var logger = log.Root()
 
 type mainFlags struct {
 	setup.BaseOracleFlags
+	dryRun      *bool
 	expectedMd5 *string
 }
 
@@ -28,6 +29,7 @@ var flags mainFlags
 
 func init() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
+		dryRun:      flag.Bool("-dry-run", false, "Make a dry run - if set, not transaction is executed"),
 		expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum.")}
 
 	setup.Flag("source_file.csv")
@@ -42,15 +44,15 @@ func main() {
 }
 
 func distributeSWC(fname string) {
-	records, errb := readRecords(fname)
-	checkOK(errb)
+	records, err := readRecords(fname)
+	checkOK(err)
 	checkOK(validate(records))
-	transferSWC(records)
+	checkOK(transferSWC(records))
 }
 
-func checkOK(errb errstack.Builder) {
-	if errb.NotNil() {
-		logger.Error("Bad request", errb.ToReqErr())
+func checkOK(err error) {
+	if err != nil {
+		logger.Error("Bad request", err)
 		rollbar.WaitForRollbar(logger)
 		os.Exit(2)
 	}

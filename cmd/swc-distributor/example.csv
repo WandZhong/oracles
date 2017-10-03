@@ -5,5 +5,7 @@ listnr2,0xce0d46d924cc8437c806721496599fc3ffa268c2,8,Jonny,
 listnr3,0xce0d46d924cc8437c806721496599fc3ffa268c2,2,Jonny duplication ignore because it's done,yes
 listnr3,0xce0d46d924cc8437c806721496599fc3ffa268c2,2,Jonny duplication,0
 listnr2,0xce0d46d924cc8437c806721496599fc3ffa268a244,8,bad address,
+listnr2,0xce0d46d924cc8437c806721496599fc3ffa268a2,abc,amount not a number,
+not enough columns
 ,0xce0d46d924cc8437c806721496599fc3ffa268a3,8,no list,
 listnr2,0xce0d46d924cc8437c806721496599fc3ffa268a3,-1,wrong amount,

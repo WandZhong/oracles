@@ -34,7 +34,7 @@ func (r Record) String() string {
 	return fmt.Sprint("{", r.List, " ", r.Address.Hex(), " ", r.Amount, "}")
 }
 
-func readRecords(fname string) ([]Record, errstack.Builder) {
+func readRecords(fname string) ([]Record, errstack.E) {
 	f, err := os.Open(fname)
 	defer errstack.CallAndLog(logger, f.Close)
 	if err != nil {
@@ -45,33 +45,34 @@ func readRecords(fname string) ([]Record, errstack.Builder) {
 	reader.Comment = '#'
 
 	var records []Record
-	var row []string
 	var notDone = []string{"", "0", "no", "false"}
-	var errb = errstack.NewBuilder()
 	header, err := reader.Read() // skip the header
 	if err != nil {
-		errb.Put("header", "Can't read CSV header. "+err.Error())
-		return records, errb
+		return records, errstack.NewReq("Can't read CSV header. " + err.Error())
 	}
-	fmt.Println("header ", header)
+	expectedHeader := []string{"list", "address", "amount", "comment", "done"}
+	if !bat.StrsEq(header, expectedHeader) {
+		return records, errstack.NewReqF("CSV header don't match. Expecting: %v",
+			expectedHeader)
+	}
+
+	var errb = errstack.NewBuilder()
 	for i := 2; ; i++ {
 		errbRow := errb.ForkIdx(i)
-		if row, err = reader.Read(); err == io.EOF {
+		row, err := reader.Read()
+		if err == io.EOF {
 			break
 		} else if err != nil {
-			logger.Error("Can't read the row", "row", i, err)
-			os.Exit(1)
-		} else if len(row) < 5 {
-			errbRow.Put("row",
-				"Not enough columns. Required >= 5, got: "+strconv.Itoa(len(row)))
+			errbRow.Put("row", "Can't read the row. "+err.Error())
+			continue
 		}
-		var r = Record{List: row[0], Idx: i}
-		r.Address = ethereum.ToAddressErrp(row[1], errbRow.Putter("address"))
-		r.Amount = bat.Atoi64Errp(row[2], errbRow.Putter("amount"))
 		if bat.StrSliceIdx(notDone, strings.ToLower(row[4])) < 0 {
 			logger.Info("Ignoring done row", "row", i)
 			continue
 		}
+		var r = Record{List: row[0], Idx: i}
+		r.Address = ethereum.ToAddressErrp(row[1], errbRow.Putter("address"))
+		r.Amount = bat.Atoi64Errp(row[2], errbRow.Putter("amount"))
 		records = append(records, r)
 	}
 
@@ -81,10 +82,10 @@ func readRecords(fname string) ([]Record, errstack.Builder) {
 	} else if *flags.expectedMd5 != md5sum {
 		errb.Put("hash", "Input file doesn't match the control sum. Computed md5="+md5sum)
 	}
-	return records, errb
+	return records, errb.ToReqErr()
 }
 
-func validate(rs []Record) errstack.Builder {
+func validate(rs []Record) errstack.E {
 	var dup = 0
 	var dupMap = map[common.Address]int{}
 	var errb = errstack.NewBuilder()
@@ -101,15 +102,22 @@ func validate(rs []Record) errstack.Builder {
 		}
 		dupMap[r.Address] = r.Idx
 	}
-	return errb
+	return errb.ToReqErr()
 }
 
-func transferSWC(records []Record) {
+func transferSWC(records []Record) errstack.E {
 	_, cf := setup.MustEthClient(*flags.Network, *flags.ContractsPath)
 	swcC, addr, err := cf.GetSWC()
 	utils.Assert(err, "Can't instantiate SWT contract")
 	logger.Debug("Contract address", "swc", addr.Hex())
-	checkSWCbalance(records, swcC)
+	if err := checkSWCbalance(records, swcC); err != nil {
+		return err
+	}
+	if *flags.dryRun {
+		logger.Debug("Dry run. Stopping execution.")
+		return nil
+	}
+
 	txo := flags.MustNewTxrFactory().Txo()
 	for _, r := range records {
 		logger.Info(fmt.Sprint("Transferring: ", r))
@@ -121,9 +129,10 @@ func transferSWC(records []Record) {
 			ethereum.IncTxoNonce(txo, tx)
 		}
 	}
+	return nil
 }
 
-func checkSWCbalance(records []Record, token *contracts.SweetToken) {
+func checkSWCbalance(records []Record, token *contracts.SweetToken) errstack.E {
 	var total int64
 	for _, r := range records {
 		total += r.Amount
@@ -132,12 +141,14 @@ func checkSWCbalance(records []Record, token *contracts.SweetToken) {
 	logger.Debug("Coinbase", "address", k.Address)
 	b, err := token.BalanceOf(nil, k.Address)
 	if err != nil {
-		logger.Fatal("Can't check SWC balance", err)
+		return errstack.WrapAsInf(err, "Can't check SWC balance")
 	}
 	totalWei := ethereum.ToWei(total)
 	if b.Cmp(totalWei) < 0 {
 		bInt := ethereum.WeiToInt(b)
-		logger.Fatal("Not enough funds in the source account", "min_expected", total, "has", bInt)
+		return errstack.NewReqF("Not enough funds in the source account = %v, min_expected=%v",
+			bInt, total)
 	}
 	logger.Debug("Distribution account balance", "wei", totalWei.String())
+	return nil
 }

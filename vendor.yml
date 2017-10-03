@@ -86,11 +86,11 @@ vendors:
 - path: github.com/robert-zaremba/errstack
   rev: 480bfed4995dfd5e5d8668ebb0055ca8be802a02
 - path: github.com/robert-zaremba/go-bat
-  rev: dda462545a55b3b1a13c467f3a8271eee55735f8
+  rev: ce499d61a23533a1b9332bf996b435932dcab167
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15
-  rev: 41a8dab9117421626a8c750320c0c55b40d39a6f
+  rev: 17c9ec75380033f84af3a4ec003e18e1de3131f6
 - path: github.com/rs/cors
   rev: eabcc6af4bbe5ad3a949d36450326a2b0b9894b8
 - path: github.com/satori/go.uuid
