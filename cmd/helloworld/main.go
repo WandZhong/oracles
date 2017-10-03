@@ -14,6 +14,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 )
 
 var logger = log.Root()
@@ -22,7 +23,7 @@ var rootAddr common.Address
 var (
 	pkFile  = flag.String("pk", "", "path to the private key json file [required]")
 	pkPwd   = flag.String("pwd", "", "key file password [required]")
-	ethHost = flag.String("host", "localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
+	ethHost = flag.String("host", "http://localhost:8545", "ethereum node address. 'http' prefix added automatically. [required]")
 )
 
 func init() {
@@ -35,6 +36,8 @@ func init() {
 	if *pkPwd == "" || *ethHost == "" || flag.NArg() < 0 {
 		setup.FlagFail(errors.New("All equired arguments must be specified"))
 	}
+
+	setup.MustLogger("helloworld", "")
 }
 
 func main() {
@@ -42,7 +45,9 @@ func main() {
 
 	rootAddr = mustBeAnAddress(os.Getenv("SB_ETH_ROOT"),
 		"Define correct SB_ETH_ROOT env to root address.")
-	client = setup.EthClient(*ethHost)
+	var err error
+	client, err = ethclient.Dial(*ethHost)
+	utils.Assert(err, "Can't connect to the node "+*ethHost)
 
 	switch flag.Arg(0) {
 	case "register":
@@ -58,14 +63,19 @@ func main() {
 func registerUser() {
 	logger.Info("Registering user")
 
-	curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
-	addr, tx, ud, err := contracts.DeployUserDirectory(mkTxr(), client, rootAddr, curr)
+	// curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
+	addr, tx, _ /*ud*/, err := contracts.DeployUserDirectory(mkTxr(), client, rootAddr)
 	if err != nil {
 		fmt.Println("Can't deploy UserDirectory", err)
 		os.Exit(1)
 	}
+	// owner, err := ud.Owner(nil)
+	// if err != nil {
+	// 	fmt.Println("Can't get the owner of the new contract", err)
+	// 	os.Exit(1)
+	// }
 	ethereum.LogTx("UserDirectory deployed", tx)
-	fmt.Println("Address: ", addr.Hex(), ud)
+	fmt.Println("Address: ", addr.Hex())
 }
 
 func checkUser(addrStr string) {

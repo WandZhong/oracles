@@ -73,7 +73,7 @@ func (ef EthFlags) Check() error {
 	if err := bat.IsFile(*ef.PkFile); err != nil {
 		return errstack.WrapAsReq(err, "Wrong pkFile")
 	}
-	if _, ok := ethNetworkAddrs[*ef.Network]; !ok {
+	if _, ok := ethNetworkMap[*ef.Network]; !ok {
 		return errstack.NewReq("unknown network: " + *ef.Network)
 	}
 	if *ef.PkPwd == "" || *ef.ContractsPath == "" {

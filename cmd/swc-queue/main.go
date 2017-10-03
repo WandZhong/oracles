@@ -29,8 +29,8 @@ func init() {
 
 func setupContracts() {
 	var err error
-	client = setup.EthClient(*flags.Network)
-	cf := ethereum.MustNewContractFactorySF(client, *flags.ContractsPath, *flags.Network)
+	var cf ethereum.ContractFactory
+	client, cf = setup.MustEthClient(*flags.Network, *flags.ContractsPath)
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
 	swcQC, addrSWCq, err = cf.GetSWCqueue()

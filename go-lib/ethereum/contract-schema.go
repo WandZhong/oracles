@@ -8,14 +8,6 @@ import (
 	"github.com/robert-zaremba/go-bat"
 )
 
-// NetMap lists all available networks
-var NetMap = map[string]int{
-	"development":   9,
-	"backstage":     10,
-	"localhost":     11,
-	"backstage-dev": 12,
-}
-
 // Schema is a type representing truffle-schema contract file
 type Schema struct {
 	Name          string `json:"contract_name"`
@@ -31,14 +23,10 @@ type NetSchema struct {
 }
 
 // Address is a handy method which returns smart contract address deployed for given network
-func (s Schema) Address(networkName string) (a common.Address, e errstack.E) {
-	netID, ok := NetMap[networkName]
+func (s Schema) Address(networkID int) (a common.Address, e errstack.E) {
+	n, ok := s.Networks[networkID]
 	if !ok {
-		return a, errstack.NewReqF("Wrong blockchain network=%q", networkName)
-	}
-	n, ok := s.Networks[netID]
-	if !ok {
-		return a, errstack.NewReqF("Smart-Contract not deployed on network=%q", networkName)
+		return a, errstack.NewReqF("Smart-Contract not deployed on network=%v", networkID)
 	}
 	return ToAddress(n.Address)
 }
@@ -46,11 +34,11 @@ func (s Schema) Address(networkName string) (a common.Address, e errstack.E) {
 // SchemaFactory is a structure which provides contract schema functions and data
 type SchemaFactory struct {
 	Dir     string
-	Network string
+	Network int
 }
 
 // NewSchemaFactory creates new SchemaFactory.
-func NewSchemaFactory(contractsPath, network string) (SchemaFactory, errstack.E) {
+func NewSchemaFactory(contractsPath string, network int) (SchemaFactory, errstack.E) {
 	return SchemaFactory{contractsPath, network},
 		bat.IsDir(contractsPath)
 }

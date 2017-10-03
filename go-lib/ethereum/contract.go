@@ -2,7 +2,6 @@ package ethereum
 
 import (
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
-	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/errstack"
@@ -51,12 +50,11 @@ func NewContractFactory(c *ethclient.Client, sf SchemaFactory) ContractFactory {
 	return contractFactory{c, sf, map[string]common.Address{}}
 }
 
-// MustNewContractFactorySF is a default contract provider using default SchemaFactory.
+// NewContractFactorySF is a default contract provider using default SchemaFactory.
 // Panics in case of error.
-func MustNewContractFactorySF(c *ethclient.Client, contractsPath, network string) ContractFactory {
+func NewContractFactorySF(c *ethclient.Client, contractsPath string, network int) (ContractFactory, errstack.E) {
 	sf, err := NewSchemaFactory(contractsPath, network)
-	utils.Assert(err, "wrong contractsPath")
-	return contractFactory{c, sf, map[string]common.Address{}}
+	return contractFactory{c, sf, map[string]common.Address{}}, err
 }
 
 func (cf contractFactory) getSchemaAddres(contractName string) (common.Address, errstack.E) {

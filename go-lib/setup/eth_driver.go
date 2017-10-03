@@ -1,25 +1,29 @@
 package setup
 
 import (
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-type addrStruct struct {
-	isSSL                  bool
-	host, httpPort, wsPort string
+type networkMap struct {
+	id   int
+	addr string
 }
 
 // netMap lists all available networks and addresses
 var ethNetworkMap = map[string]networkMap{}
 
-// EthClient creates new eth client. Addr represent a network URL.
-// The http prefix is optional. If it's https then it have to be included in addr.
-func EthClient(networkName string) *ethclient.Client {
-	addr := ethNetworkAddrs[networkName]
-	logger.Debug("Creating Eth Clienet", "address", addr)
-	client, err := ethclient.Dial(addr)
-	if err != nil {
-		logger.Fatal("Can't connect to the node " + addr)
+// MustEthClient creates new eth client and ContractFactory based on the network name.
+func MustEthClient(networkName, contractsPath string) (*ethclient.Client, ethereum.ContractFactory) {
+	n, ok := ethNetworkMap[networkName]
+	if !ok {
+		logger.Fatal("Unknown network name", "network", networkName)
 	}
-	return client
+	logger.Debug("Creating Eth Client", "address", n.addr, "id", n.id)
+	client, err := ethclient.Dial(n.addr)
+	utils.Assert(err, "Can't connect to the node "+n.addr)
+	sf, err := ethereum.NewContractFactorySF(client, contractsPath, n.id)
+	utils.Assert(err, "wrong contractsPath")
+	return client, sf
 }
