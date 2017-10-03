@@ -1,5 +1,5 @@
-// This file is an automatically generated Go binding. Do not modify as any
-// change will likely be lost upon the next re-generation!
+// Code generated - DO NOT EDIT.
+// This file is a generated binding and any manual changes will be lost.
 
 package contracts
 
@@ -14,10 +14,10 @@ import (
 )
 
 // SWCqueueABI is the input ABI used to generate the binding from.
-const SWCqueueABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint256\"}],\"name\":\"cancel\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"ratio\",\"type\":\"uint256\"}],\"name\":\"setNextBRGSWTratio\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"brg\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"}],\"name\":\"setBRG\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"nextBRGSWTratio\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"},{\"name\":\"nextBRGSWTratio_\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"sig\",\"type\":\"bytes4\"}],\"name\":\"UnauthorizedAccess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"}],\"name\":\"LogCancel\",\"type\":\"event\"}]"
+const SWCqueueABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"directPledge\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"logTrancheRelease\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"ratio\",\"type\":\"uint256\"}],\"name\":\"setNextBRGSWTratio\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"brg\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"}],\"name\":\"setBRG\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"cancel\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"nextBRGSWTratio\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"},{\"name\":\"nextBRGSWTratio_\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"sig\",\"type\":\"bytes4\"}],\"name\":\"UnauthorizedAccess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueCancel\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueDirectPledge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"LogSWCqueueTranchRelease\",\"type\":\"event\"}]"
 
 // SWCqueueBin is the compiled bytecode used for deploying new contracts.
-const SWCqueueBin = `"0x6060604052341561000f57600080fd5b6040516040806106e383398101604052808051919060200180519150505b5b60018054600160a060020a03191633600160a060020a03169081179091557fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b600160a060020a038216151561008e57600080fd5b60028054600160a060020a031916600160a060020a03841617905560038190555b50505b610622806100c16000396000f300606060405236156100885763ffffffff60e060020a60003504166313af4035811461008d57806340e58ee5146100ae578063429ad4f2146100c65780634f9c8fe8146100de578063679ccc6d1461010d5780637a9e5e4b1461012e5780638da5cb5b1461014f57806390bc16931461017e578063ac63f9d9146101a8578063bf7e214f146101cd575b600080fd5b341561009857600080fd5b6100ac600160a060020a03600435166101fc565b005b34156100b957600080fd5b6100ac60043561027a565b005b34156100d157600080fd5b6100ac6004356102c2565b005b34156100e957600080fd5b6100f16102f7565b604051600160a060020a03909116815260200160405180910390f35b341561011857600080fd5b6100ac600160a060020a0360043516610306565b005b341561013957600080fd5b6100ac600160a060020a0360043516610366565b005b341561015a57600080fd5b6100f16103e4565b604051600160a060020a03909116815260200160405180910390f35b341561018957600080fd5b6100ac6fffffffffffffffffffffffffffffffff600435166103f3565b005b34156101b357600080fd5b6101bb610483565b60405190815260200160405180910390f35b34156101d857600080fd5b6100f1610489565b604051600160a060020a03909116815260200160405180910390f35b61021233600035600160e060020a031916610498565b151561021a57fe5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b5b50565b7fe5ead59b814a782a5c21fa4b84845d70e9f65d11c66febe7ead5c234b68409ac3382604051600160a060020a03909216825260208201526040908101905180910390a15b50565b6102d833600035600160e060020a031916610498565b15156102e057fe5b600081116102ed57600080fd5b60038190555b5b50565b600254600160a060020a031681565b61031c33600035600160e060020a031916610498565b151561032457fe5b600160a060020a038116151561033957600080fd5b6002805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0383161790555b5b50565b61037c33600035600160e060020a031916610498565b151561038457fe5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a25b5b50565b600154600160a060020a031681565b61040933600035600160e060020a031916610498565b151561041157fe5b600254600160a060020a03166390bc16938260405160e060020a63ffffffff84160281526fffffffffffffffffffffffffffffffff9091166004820152602401600060405180830381600087803b151561046a57600080fd5b6102c65a03f1151561047b57600080fd5b5050505b5b50565b60035481565b600054600160a060020a031681565b600030600160a060020a031683600160a060020a031614156104bc575060016105ed565b600154600160a060020a0384811691161480156104e25750600054600160a060020a0316155b156104ef575060016105ed565b600054600160a060020a03161515610557577feb91385a0d70e44b915093d9ddfe6c8b41f2c56729431b1405f40aee5d874be78383604051600160a060020a039092168252600160e060020a03191660208201526040908101905180910390a15060006105ed565b60008054600160a060020a03169063b7009613908590309086906040516020015260405160e060020a63ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b15156105d057600080fd5b6102c65a03f115156105e157600080fd5b50505060405180519150505b5b5b5b929150505600a165627a7a72305820721e5022da567bb47a8ce4c21de5b5d5451e80fc629f7948168e2e4741dbc7b90029"`
+const SWCqueueBin = `"0x6060604052341561000f57600080fd5b60405160408061083783398101604052808051919060200180519150505b5b60018054600160a060020a03191633600160a060020a03169081179091557fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b600160a060020a038216151561008e57600080fd5b60028054600160a060020a031916600160a060020a03841617905560038190555b50505b610776806100c16000396000f3006060604052361561009e5763ffffffff60e060020a60003504166313af403581146100a3578063209c4986146100c457806330311449146100fe578063429ad4f21461011f5780634f9c8fe814610137578063679ccc6d146101665780637a9e5e4b146101875780638da5cb5b146101a857806390a160d4146101d757806390bc169314610205578063ac63f9d914610226578063bf7e214f1461024b575b600080fd5b34156100ae57600080fd5b6100c2600160a060020a036004351661027a565b005b34156100cf57600080fd5b6100c2600160a060020a03600435166001608060020a0360243516600160e860020a0319604435166102f8565b005b341561010957600080fd5b6100c26001608060020a0360043516610361565b005b341561012a57600080fd5b6100c26004356103b7565b005b341561014257600080fd5b61014a6103ec565b604051600160a060020a03909116815260200160405180910390f35b341561017157600080fd5b6100c2600160a060020a03600435166103fb565b005b341561019257600080fd5b6100c2600160a060020a036004351661045b565b005b34156101b357600080fd5b61014a6104d9565b604051600160a060020a03909116815260200160405180910390f35b34156101e257600080fd5b6100c26001608060020a0360043516600160e860020a0319602435166104e8565b005b341561021057600080fd5b6100c26001608060020a0360043516610550565b005b341561023157600080fd5b6102396105d7565b60405190815260200160405180910390f35b341561025657600080fd5b61014a6105dd565b604051600160a060020a03909116815260200160405180910390f35b61029033600035600160e060020a0319166105ec565b151561029857fe5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b5b50565b7f3a7f5663aac61ec71b13259e6a35978a2fba9256cd41bfacd1840a8b1c6bdd43838383604051600160a060020a0390931683526001608060020a039091166020830152600160e860020a0319166040808301919091526060909101905180910390a15b505050565b7f8147bc48a2d3d4b6f389e16b4c6abf7cc6312c957592235402941eb29219e54b426003548360405192835260208301919091526001608060020a03166040808301919091526060909101905180910390a15b50565b6103cd33600035600160e060020a0319166105ec565b15156103d557fe5b600081116103e257600080fd5b60038190555b5b50565b600254600160a060020a031681565b61041133600035600160e060020a0319166105ec565b151561041957fe5b600160a060020a038116151561042e57600080fd5b6002805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a0383161790555b5b50565b61047133600035600160e060020a0319166105ec565b151561047957fe5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a25b5b50565b600154600160a060020a031681565b7fc91056ac51b7d416daa4e0c747efe9f7d991055476c69ae0f67e4b8f6377c923338383604051600160a060020a0390931683526001608060020a039091166020830152600160e860020a0319166040808301919091526060909101905180910390a15b5050565b61056633600035600160e060020a0319166105ec565b151561056e57fe5b600254600160a060020a03166390bc16938260405160e060020a63ffffffff84160281526001608060020a039091166004820152602401600060405180830381600087803b15156105be57600080fd5b6102c65a03f115156105cf57600080fd5b5050505b5b50565b60035481565b600054600160a060020a031681565b600030600160a060020a031683600160a060020a0316141561061057506001610741565b600154600160a060020a0384811691161480156106365750600054600160a060020a0316155b1561064357506001610741565b600054600160a060020a031615156106ab577feb91385a0d70e44b915093d9ddfe6c8b41f2c56729431b1405f40aee5d874be78383604051600160a060020a039092168252600160e060020a03191660208201526040908101905180910390a1506000610741565b60008054600160a060020a03169063b7009613908590309086906040516020015260405160e060020a63ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b151561072457600080fd5b6102c65a03f1151561073557600080fd5b50505060405180519150505b5b5b5b929150505600a165627a7a723058209953af89f72d0ef1def6efaa1178439eaa7516da480c286fce61bad0c66042a50029"`
 
 // DeploySWCqueue deploys a new Ethereum contract, binding an instance of SWCqueue to it.
 func DeploySWCqueue(auth *bind.TransactOpts, backend bind.ContractBackend, brg_ common.Address, nextBRGSWTratio_ *big.Int) (common.Address, *types.Transaction, *SWCqueue, error) {
@@ -284,25 +284,67 @@ func (_SWCqueue *SWCqueueTransactorSession) Burn(brgAmount *big.Int) (*types.Tra
 	return _SWCqueue.Contract.Burn(&_SWCqueue.TransactOpts, brgAmount)
 }
 
-// Cancel is a paid mutator transaction binding the contract method 0x40e58ee5.
+// Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(brgAmount uint256) returns()
-func (_SWCqueue *SWCqueueTransactor) Cancel(opts *bind.TransactOpts, brgAmount *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.contract.Transact(opts, "cancel", brgAmount)
+// Solidity: function cancel(wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactor) Cancel(opts *bind.TransactOpts, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.contract.Transact(opts, "cancel", wad, currency)
 }
 
-// Cancel is a paid mutator transaction binding the contract method 0x40e58ee5.
+// Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(brgAmount uint256) returns()
-func (_SWCqueue *SWCqueueSession) Cancel(brgAmount *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, brgAmount)
+// Solidity: function cancel(wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueSession) Cancel(wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, wad, currency)
 }
 
-// Cancel is a paid mutator transaction binding the contract method 0x40e58ee5.
+// Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(brgAmount uint256) returns()
-func (_SWCqueue *SWCqueueTransactorSession) Cancel(brgAmount *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, brgAmount)
+// Solidity: function cancel(wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactorSession) Cancel(wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, wad, currency)
+}
+
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
+//
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactor) DirectPledge(opts *bind.TransactOpts, who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.contract.Transact(opts, "directPledge", who, wad, currency)
+}
+
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
+//
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueSession) DirectPledge(who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad, currency)
+}
+
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
+//
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactorSession) DirectPledge(who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad, currency)
+}
+
+// LogTrancheRelease is a paid mutator transaction binding the contract method 0x30311449.
+//
+// Solidity: function logTrancheRelease(wad uint128) returns()
+func (_SWCqueue *SWCqueueTransactor) LogTrancheRelease(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.contract.Transact(opts, "logTrancheRelease", wad)
+}
+
+// LogTrancheRelease is a paid mutator transaction binding the contract method 0x30311449.
+//
+// Solidity: function logTrancheRelease(wad uint128) returns()
+func (_SWCqueue *SWCqueueSession) LogTrancheRelease(wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.Contract.LogTrancheRelease(&_SWCqueue.TransactOpts, wad)
+}
+
+// LogTrancheRelease is a paid mutator transaction binding the contract method 0x30311449.
+//
+// Solidity: function logTrancheRelease(wad uint128) returns()
+func (_SWCqueue *SWCqueueTransactorSession) LogTrancheRelease(wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.Contract.LogTrancheRelease(&_SWCqueue.TransactOpts, wad)
 }
 
 // SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
