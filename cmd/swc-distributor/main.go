@@ -42,14 +42,15 @@ func main() {
 }
 
 func distributeSWC(fname string) {
-	records, ok := readRecords(fname)
-	checkOK(ok)
+	records, errb := readRecords(fname)
+	checkOK(errb)
 	checkOK(validate(records))
 	transferSWC(records)
 }
 
-func checkOK(ok bool) {
-	if !ok {
+func checkOK(errb errstack.Builder) {
+	if errb.NotNil() {
+		logger.Error("Bad request", errb.ToReqErr())
 		rollbar.WaitForRollbar(logger)
 		os.Exit(2)
 	}

@@ -22,6 +22,15 @@ func ToAddress(addr string) (a common.Address, err errstack.E) {
 	return common.HexToAddress(addr), nil
 }
 
+// ToAddressErrp calls ToAddress and sets the error in the putter
+func ToAddressErrp(addr string, errp errstack.Putter) common.Address {
+	a, err := ToAddress(addr)
+	if err != nil {
+		errp.Put(err)
+	}
+	return a
+}
+
 // IsZeroAddr check if `a` is zero or invalid address
 func IsZeroAddr(a common.Address) bool {
 	return bytes.Equal(a.Bytes(), zeroAddressSlice)

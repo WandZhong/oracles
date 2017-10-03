@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	"math/big"
@@ -33,7 +34,7 @@ func (r Record) String() string {
 	return fmt.Sprint("{", r.List, " ", r.Address.Hex(), " ", r.Amount, "}")
 }
 
-func readRecords(fname string) ([]Record, bool) {
+func readRecords(fname string) ([]Record, errstack.Builder) {
 	f, err := os.Open(fname)
 	defer errstack.CallAndLog(logger, f.Close)
 	if err != nil {
@@ -45,29 +46,28 @@ func readRecords(fname string) ([]Record, bool) {
 
 	var records []Record
 	var row []string
-	var ok = true
 	var notDone = []string{"", "0", "no", "false"}
-	if _, err = reader.Read(); err != nil { // skip the header
-		logger.Fatal("Can't read CSV header", err)
+	var errb = errstack.NewBuilder()
+	header, err := reader.Read() // skip the header
+	if err != nil {
+		errb.Put("header", "Can't read CSV header. "+err.Error())
+		return records, errb
 	}
+	fmt.Println("header ", header)
 	for i := 2; ; i++ {
+		errbRow := errb.ForkIdx(i)
 		if row, err = reader.Read(); err == io.EOF {
 			break
 		} else if err != nil {
-			logger.Fatal("Can't read the row", "row", i, err)
+			logger.Error("Can't read the row", "row", i, err)
+			os.Exit(1)
 		} else if len(row) < 5 {
-			logger.Error("Not enough columns in the row. Required >= 5", "cols", len(row))
-			ok = false
+			errbRow.Put("row",
+				"Not enough columns. Required >= 5, got: "+strconv.Itoa(len(row)))
 		}
 		var r = Record{List: row[0], Idx: i}
-		if r.Address, err = ethereum.ToAddress(row[1]); err != nil {
-			logger.Error("Malformed address", "row", i, "value", row[1])
-			ok = false
-		}
-		if r.Amount, err = bat.Atoi64(row[2]); err != nil {
-			logger.Error("Wrong amount", "row", i, "value", row[1], err)
-			ok = false
-		}
+		r.Address = ethereum.ToAddressErrp(row[1], errbRow.Putter("address"))
+		r.Amount = bat.Atoi64Errp(row[2], errbRow.Putter("amount"))
 		if bat.StrSliceIdx(notDone, strings.ToLower(row[4])) < 0 {
 			logger.Info("Ignoring done row", "row", i)
 			continue
@@ -79,32 +79,29 @@ func readRecords(fname string) ([]Record, bool) {
 	if *flags.expectedMd5 == "" {
 		logger.Debug("Control sum not specified. Input file md5sum", "hash", md5sum)
 	} else if *flags.expectedMd5 != md5sum {
-		logger.Error("Input file doesn't match the control sum", "computed_md5", md5sum)
-		ok = false
+		errb.Put("hash", "Input file doesn't match the control sum. Computed md5="+md5sum)
 	}
-	return records, ok
+	return records, errb
 }
 
-func validate(rs []Record) bool {
-	var ok = true
+func validate(rs []Record) errstack.Builder {
 	var dup = 0
 	var dupMap = map[common.Address]int{}
+	var errb = errstack.NewBuilder()
 	for _, r := range rs {
+		errbRow := errb.ForkIdx(r.Idx)
 		if len(r.List) < 3 {
-			logger.Error("List name should be at least 3 character long", "row", r.Idx)
-			ok = false
+			errbRow.Put("list", "List name should be at least 3 character long")
 		}
 		if r.Amount < 0 {
-			logger.Error("Amount can't be negative", "row", r.Idx)
-			ok = false
+			errbRow.Put("amount", "Can't be negative")
 		}
 		if dup = dupMap[r.Address]; dup > 0 {
-			logger.Error("Detected duplicated rows (addresses)", "row1", dup, "row2", r.Idx)
-			ok = false
+			errbRow.Put("duplication", "address already used in row "+strconv.Itoa(dup))
 		}
 		dupMap[r.Address] = r.Idx
 	}
-	return ok
+	return errb
 }
 
 func transferSWC(records []Record) {

@@ -21,14 +21,15 @@ func init() {
 }
 
 // ToCurrency converts currency string into Currency type
-func ToCurrency(curr string) (Currency, errstack.E) {
+func ToCurrency(curr string, errp errstack.Putter) Currency {
 	if curr == "" {
-		return [3]byte{}, errstack.NewReq("Empty currency")
+		errp.Put("expecting 3-characters currency ISO code. Got empty code.")
+		return [3]byte{}
 	}
 	curr = strings.ToLower(curr)
 	c, ok := currencies[curr]
 	if !ok {
-		return c, errstack.NewReq("Unknown Currency: " + curr)
+		errp.Put("Unknown Currency: " + curr)
 	}
-	return c, nil
+	return c
 }

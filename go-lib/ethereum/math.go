@@ -58,15 +58,17 @@ func WeiToInt(wei *big.Int) int64 {
 }
 
 // AfToWei takes float number in Ascii, with max  9 digits after comman and converts it to Wei.
-func AfToWei(amount string) (*big.Int, errstack.E) {
+func AfToWei(amount string, errp errstack.Putter) *big.Int {
 	amount, err := afToGigaInt(amount)
 	if err != nil {
-		return nil, err
+		errp.Put(err)
+		return nil
 	}
 	v, e := bat.Atoi64(amount)
 	if e != nil {
-		return nil, errstack.WrapAsReq(e, "Can't parse gwei amount")
+		errp.Put("Can't parse gwei amount")
+		return nil
 	}
 	a := big.NewInt(v)
-	return a.Mul(a, gweiRatio), nil
+	return a.Mul(a, gweiRatio)
 }

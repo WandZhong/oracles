@@ -7,23 +7,18 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
 	"github.com/go-ozzo/ozzo-routing"
+	"github.com/robert-zaremba/errstack"
 )
 
 func httpPostPledge(c *routing.Context) (err error) {
 	brgParam, currParam := c.PostForm("brg"), c.PostForm("currency")
-	wei, err := ethereum.AfToWei(brgParam)
-	if err != nil {
+	errb := errstack.NewBuilder()
+	wei := ethereum.AfToWei(brgParam, errb.Putter("brg"))
+	currency := liquidity.ToCurrency(currParam, errb.Putter("currency"))
+	addr := ethereum.ToAddressErrp(c.PostForm("address"), errb.Putter("address"))
+	if errb.NotNil() {
 		return routing.NewHTTPError(http.StatusBadRequest,
-			"Wrong request, expecting correct usd amount. "+err.Error())
-	}
-	currency, err := liquidity.ToCurrency(currParam)
-	if err != nil {
-		return routing.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-	addr, err := ethereum.ToAddress(c.PostForm("address"))
-	if err != nil {
-		return routing.NewHTTPError(http.StatusBadRequest,
-			"Invalid user account address. "+err.Error())
+			errb.ToReqErr().Error())
 	}
 	logger.Debug("BRG-SWC pledge request received", "brg-wei", wei, "currency", currParam,
 		"address", addr.Hex())
