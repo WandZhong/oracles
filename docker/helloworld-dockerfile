@@ -1,0 +1,12 @@
+# You have to be in the bin directory
+#   docker build -t oracle-helloworld -f helloworld-dockerfile .
+#   docker container start -a oracle-helloworld_1 || docker run -t --name oracle-helloworld_1 oracle-helloworld
+
+FROM alpine:3.6
+LABEL name=oracle-helloworld
+
+ENV SB_ETH_ROOT="0xaf1fe3d4b79ee1184a83110561b7259fc6fd5840"
+ENTRYPOINT /usr/bin/helloworld -pk "/root/account-coinbase.json" -pwd password -host "54.148.24.3:10001" register 0x0f21f6fb13310ac0e17205840a91da93119efbec
+
+COPY account-coinbase.json /root
+COPY helloworld /usr/bin
