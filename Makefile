@@ -96,6 +96,9 @@ build-brg-swc-pledge:
 build-swc-queue:
 	@$(call _build,"swc-queue")
 
+build-swc-distributor:
+	@$(call _build,"swc-distributor")
+
 
 ###############################
 # docker

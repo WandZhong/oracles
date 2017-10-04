@@ -29,6 +29,14 @@ This is not required for building application, but required for proper developme
 
 The executable are in the project root directory (oracles)
 
+
+### Repeatable builds, CI
+
+For CI, to make sure that dependencies are with sync you should always `install-deps`:
+
+	make install-deps build
+
+
 #### Building using Docker
 
 We provide consistent environment to build the applications using Docker containers.
