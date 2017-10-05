@@ -29,7 +29,7 @@ var flags mainFlags
 
 func init() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
-		dryRun:      flag.Bool("-dry-run", false, "Make a dry run - if set, not transaction is executed"),
+		dryRun:      flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
 		expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum.")}
 
 	setup.Flag("source_file.csv")
