@@ -10,10 +10,10 @@ import (
 
 // Schema is a type representing truffle-schema contract file
 type Schema struct {
-	Name          string `json:"contract_name"`
+	Name          string `json:"contractName"`
 	Networks      map[int]NetSchema
-	SchemaVersion string `json:"schema_version"`
-	UpdatedAt     int    `json:"updated_at"`
+	SchemaVersion string `json:"schemaVersion"`
+	UpdatedAt     string `json:"updatedAt"`
 }
 
 // NetSchema is a type representing truffle-schema network description
@@ -26,7 +26,7 @@ type NetSchema struct {
 func (s Schema) Address(networkID int) (a common.Address, e errstack.E) {
 	n, ok := s.Networks[networkID]
 	if !ok {
-		return a, errstack.NewReqF("Smart-Contract not deployed on network=%v", networkID)
+		return a, errstack.NewReqF("Can't get %q Smart-Contract address. It's not deployed on network=%v", s.Name, networkID)
 	}
 	return ToAddress(n.Address)
 }
@@ -44,11 +44,16 @@ func NewSchemaFactory(contractsPath string, network int) (SchemaFactory, errstac
 }
 
 // Read reads truffle-schema file. The name should not finish with ".json"
-func (sf SchemaFactory) Read(name string) (s Schema, e errstack.E) {
+func (sf SchemaFactory) Read(name string) (s Schema, err errstack.E) {
 	if bat.StrSliceIdx(availableContracts, name) < 0 {
 		return s, errstack.NewReq("Unknown contract " + name)
 	}
-	e = bat.DecodeJSONFile(path.Join(sf.Dir, name+".json"), &s, logger)
+	if err = bat.DecodeJSONFile(path.Join(sf.Dir, name+".json"), &s, logger); err != nil {
+		return
+	}
+	if s.Name == "" {
+		return s, errstack.NewDomainF("Contract %q doesn't have defined name", name)
+	}
 	return
 }
 

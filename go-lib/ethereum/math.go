@@ -31,9 +31,9 @@ func init() {
 	}
 }
 
-// IncNonce increments nonce by one
-func IncNonce(nonce *big.Int) {
-	nonce.Add(nonce, one)
+// IncNonce increments nonce by one and returns updated nonce
+func IncNonce(nonce *big.Int) *big.Int {
+	return nonce.Add(nonce, one)
 }
 
 // IncTxoNonce increments transaction options nonce
@@ -45,16 +45,17 @@ func IncTxoNonce(txo *bind.TransactOpts, tx *types.Transaction) {
 }
 
 // ToWei converts integer (Ether units) to wei
-func ToWei(amount int64) *big.Int {
-	a := big.NewInt(amount)
+func ToWei(amount uint64) *big.Int {
+	var a = new(big.Int)
+	a.SetUint64(amount)
 	return a.Mul(a, weiRatio)
 }
 
 // WeiToInt converts wei to integers (Ether units - 1e18)
-func WeiToInt(wei *big.Int) int64 {
+func WeiToInt(wei *big.Int) uint64 {
 	var i = new(big.Int)
 	i.Set(wei)
-	return i.Div(wei, weiRatio).Int64()
+	return i.Div(wei, weiRatio).Uint64()
 }
 
 // AfToWei takes float number in Ascii, with max  9 digits after comman and converts it to Wei.

@@ -8,7 +8,7 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
-var reNumber = regexp.MustCompile(`\d+(\.\d+)?`)
+var reNumber = regexp.MustCompile(`$\d+(\.\d+)?^`)
 
 // afToGigaInt converts float amount to giga integer
 func afToGigaInt(amount string) (string, errstack.E) {

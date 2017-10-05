@@ -21,7 +21,7 @@ func TestDecimalSuffixes(t *testing.T) {
 
 func TestToWei(t *testing.T) {
 	var cases = []struct {
-		Amount int64
+		Amount uint64
 		Str    string
 	}{
 		{0, "0"},

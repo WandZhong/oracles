@@ -14,8 +14,10 @@ type networkMap struct {
 // netMap lists all available networks and addresses
 var ethNetworkMap = map[string]networkMap{}
 
+const testrpcID = 9
+
 // MustEthClient creates new eth client and ContractFactory based on the network name.
-func MustEthClient(networkName, contractsPath string) (*ethclient.Client, ethereum.ContractFactory) {
+func MustEthFactory(networkName, contractsPath string, txrF ethereum.TxrFactory) (*ethclient.Client, ethereum.ContractFactory) {
 	n, ok := ethNetworkMap[networkName]
 	if !ok {
 		logger.Fatal("Unknown network name", "network", networkName)
@@ -23,7 +25,8 @@ func MustEthClient(networkName, contractsPath string) (*ethclient.Client, ethere
 	logger.Debug("Creating Eth Client", "address", n.addr, "id", n.id)
 	client, err := ethclient.Dial(n.addr)
 	utils.Assert(err, "Can't connect to the node "+n.addr)
-	sf, err := ethereum.NewContractFactorySF(client, contractsPath, n.id)
+	sf, err := ethereum.NewSchemaFactory(contractsPath, n.id)
 	utils.Assert(err, "wrong contractsPath")
-	return client, sf
+	cf := ethereum.NewContractFactory(client, sf, txrF, n.id == testrpcID)
+	return client, cf
 }

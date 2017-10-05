@@ -62,9 +62,11 @@ func main() {
 
 func registerUser() {
 	logger.Info("Registering user")
+	emptyAddr := common.Address{}
 
 	// curr := [3]byte{'U', 'S', 'D'} // [85 83 68]
-	addr, tx, _ /*ud*/, err := contracts.DeployUserDirectory(mkTxr(), client, rootAddr)
+	addr, tx, _ /*ud*/, err := contracts.DeployUserDirectory(mkTxr(), client, rootAddr,
+		emptyAddr, emptyAddr)
 	if err != nil {
 		fmt.Println("Can't deploy UserDirectory", err)
 		os.Exit(1)

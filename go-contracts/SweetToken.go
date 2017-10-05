@@ -14,18 +14,18 @@ import (
 )
 
 // SweetTokenABI is the input ABI used to generate the binding from.
-const SweetTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"start\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"bytes32\"}],\"payable\":false,\"type\":\"constructor\"},{\"payable\":true,\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":true,\"inputs\":[{\"indexed\":true,\"name\":\"sig\",\"type\":\"bytes4\"},{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"foo\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"bar\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"fax\",\"type\":\"bytes\"}],\"name\":\"LogNote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"sig\",\"type\":\"bytes4\"}],\"name\":\"UnauthorizedAccess\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
+const SweetTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"bytes32\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
 
 // SweetTokenBin is the compiled bytecode used for deploying new contracts.
-const SweetTokenBin = `"0x6060604052601260045534156200001557600080fd5b6040516200148838038062001488833981016040528080518201919060200180519150505b81815b5b60018054600160a060020a03191633600160a060020a03169081179091557fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b60038280516200009e929160200190620000b0565b5060028190555b50505b50506200015a565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10620000f357805160ff191683800117855562000123565b8280016001018555821562000123579182015b828111156200012357825182559160200191906001019062000106565b5b506200013292915062000136565b5090565b6200015791905b808211156200013257600081556001016200013d565b5090565b90565b61131e806200016a6000396000f300606060405236156101175763ffffffff60e060020a60003504166306fdde03811461012057806307da68f5146101ab578063095ea7b3146101c057806313af4035146101f657806318160ddd1461021757806323b872dd1461023c57806327cfc21914610278578063313ce567146102a557806370a08231146102ca57806371857000146102fb57806375f12b211461032e5780637a9e5e4b146103555780638402181f146103765780638da5cb5b146103b557806390bc1693146103e457806395d89b411461040557806398b681af1461042a578063a9059cbb1461043f578063be9a655514610475578063bf7e214f1461048a578063c47f0027146104b9578063d7dfa0dd1461050c578063dd62ed3e1461053b575b5b600080fd5b5b005b341561012b57600080fd5b610133610572565b60405160208082528190810183818151815260200191508051906020019080838360005b838110156101705780820151818401525b602001610157565b50505050905090810190601f16801561019d5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b34156101b657600080fd5b61011d610610565b005b34156101cb57600080fd5b6101e2600160a060020a03600435166024356106af565b604051901515815260200160405180910390f35b341561020157600080fd5b61011d600160a060020a0360043516610803565b005b341561022257600080fd5b61022a610881565b60405190815260200160405180910390f35b341561024757600080fd5b6101e2600160a060020a03600435811690602435166044356108eb565b604051901515815260200160405180910390f35b341561028357600080fd5b61011d600160a060020a03600435166001608060020a0360243516610a3a565b005b34156102b057600080fd5b61022a610af9565b60405190815260200160405180910390f35b34156102d557600080fd5b61022a600160a060020a0360043516610aff565b60405190815260200160405180910390f35b341561030657600080fd5b6101e2600160a060020a0360043516610b7c565b604051901515815260200160405180910390f35b341561033957600080fd5b6101e2610c3a565b604051901515815260200160405180910390f35b341561036057600080fd5b61011d600160a060020a0360043516610c4a565b005b341561038157600080fd5b6101e2600160a060020a03600435166001608060020a0360243516610cc8565b604051901515815260200160405180910390f35b34156103c057600080fd5b6103c8610ce7565b604051600160a060020a03909116815260200160405180910390f35b34156103ef57600080fd5b61011d6001608060020a0360043516610cf6565b005b341561041057600080fd5b61022a610e22565b60405190815260200160405180910390f35b341561043557600080fd5b61011d610e28565b005b341561044a57600080fd5b6101e2600160a060020a0360043516602435610e2d565b604051901515815260200160405180910390f35b341561048057600080fd5b61011d610f7b565b005b341561049557600080fd5b6103c8611014565b604051600160a060020a03909116815260200160405180910390f35b34156104c457600080fd5b61011d60046024813581810190830135806020601f8201819004810201604051908101604052818152929190602084018383808284375094965061102395505050505050565b005b341561051757600080fd5b6103c861105a565b604051600160a060020a03909116815260200160405180910390f35b341561054657600080fd5b61022a600160a060020a0360043581169060243516611069565b60405190815260200160405180910390f35b60038054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106085780601f106105dd57610100808354040283529160200191610608565b820191906000526020600020905b8154815290600101906020018083116105eb57829003601f168201915b505050505081565b61062633600035600160e060020a0319166110ef565b151561062e57fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a46001805474ff0000000000000000000000000000000000000000191660a060020a1790555b5b50505b565b600154600090819060a060020a900460ff16156106c857fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a4600554600160a060020a031663e1f21c6733888860006040516020015260405160e060020a63ffffffff8616028152600160a060020a0393841660048201529190921660248201526044810191909152606401602060405180830381600087803b151561078a57600080fd5b6102c65a03f1151561079b57600080fd5b505050604051805193505082156107f45785600160a060020a031633600160a060020a03167f8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b9258760405190815260200160405180910390a35b8293505b5b50505b5092915050565b61081933600035600160e060020a0319166110ef565b151561082157fe5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b5b50565b600554600090600160a060020a03166318160ddd82604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b15156108cb57600080fd5b6102c65a03f115156108dc57600080fd5b50505060405180519150505b90565b600154600090819060a060020a900460ff161561090457fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a4600554600160a060020a03166323b872dd88888860006040516020015260405160e060020a63ffffffff8616028152600160a060020a0393841660048201529190921660248201526044810191909152606401602060405180830381600087803b15156109c657600080fd5b6102c65a03f115156109d757600080fd5b50505060405180519050925085600160a060020a031687600160a060020a03167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef8760405190815260200160405180910390a38293505b5b50505b509392505050565b600554600160a060020a03166327cfc219838360405160e060020a63ffffffff8516028152600160a060020a0390921660048301526001608060020a03166024820152604401600060405180830381600087803b1515610a9957600080fd5b6102c65a03f11515610aaa57600080fd5b50505081600160a060020a03167f9f494565851dbcb31fb5198ca217cda6833282fadb96ba9431bd19c82afc1dd3826040516001608060020a03909116815260200160405180910390a25b5050565b60045481565b600554600090600160a060020a03166370a0823183836040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515610b5a57600080fd5b6102c65a03f11515610b6b57600080fd5b50505060405180519150505b919050565b6000610b9433600035600160e060020a0319166110ef565b1515610b9c57fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a4600160a060020a0384161515610c0457fe5b6005805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038616179055600192505b5b50505b919050565b60015460a060020a900460ff1681565b610c6033600035600160e060020a0319166110ef565b1515610c6857fe5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a25b5b50565b6000610cde8333846001608060020a03166108eb565b90505b92915050565b600154600160a060020a031681565b60015460a060020a900460ff1615610d0a57fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a4600554600160a060020a0316637261e469338560405160e060020a63ffffffff8516028152600160a060020a0390921660048301526001608060020a03166024820152604401600060405180830381600087803b1515610dbf57600080fd5b6102c65a03f11515610dd057600080fd5b50505033600160a060020a03167f38d762ef507761291a578e921acfe29c1af31a7331ea03e391cf16cfc4d4f581846040516001608060020a03909116815260200160405180910390a25b5b50505b50565b60025481565bfe5b5b565b600154600090819060a060020a900460ff1615610e4657fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a4600554600160a060020a031663beabacc833888860006040516020015260405160e060020a63ffffffff8616028152600160a060020a0393841660048201529190921660248201526044810191909152606401602060405180830381600087803b1515610f0857600080fd5b6102c65a03f11515610f1957600080fd5b50505060405180519050925085600160a060020a031633600160a060020a03167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef8760405190815260200160405180910390a38293505b5b50505b5092915050565b610f9133600035600160e060020a0319166110ef565b1515610f9957fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a46001805474ff0000000000000000000000000000000000000000191690555b5b50505b565b600054600160a060020a031681565b61103933600035600160e060020a0319166110ef565b151561104157fe5b60038180516106a9929160200190611252565b505b5b50565b600554600160a060020a031681565b600554600090600160a060020a031663dd62ed3e8484846040516020015260405160e060020a63ffffffff8516028152600160a060020a03928316600482015291166024820152604401602060405180830381600087803b15156110cc57600080fd5b6102c65a03f115156110dd57600080fd5b50505060405180519150505b92915050565b600030600160a060020a031683600160a060020a0316141561111357506001610ce1565b600154600160a060020a0384811691161480156111395750600054600160a060020a0316155b1561114657506001610ce1565b600054600160a060020a031615156111ae577feb91385a0d70e44b915093d9ddfe6c8b41f2c56729431b1405f40aee5d874be78383604051600160a060020a039092168252600160e060020a03191660208201526040908101905180910390a1506000610ce1565b60008054600160a060020a03169063b7009613908590309086906040516020015260405160e060020a63ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b151561122757600080fd5b6102c65a03f1151561123857600080fd5b505050604051805190509050610ce1565b5b5b5b92915050565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061129357805160ff19168380011785556112c0565b828001600101855582156112c0579182015b828111156112c05782518255916020019190600101906112a5565b5b506112cd9291506112d1565b5090565b6108e891905b808211156112cd57600081556001016112d7565b5090565b905600a165627a7a7230582095d338b3406c02d1b8dc7d4cdac650c6aaf5fb7e55f6a408650756649253e7080029"`
+const SweetTokenBin = `undefined`
 
 // DeploySweetToken deploys a new Ethereum contract, binding an instance of SweetToken to it.
-func DeploySweetToken(auth *bind.TransactOpts, backend bind.ContractBackend, name_ string, symbol_ [32]byte) (common.Address, *types.Transaction, *SweetToken, error) {
+func DeploySweetToken(auth *bind.TransactOpts, backend bind.ContractBackend, name_ string, symbol_ [32]byte, rolesContract common.Address) (common.Address, *types.Transaction, *SweetToken, error) {
 	parsed, err := abi.JSON(strings.NewReader(SweetTokenABI))
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(SweetTokenBin), backend, name_, symbol_)
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(SweetTokenBin), backend, name_, symbol_, rolesContract)
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
@@ -185,32 +185,6 @@ func (_SweetToken *SweetTokenCallerSession) Allowance(owner common.Address, spen
 	return _SweetToken.Contract.Allowance(&_SweetToken.CallOpts, owner, spender)
 }
 
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_SweetToken *SweetTokenCaller) Authority(opts *bind.CallOpts) (common.Address, error) {
-	var (
-		ret0 = new(common.Address)
-	)
-	out := ret0
-	err := _SweetToken.contract.Call(opts, out, "authority")
-	return *ret0, err
-}
-
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_SweetToken *SweetTokenSession) Authority() (common.Address, error) {
-	return _SweetToken.Contract.Authority(&_SweetToken.CallOpts)
-}
-
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_SweetToken *SweetTokenCallerSession) Authority() (common.Address, error) {
-	return _SweetToken.Contract.Authority(&_SweetToken.CallOpts)
-}
-
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
 //
 // Solidity: function balanceOf(who address) constant returns(value uint256)
@@ -237,6 +211,32 @@ func (_SweetToken *SweetTokenCallerSession) BalanceOf(who common.Address) (*big.
 	return _SweetToken.Contract.BalanceOf(&_SweetToken.CallOpts, who)
 }
 
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_SweetToken *SweetTokenCaller) ContractHash(opts *bind.CallOpts) ([32]byte, error) {
+	var (
+		ret0 = new([32]byte)
+	)
+	out := ret0
+	err := _SweetToken.contract.Call(opts, out, "contractHash")
+	return *ret0, err
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_SweetToken *SweetTokenSession) ContractHash() ([32]byte, error) {
+	return _SweetToken.Contract.ContractHash(&_SweetToken.CallOpts)
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_SweetToken *SweetTokenCallerSession) ContractHash() ([32]byte, error) {
+	return _SweetToken.Contract.ContractHash(&_SweetToken.CallOpts)
+}
+
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
 // Solidity: function decimals() constant returns(uint256)
@@ -261,6 +261,32 @@ func (_SweetToken *SweetTokenSession) Decimals() (*big.Int, error) {
 // Solidity: function decimals() constant returns(uint256)
 func (_SweetToken *SweetTokenCallerSession) Decimals() (*big.Int, error) {
 	return _SweetToken.Contract.Decimals(&_SweetToken.CallOpts)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenCaller) HasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _SweetToken.contract.Call(opts, out, "hasRole", roleName)
+	return *ret0, err
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenSession) HasRole(roleName string) (bool, error) {
+	return _SweetToken.Contract.HasRole(&_SweetToken.CallOpts, roleName)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenCallerSession) HasRole(roleName string) (bool, error) {
+	return _SweetToken.Contract.HasRole(&_SweetToken.CallOpts, roleName)
 }
 
 // Logic is a free data retrieval call binding the contract method 0xd7dfa0dd.
@@ -339,6 +365,58 @@ func (_SweetToken *SweetTokenSession) Owner() (common.Address, error) {
 // Solidity: function owner() constant returns(address)
 func (_SweetToken *SweetTokenCallerSession) Owner() (common.Address, error) {
 	return _SweetToken.Contract.Owner(&_SweetToken.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_SweetToken *SweetTokenCaller) Roles(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _SweetToken.contract.Call(opts, out, "roles")
+	return *ret0, err
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_SweetToken *SweetTokenSession) Roles() (common.Address, error) {
+	return _SweetToken.Contract.Roles(&_SweetToken.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_SweetToken *SweetTokenCallerSession) Roles() (common.Address, error) {
+	return _SweetToken.Contract.Roles(&_SweetToken.CallOpts)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenCaller) SenderHasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _SweetToken.contract.Call(opts, out, "senderHasRole", roleName)
+	return *ret0, err
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenSession) SenderHasRole(roleName string) (bool, error) {
+	return _SweetToken.Contract.SenderHasRole(&_SweetToken.CallOpts, roleName)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_SweetToken *SweetTokenCallerSession) SenderHasRole(roleName string) (bool, error) {
+	return _SweetToken.Contract.SenderHasRole(&_SweetToken.CallOpts, roleName)
 }
 
 // Stopped is a free data retrieval call binding the contract method 0x75f12b21.
@@ -461,25 +539,25 @@ func (_SweetToken *SweetTokenTransactorSession) Burn(wad *big.Int) (*types.Trans
 	return _SweetToken.Contract.Burn(&_SweetToken.TransactOpts, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x98b681af.
+// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
 //
-// Solidity: function mintFor() returns()
-func (_SweetToken *SweetTokenTransactor) MintFor(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _SweetToken.contract.Transact(opts, "mintFor")
+// Solidity: function mintFor(recipient address, wad uint128) returns()
+func (_SweetToken *SweetTokenTransactor) MintFor(opts *bind.TransactOpts, recipient common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SweetToken.contract.Transact(opts, "mintFor", recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x98b681af.
+// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
 //
-// Solidity: function mintFor() returns()
-func (_SweetToken *SweetTokenSession) MintFor() (*types.Transaction, error) {
-	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts)
+// Solidity: function mintFor(recipient address, wad uint128) returns()
+func (_SweetToken *SweetTokenSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts, recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x98b681af.
+// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
 //
-// Solidity: function mintFor() returns()
-func (_SweetToken *SweetTokenTransactorSession) MintFor() (*types.Transaction, error) {
-	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts)
+// Solidity: function mintFor(recipient address, wad uint128) returns()
+func (_SweetToken *SweetTokenTransactorSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts, recipient, wad)
 }
 
 // Pull is a paid mutator transaction binding the contract method 0x8402181f.
@@ -503,25 +581,25 @@ func (_SweetToken *SweetTokenTransactorSession) Pull(src common.Address, wad *bi
 	return _SweetToken.Contract.Pull(&_SweetToken.TransactOpts, src, wad)
 }
 
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
 //
-// Solidity: function setAuthority(authority_ address) returns()
-func (_SweetToken *SweetTokenTransactor) SetAuthority(opts *bind.TransactOpts, authority_ common.Address) (*types.Transaction, error) {
-	return _SweetToken.contract.Transact(opts, "setAuthority", authority_)
+// Solidity: function restart() returns()
+func (_SweetToken *SweetTokenTransactor) Restart(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _SweetToken.contract.Transact(opts, "restart")
 }
 
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
 //
-// Solidity: function setAuthority(authority_ address) returns()
-func (_SweetToken *SweetTokenSession) SetAuthority(authority_ common.Address) (*types.Transaction, error) {
-	return _SweetToken.Contract.SetAuthority(&_SweetToken.TransactOpts, authority_)
+// Solidity: function restart() returns()
+func (_SweetToken *SweetTokenSession) Restart() (*types.Transaction, error) {
+	return _SweetToken.Contract.Restart(&_SweetToken.TransactOpts)
 }
 
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
 //
-// Solidity: function setAuthority(authority_ address) returns()
-func (_SweetToken *SweetTokenTransactorSession) SetAuthority(authority_ common.Address) (*types.Transaction, error) {
-	return _SweetToken.Contract.SetAuthority(&_SweetToken.TransactOpts, authority_)
+// Solidity: function restart() returns()
+func (_SweetToken *SweetTokenTransactorSession) Restart() (*types.Transaction, error) {
+	return _SweetToken.Contract.Restart(&_SweetToken.TransactOpts)
 }
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
@@ -587,25 +665,25 @@ func (_SweetToken *SweetTokenTransactorSession) SetOwner(owner_ common.Address) 
 	return _SweetToken.Contract.SetOwner(&_SweetToken.TransactOpts, owner_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_SweetToken *SweetTokenTransactor) Start(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _SweetToken.contract.Transact(opts, "start")
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_SweetToken *SweetTokenTransactor) SetRolesContract(opts *bind.TransactOpts, roles_ common.Address) (*types.Transaction, error) {
+	return _SweetToken.contract.Transact(opts, "setRolesContract", roles_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_SweetToken *SweetTokenSession) Start() (*types.Transaction, error) {
-	return _SweetToken.Contract.Start(&_SweetToken.TransactOpts)
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_SweetToken *SweetTokenSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _SweetToken.Contract.SetRolesContract(&_SweetToken.TransactOpts, roles_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_SweetToken *SweetTokenTransactorSession) Start() (*types.Transaction, error) {
-	return _SweetToken.Contract.Start(&_SweetToken.TransactOpts)
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_SweetToken *SweetTokenTransactorSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _SweetToken.Contract.SetRolesContract(&_SweetToken.TransactOpts, roles_)
 }
 
 // Stop is a paid mutator transaction binding the contract method 0x07da68f5.

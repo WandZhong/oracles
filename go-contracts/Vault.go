@@ -14,10 +14,10 @@ import (
 )
 
 // VaultABI is the input ABI used to generate the binding from.
-const VaultABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"},{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"repayUou\",\"outputs\":[{\"name\":\"\",\"type\":\"uint128\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"rejectUouRequest\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"brgBalance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDue\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"wallet\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"transfer\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"uouCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isEmpty\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"addAsset\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"authority_\",\"type\":\"address\"}],\"name\":\"setAuthority\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"balances\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"},{\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"cleanStorage\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"uous\",\"outputs\":[{\"name\":\"initialAmount\",\"type\":\"uint128\"},{\"name\":\"repaidAmount\",\"type\":\"uint128\"},{\"name\":\"fee\",\"type\":\"uint128\"},{\"name\":\"time\",\"type\":\"uint256\"},{\"name\":\"decision\",\"type\":\"uint8\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"assetsLen\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"}],\"name\":\"requestUou\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"remove\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"start\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"authority\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"assets\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"}],\"name\":\"rmAsset\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"acceptUouRequest\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"hasFunds\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"type\":\"function\"},{\"inputs\":[{\"name\":\"wallet_\",\"type\":\"address\"}],\"payable\":false,\"type\":\"constructor\"},{\"payable\":true,\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequested\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequestApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequestDeclined\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"AssetAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"token\",\"type\":\"address\"}],\"name\":\"AssetRemoved\",\"type\":\"event\"},{\"anonymous\":true,\"inputs\":[{\"indexed\":true,\"name\":\"sig\",\"type\":\"bytes4\"},{\"indexed\":true,\"name\":\"guy\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"foo\",\"type\":\"bytes32\"},{\"indexed\":true,\"name\":\"bar\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"fax\",\"type\":\"bytes\"}],\"name\":\"LogNote\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"authority\",\"type\":\"address\"}],\"name\":\"LogSetAuthority\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"caller\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"sig\",\"type\":\"bytes4\"}],\"name\":\"UnauthorizedAccess\",\"type\":\"event\"}]"
+const VaultABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"},{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"repayUou\",\"outputs\":[{\"name\":\"\",\"type\":\"uint128\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"rejectUouRequest\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"brgBalance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"amountDue\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"ethBalance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"wallet\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"transfer\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"uouCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"takeOwnership\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"isEmpty\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"addAsset\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"balances\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"},{\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"cleanStorage\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"uous\",\"outputs\":[{\"name\":\"initialAmount\",\"type\":\"uint128\"},{\"name\":\"repaidAmount\",\"type\":\"uint128\"},{\"name\":\"fee\",\"type\":\"uint128\"},{\"name\":\"time\",\"type\":\"uint256\"},{\"name\":\"decision\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"assetsLen\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgAmount\",\"type\":\"uint128\"}],\"name\":\"requestUou\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"remove\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"assets\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"}],\"name\":\"rmAsset\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"acceptUouRequest\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferEth\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"hasFunds\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"wallet_\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequested\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequestApproved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"vault\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"brgAmount\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"UouRequestDeclined\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"AssetAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"token\",\"type\":\"address\"}],\"name\":\"AssetRemoved\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
 
 // VaultBin is the compiled bytecode used for deploying new contracts.
-const VaultBin = `"0x6060604052341561000f57600080fd5b604051602080611e03833981016040528080519150505b5b60018054600160a060020a03191633600160a060020a03169081179091557fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b60048054600160a060020a031916600160a060020a03838116919091179182905516638da5cb5b6000604051602001526040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401602060405180830381600087803b15156100e957600080fd5b6102c65a03f115156100fa57600080fd5b505050604051805160018054600160a060020a031916600160a060020a0392831617905560045416905063256b5a02306040517c010000000000000000000000000000000000000000000000000000000063ffffffff8416028152600160a060020a039091166004820152602401600060405180830381600087803b151561018157600080fd5b6102c65a03f1151561019257600080fd5b5050505b505b611c5c806101a76000396000f300606060405236156101435763ffffffff60e060020a60003504166307da68f5811461014757806313af40351461015c5780631a93ebf01461017d57806322d8fe40146101bb57806324101d40146101d35780632f195680146101f8578063521eb2731461021d57806356e596a81461024c5780635e7624241461027f578063681fe70c146102a457806370a08231146102cb578063712e6279146102fc57806375f12b211461032f5780637a9e5e4b146103565780637bb98a68146103775780637e84d36b146104255780638da5cb5b1461043a5780639913314114610469578063a37685e5146104cd578063a52d7ffb146104f2578063a7f4377914610513578063be9a655514610528578063bf7e214f1461053d578063cf35bdd01461056c578063d1da3e7b1461059e578063dc2628fa146105d7578063f2cd59f6146105ef575b5b5b005b341561015257600080fd5b610143610616565b005b341561016757600080fd5b610143600160a060020a03600435166106c6565b005b341561018857600080fd5b61019f6001608060020a0360043516602435610744565b6040516001608060020a03909116815260200160405180910390f35b34156101c657600080fd5b6101436004356108ed565b005b34156101de57600080fd5b6101e66109f2565b60405190815260200160405180910390f35b341561020357600080fd5b6101e6610b2d565b60405190815260200160405180910390f35b341561022857600080fd5b610230610b33565b604051600160a060020a03909116815260200160405180910390f35b341561025757600080fd5b610143600160a060020a03600435811690602435166001608060020a0360443516610b42565b005b341561028a57600080fd5b6101e6610be8565b60405190815260200160405180910390f35b34156102af57600080fd5b6102b7610bef565b604051901515815260200160405180910390f35b34156102d657600080fd5b6101e6600160a060020a0360043516610bfb565b60405190815260200160405180910390f35b341561030757600080fd5b610143600160a060020a03600435811690602435166001608060020a0360443516610c76565b005b341561033a57600080fd5b6102b7610d84565b604051901515815260200160405180910390f35b341561036157600080fd5b610143600160a060020a0360043516610da5565b005b341561038257600080fd5b61038a610e23565b604051808060200180602001838103835285818151815260200191508051906020019060200280838360005b838110156103cf5780820151818401525b6020016103b6565b50505050905001838103825284818151815260200191508051906020019060200280838360005b8381101561040f5780820151818401525b6020016103f6565b5050505090500194505050505060405180910390f35b341561043057600080fd5b610143610e46565b005b341561044557600080fd5b610230610ecc565b604051600160a060020a03909116815260200160405180910390f35b341561047457600080fd5b61047f600435610edb565b6040516001608060020a03808716825285811660208301528416604082015260608101839052608081018260028111156104b557fe5b60ff1681526020019550505050505060405180910390f35b34156104d857600080fd5b6101e6610f30565b60405190815260200160405180910390f35b34156104fd57600080fd5b6101436001608060020a0360043516610fb0565b005b341561051e57600080fd5b6101436110f8565b005b341561053357600080fd5b6101436112ec565b005b341561054857600080fd5b610230611385565b604051600160a060020a03909116815260200160405180910390f35b341561057757600080fd5b610230600435611394565b604051600160a060020a03909116815260200160405180910390f35b34156105a957600080fd5b6102b7600160a060020a03600435811690602435166113c6565b604051901515815260200160405180910390f35b34156105e257600080fd5b6101436004356114c7565b005b34156105fa57600080fd5b6102b761176d565b604051901515815260200160405180910390f35b61062c33600035600160e060020a0319166117e7565b151561063457fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a46001805474ff00000000000000000000000000000000000000001916740100000000000000000000000000000000000000001790555b5b50505b565b6106dc33600035600160e060020a0319166117e7565b15156106e457fe5b6001805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167fce241d7ca1f669fee44b6fc00b8eba2df3bb514eed0f6f668f8f89096e81ed9460405160405180910390a25b5b50565b60045460009081908190600160a060020a031663c41c2f2482604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b151561079257600080fd5b6102c65a03f115156107a357600080fd5b50505060405180519050600160a060020a0316634f9c8fe86000604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b15156107f257600080fd5b6102c65a03f1151561080357600080fd5b50505060405180519050600160a060020a031633600160a060020a031614151561082c57600080fd5b600380548590811061083a57fe5b906000526020600020906004020160005b50915060025b600383015460ff16600281111561086457fe5b1461086e57600080fd5b815461088d906001608060020a0380821691608060020a90041661194a565b9050806001608060020a0316856001608060020a031611156108ad578094505b81546108c990608060020a90046001608060020a03168661196d565b82546001608060020a03918216608060020a0291161782558492505b505092915050565b60005b60038054839081106108fe57fe5b906000526020600020906004020160005b506003015460ff16600281111561092257fe5b1461092c57600080fd5b600160038281548110151561093d57fe5b906000526020600020906004020160005b50600301805460ff1916600183600281111561096657fe5b02179055507f3ed382a18ac4f16fc64863bd31865023dddcfb68ad39027d444747a2d9a3d40b3060038381548110151561099c57fe5b906000526020600020906004020160005b50546001608060020a031683604051600160a060020a0390931683526001608060020a0390911660208301526040808301919091526060909101905180910390a15b50565b600454600090600160a060020a031663c41c2f2482604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b1515610a3c57600080fd5b6102c65a03f11515610a4d57600080fd5b50505060405180519050600160a060020a0316634f9c8fe86000604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b1515610a9c57600080fd5b6102c65a03f11515610aad57600080fd5b50505060405180519050600160a060020a03166370a082313060006040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515610b0d57600080fd5b6102c65a03f11515610b1e57600080fd5b50505060405180519150505b90565b60055481565b600454600160a060020a031681565b610b5833600035600160e060020a0319166117e7565b1515610b6057fe5b82600160a060020a031663a9059cbb838360006040516020015260405160e060020a63ffffffff8516028152600160a060020a0390921660048301526001608060020a03166024820152604401602060405180830381600087803b1515610bc657600080fd5b6102c65a03f11515610bd757600080fd5b505050604051805150505b5b505050565b6003545b90565b60035460009011155b90565b600081600160a060020a03166370a082313060006040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515610c5457600080fd5b6102c65a03f11515610c6557600080fd5b50505060405180519150505b919050565b610c8c33600035600160e060020a0319166117e7565b1515610c9457fe5b73__AssetsLib_____________________________6352d28bc8600285858560405160e060020a63ffffffff87160281526004810194909452600160a060020a039283166024850152911660448301526001608060020a0316606482015260840160006040518083038186803b1515610d0c57600080fd5b6102c65a03f41515610d1d57600080fd5b5050507fd0d5f5786af393a6465a13be9c33dbd3ee9c29b1c32872f8aa0cd405ee62f8fe838383604051600160a060020a0393841681529190921660208201526001608060020a039091166040808301919091526060909101905180910390a15b5b505050565b60015474010000000000000000000000000000000000000000900460ff1681565b610dbb33600035600160e060020a0319166117e7565b1515610dc357fe5b6000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a038381169190911791829055167f1abebea81bfa2637f28358c371278fb15ede7ea8dd28d2e03b112ff6d936ada460405160405180910390a25b5b50565b610e2b611b5b565b610e33611b5b565b610e3d6002611990565b915091505b9091565b610e5c33600035600160e060020a0319166117e7565b1515610e6457fe5b73__AssetsLib_____________________________6376c86cd7600260405160e060020a63ffffffff8416028152600481019190915260240160006040518083038186803b1515610eb457600080fd5b6102c65a03f41515610be257600080fd5b5050505b5b565b600154600160a060020a031681565b6003805482908110610ee957fe5b906000526020600020906004020160005b508054600182015460028301546003909301546001608060020a038084169550608060020a909304831693919092169160ff1685565b600073__AssetsLib_____________________________63922ddcf26002836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b1515610f8a57600080fd5b6102c65a03f41515610f9b57600080fd5b505050604051805163ffffffff169150505b90565b610fb8611b7f565b6001608060020a03821681524260608201526003805460018101610fdc8382611bb0565b916000526020600020906004020160005b508290815181546fffffffffffffffffffffffffffffffff19166001608060020a0391909116178155602082015181546001608060020a03918216608060020a02911617815560408201516001820180546fffffffffffffffffffffffffffffffff19166001608060020a039290921691909117905560608201518160020155608082015160038201805460ff1916600183600281111561108a57fe5b02179055505050507f67b3996492d0393b3c7c2e35a1d67de008977701daa8880bf9c0f91aadf5529a3083600160038054905003604051600160a060020a0390931683526001608060020a0390911660208301526040808301919091526060909101905180910390a15b5050565b6003546000901561110857600080fd5b5060005b60025463ffffffff82161015611276576002805463ffffffff831690811061113057fe5b906000526020600020900160005b905460045460028054600160a060020a036101009590950a90930484169363a9059cbb9392169163ffffffff861690811061117557fe5b906000526020600020900160005b9054906101000a9004600160a060020a0316600160a060020a03166370a082313060006040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b15156111eb57600080fd5b6102c65a03f115156111fc57600080fd5b5050506040518051905060006040516020015260405160e060020a63ffffffff8516028152600160a060020a0390921660048301526024820152604401602060405180830381600087803b151561125257600080fd5b6102c65a03f1151561126357600080fd5b505050604051805150505b60010161110c565b600454600160a060020a031663ceb68c233060405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401600060405180830381600087803b15156112c657600080fd5b6102c65a03f115156112d757600080fd5b5050600454600160a060020a03169050ff5b50565b61130233600035600160e060020a0319166117e7565b151561130a57fe5b600435602435808233600160a060020a031660008035600160e060020a0319169034903660405183815260406020820181815290820183905260608201848480828437820191505094505050505060405180910390a46001805474ff0000000000000000000000000000000000000000191690555b5b50505b565b600054600160a060020a031681565b60028054829081106113a257fe5b906000526020600020900160005b915054906101000a9004600160a060020a031681565b60006113de33600035600160e060020a0319166117e7565b15156113e657fe5b73__AssetsLib_____________________________638a7fcb2d6002858560006040516020015260405160e060020a63ffffffff86160281526004810193909352600160a060020a03918216602484015216604482015260640160206040518083038186803b151561145757600080fd5b6102c65a03f4151561146857600080fd5b50505060405180519050156114bc577f37803e2125c48ee96c38ddf04e826daf335b0e1603579040fd275aba6d06b6fc83604051600160a060020a03909116815260200160405180910390a15060016114c0565b5060005b5b92915050565b60005b60038054839081106114d857fe5b906000526020600020906004020160005b506003015460ff1660028111156114fc57fe5b1461150657600080fd5b600260038281548110151561151757fe5b906000526020600020906004020160005b50600301805460ff1916600183600281111561154057fe5b021790555061157e60038281548110151561155757fe5b906000526020600020906004020160005b50546005546001608060020a0390911690611b44565b600555600454600160a060020a031663c41c2f246000604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b15156115c957600080fd5b6102c65a03f115156115da57600080fd5b50505060405180519050600160a060020a0316634f9c8fe86000604051602001526040518163ffffffff1660e060020a028152600401602060405180830381600087803b151561162957600080fd5b6102c65a03f1151561163a57600080fd5b505050604051805160045460038054600160a060020a0393841694506327cfc21993909216918590811061166a57fe5b906000526020600020906004020160005b50546001608060020a031660405160e060020a63ffffffff8516028152600160a060020a0390921660048301526001608060020a03166024820152604401600060405180830381600087803b15156116d257600080fd5b6102c65a03f115156116e357600080fd5b5050507f65025c7799d1ede98b1ef493282c86b38a8552da89e43f27da441fb2019096f33060038381548110151561099c57fe5b906000526020600020906004020160005b50546001608060020a031683604051600160a060020a0390931683526001608060020a0390911660208301526040808301919091526060909101905180910390a15b50565b600073__AssetsLib_____________________________632a6a878f6002836040516020015260405160e060020a63ffffffff8416028152600481019190915260240160206040518083038186803b15156117c757600080fd5b6102c65a03f41515610b1e57600080fd5b50505060405180519150505b90565b600030600160a060020a031683600160a060020a0316141561180b575060016114c0565b600154600160a060020a0384811691161480156118315750600054600160a060020a0316155b1561183e575060016114c0565b600054600160a060020a031615156118a6577feb91385a0d70e44b915093d9ddfe6c8b41f2c56729431b1405f40aee5d874be78383604051600160a060020a039092168252600160e060020a03191660208201526040908101905180910390a15060006114c0565b60008054600160a060020a03169063b7009613908590309086906040516020015260405160e060020a63ffffffff8616028152600160a060020a039384166004820152919092166024820152600160e060020a03199091166044820152606401602060405180830381600087803b151561191f57600080fd5b6102c65a03f1151561193057600080fd5b5050506040518051905090506114c0565b5b5b5b92915050565b8082036001608060020a0380841690821611156114c057600080fd5b5b92915050565b8082016001608060020a0380841690821610156114c057600080fd5b5b92915050565b611998611b5b565b6119a0611b5b565b6119a8611b5b565b6119b0611b5b565b84546000906040518059106119c25750595b908082528060200260200182016040525b5086549093506040518059106119e65750595b908082528060200260200182016040525b509150600090505b855463ffffffff82161015611b3557858163ffffffff16815481101515611a2257fe5b906000526020600020900160005b9054906101000a9004600160a060020a0316838263ffffffff1681518110611a5457fe5b600160a060020a039092166020928302909101909101528554869063ffffffff8316908110611a7f57fe5b906000526020600020900160005b9054906101000a9004600160a060020a0316600160a060020a03166370a082313060006040516020015260405160e060020a63ffffffff8416028152600160a060020a039091166004820152602401602060405180830381600087803b1515611af557600080fd5b6102c65a03f11515611b0657600080fd5b50505060405180519050828263ffffffff1681518110611b2257fe5b602090810290910101525b6001016119ff565b8282945094505b505050915091565b808201828110156114c057600080fd5b5b92915050565b60206040519081016040526000815290565b60206040519081016040526000815290565b60a060405190810160409081526000808352602083018190529082018190526060820181905260808201905b905290565b815481835581811511610be257600402816004028360005260206000209182019101610be29190611be2565b5b505050565b610b2a91905b80821115611c295760008082556001820180546fffffffffffffffffffffffffffffffff19169055600282015560038101805460ff19169055600401611be8565b5090565b905600a165627a7a7230582015bf31556c7b94a9dcb73c575718118cd6967758279ba7bb328787a17d834e1b0029"`
+const VaultBin = `undefined`
 
 // DeployVault deploys a new Ethereum contract, binding an instance of Vault to it.
 func DeployVault(auth *bind.TransactOpts, backend bind.ContractBackend, wallet_ common.Address) (common.Address, *types.Transaction, *Vault, error) {
@@ -237,32 +237,6 @@ func (_Vault *VaultCallerSession) AssetsLen() (*big.Int, error) {
 	return _Vault.Contract.AssetsLen(&_Vault.CallOpts)
 }
 
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_Vault *VaultCaller) Authority(opts *bind.CallOpts) (common.Address, error) {
-	var (
-		ret0 = new(common.Address)
-	)
-	out := ret0
-	err := _Vault.contract.Call(opts, out, "authority")
-	return *ret0, err
-}
-
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_Vault *VaultSession) Authority() (common.Address, error) {
-	return _Vault.Contract.Authority(&_Vault.CallOpts)
-}
-
-// Authority is a free data retrieval call binding the contract method 0xbf7e214f.
-//
-// Solidity: function authority() constant returns(address)
-func (_Vault *VaultCallerSession) Authority() (common.Address, error) {
-	return _Vault.Contract.Authority(&_Vault.CallOpts)
-}
-
 // BalanceOf is a free data retrieval call binding the contract method 0x70a08231.
 //
 // Solidity: function balanceOf(token address) constant returns(uint256)
@@ -345,6 +319,58 @@ func (_Vault *VaultCallerSession) BrgBalance() (*big.Int, error) {
 	return _Vault.Contract.BrgBalance(&_Vault.CallOpts)
 }
 
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Vault *VaultCaller) ContractHash(opts *bind.CallOpts) ([32]byte, error) {
+	var (
+		ret0 = new([32]byte)
+	)
+	out := ret0
+	err := _Vault.contract.Call(opts, out, "contractHash")
+	return *ret0, err
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Vault *VaultSession) ContractHash() ([32]byte, error) {
+	return _Vault.Contract.ContractHash(&_Vault.CallOpts)
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Vault *VaultCallerSession) ContractHash() ([32]byte, error) {
+	return _Vault.Contract.ContractHash(&_Vault.CallOpts)
+}
+
+// EthBalance is a free data retrieval call binding the contract method 0x4e6630b0.
+//
+// Solidity: function ethBalance() constant returns(uint256)
+func (_Vault *VaultCaller) EthBalance(opts *bind.CallOpts) (*big.Int, error) {
+	var (
+		ret0 = new(*big.Int)
+	)
+	out := ret0
+	err := _Vault.contract.Call(opts, out, "ethBalance")
+	return *ret0, err
+}
+
+// EthBalance is a free data retrieval call binding the contract method 0x4e6630b0.
+//
+// Solidity: function ethBalance() constant returns(uint256)
+func (_Vault *VaultSession) EthBalance() (*big.Int, error) {
+	return _Vault.Contract.EthBalance(&_Vault.CallOpts)
+}
+
+// EthBalance is a free data retrieval call binding the contract method 0x4e6630b0.
+//
+// Solidity: function ethBalance() constant returns(uint256)
+func (_Vault *VaultCallerSession) EthBalance() (*big.Int, error) {
+	return _Vault.Contract.EthBalance(&_Vault.CallOpts)
+}
+
 // HasFunds is a free data retrieval call binding the contract method 0xf2cd59f6.
 //
 // Solidity: function hasFunds() constant returns(bool)
@@ -369,6 +395,32 @@ func (_Vault *VaultSession) HasFunds() (bool, error) {
 // Solidity: function hasFunds() constant returns(bool)
 func (_Vault *VaultCallerSession) HasFunds() (bool, error) {
 	return _Vault.Contract.HasFunds(&_Vault.CallOpts)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Vault *VaultCaller) HasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Vault.contract.Call(opts, out, "hasRole", roleName)
+	return *ret0, err
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Vault *VaultSession) HasRole(roleName string) (bool, error) {
+	return _Vault.Contract.HasRole(&_Vault.CallOpts, roleName)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Vault *VaultCallerSession) HasRole(roleName string) (bool, error) {
+	return _Vault.Contract.HasRole(&_Vault.CallOpts, roleName)
 }
 
 // IsEmpty is a free data retrieval call binding the contract method 0x681fe70c.
@@ -421,6 +473,58 @@ func (_Vault *VaultSession) Owner() (common.Address, error) {
 // Solidity: function owner() constant returns(address)
 func (_Vault *VaultCallerSession) Owner() (common.Address, error) {
 	return _Vault.Contract.Owner(&_Vault.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Vault *VaultCaller) Roles(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Vault.contract.Call(opts, out, "roles")
+	return *ret0, err
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Vault *VaultSession) Roles() (common.Address, error) {
+	return _Vault.Contract.Roles(&_Vault.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Vault *VaultCallerSession) Roles() (common.Address, error) {
+	return _Vault.Contract.Roles(&_Vault.CallOpts)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Vault *VaultCaller) SenderHasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Vault.contract.Call(opts, out, "senderHasRole", roleName)
+	return *ret0, err
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Vault *VaultSession) SenderHasRole(roleName string) (bool, error) {
+	return _Vault.Contract.SenderHasRole(&_Vault.CallOpts, roleName)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Vault *VaultCallerSession) SenderHasRole(roleName string) (bool, error) {
+	return _Vault.Contract.SenderHasRole(&_Vault.CallOpts, roleName)
 }
 
 // Stopped is a free data retrieval call binding the contract method 0x75f12b21.
@@ -696,6 +800,27 @@ func (_Vault *VaultTransactorSession) RequestUou(brgAmount *big.Int) (*types.Tra
 	return _Vault.Contract.RequestUou(&_Vault.TransactOpts, brgAmount)
 }
 
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Vault *VaultTransactor) Restart(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Vault.contract.Transact(opts, "restart")
+}
+
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Vault *VaultSession) Restart() (*types.Transaction, error) {
+	return _Vault.Contract.Restart(&_Vault.TransactOpts)
+}
+
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Vault *VaultTransactorSession) Restart() (*types.Transaction, error) {
+	return _Vault.Contract.Restart(&_Vault.TransactOpts)
+}
+
 // RmAsset is a paid mutator transaction binding the contract method 0xd1da3e7b.
 //
 // Solidity: function rmAsset(token address, dst address) returns(bool)
@@ -715,27 +840,6 @@ func (_Vault *VaultSession) RmAsset(token common.Address, dst common.Address) (*
 // Solidity: function rmAsset(token address, dst address) returns(bool)
 func (_Vault *VaultTransactorSession) RmAsset(token common.Address, dst common.Address) (*types.Transaction, error) {
 	return _Vault.Contract.RmAsset(&_Vault.TransactOpts, token, dst)
-}
-
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
-//
-// Solidity: function setAuthority(authority_ address) returns()
-func (_Vault *VaultTransactor) SetAuthority(opts *bind.TransactOpts, authority_ common.Address) (*types.Transaction, error) {
-	return _Vault.contract.Transact(opts, "setAuthority", authority_)
-}
-
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
-//
-// Solidity: function setAuthority(authority_ address) returns()
-func (_Vault *VaultSession) SetAuthority(authority_ common.Address) (*types.Transaction, error) {
-	return _Vault.Contract.SetAuthority(&_Vault.TransactOpts, authority_)
-}
-
-// SetAuthority is a paid mutator transaction binding the contract method 0x7a9e5e4b.
-//
-// Solidity: function setAuthority(authority_ address) returns()
-func (_Vault *VaultTransactorSession) SetAuthority(authority_ common.Address) (*types.Transaction, error) {
-	return _Vault.Contract.SetAuthority(&_Vault.TransactOpts, authority_)
 }
 
 // SetOwner is a paid mutator transaction binding the contract method 0x13af4035.
@@ -759,25 +863,25 @@ func (_Vault *VaultTransactorSession) SetOwner(owner_ common.Address) (*types.Tr
 	return _Vault.Contract.SetOwner(&_Vault.TransactOpts, owner_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_Vault *VaultTransactor) Start(opts *bind.TransactOpts) (*types.Transaction, error) {
-	return _Vault.contract.Transact(opts, "start")
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Vault *VaultTransactor) SetRolesContract(opts *bind.TransactOpts, roles_ common.Address) (*types.Transaction, error) {
+	return _Vault.contract.Transact(opts, "setRolesContract", roles_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_Vault *VaultSession) Start() (*types.Transaction, error) {
-	return _Vault.Contract.Start(&_Vault.TransactOpts)
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Vault *VaultSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _Vault.Contract.SetRolesContract(&_Vault.TransactOpts, roles_)
 }
 
-// Start is a paid mutator transaction binding the contract method 0xbe9a6555.
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
 //
-// Solidity: function start() returns()
-func (_Vault *VaultTransactorSession) Start() (*types.Transaction, error) {
-	return _Vault.Contract.Start(&_Vault.TransactOpts)
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Vault *VaultTransactorSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _Vault.Contract.SetRolesContract(&_Vault.TransactOpts, roles_)
 }
 
 // Stop is a paid mutator transaction binding the contract method 0x07da68f5.
@@ -801,6 +905,27 @@ func (_Vault *VaultTransactorSession) Stop() (*types.Transaction, error) {
 	return _Vault.Contract.Stop(&_Vault.TransactOpts)
 }
 
+// TakeOwnership is a paid mutator transaction binding the contract method 0x60536172.
+//
+// Solidity: function takeOwnership() returns()
+func (_Vault *VaultTransactor) TakeOwnership(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Vault.contract.Transact(opts, "takeOwnership")
+}
+
+// TakeOwnership is a paid mutator transaction binding the contract method 0x60536172.
+//
+// Solidity: function takeOwnership() returns()
+func (_Vault *VaultSession) TakeOwnership() (*types.Transaction, error) {
+	return _Vault.Contract.TakeOwnership(&_Vault.TransactOpts)
+}
+
+// TakeOwnership is a paid mutator transaction binding the contract method 0x60536172.
+//
+// Solidity: function takeOwnership() returns()
+func (_Vault *VaultTransactorSession) TakeOwnership() (*types.Transaction, error) {
+	return _Vault.Contract.TakeOwnership(&_Vault.TransactOpts)
+}
+
 // Transfer is a paid mutator transaction binding the contract method 0x56e596a8.
 //
 // Solidity: function transfer(token address, dst address, wad uint128) returns()
@@ -820,4 +945,25 @@ func (_Vault *VaultSession) Transfer(token common.Address, dst common.Address, w
 // Solidity: function transfer(token address, dst address, wad uint128) returns()
 func (_Vault *VaultTransactorSession) Transfer(token common.Address, dst common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _Vault.Contract.Transfer(&_Vault.TransactOpts, token, dst, wad)
+}
+
+// TransferEth is a paid mutator transaction binding the contract method 0xe9bb84c2.
+//
+// Solidity: function transferEth(dst address, wad uint256) returns()
+func (_Vault *VaultTransactor) TransferEth(opts *bind.TransactOpts, dst common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Vault.contract.Transact(opts, "transferEth", dst, wad)
+}
+
+// TransferEth is a paid mutator transaction binding the contract method 0xe9bb84c2.
+//
+// Solidity: function transferEth(dst address, wad uint256) returns()
+func (_Vault *VaultSession) TransferEth(dst common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Vault.Contract.TransferEth(&_Vault.TransactOpts, dst, wad)
+}
+
+// TransferEth is a paid mutator transaction binding the contract method 0xe9bb84c2.
+//
+// Solidity: function transferEth(dst address, wad uint256) returns()
+func (_Vault *VaultTransactorSession) TransferEth(dst common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _Vault.Contract.TransferEth(&_Vault.TransactOpts, dst, wad)
 }

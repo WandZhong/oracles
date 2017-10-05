@@ -86,7 +86,7 @@ vendors:
 - path: github.com/robert-zaremba/errstack
   rev: 480bfed4995dfd5e5d8668ebb0055ca8be802a02
 - path: github.com/robert-zaremba/go-bat
-  rev: ce499d61a23533a1b9332bf996b435932dcab167
+  rev: 888aec7fab270d5408122fd48d24ef39761f6a98
 - path: github.com/robert-zaremba/go-tty
   rev: a49e47f28136bfa4eeb77328529d374ed2fb9203
 - path: github.com/robert-zaremba/log15

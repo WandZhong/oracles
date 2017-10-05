@@ -20,7 +20,8 @@ func httpPostPledge(c *routing.Context) (err error) {
 		return routing.NewHTTPError(http.StatusBadRequest,
 			errb.ToReqErr().Error())
 	}
-	logger.Debug("BRG-SWC pledge request received", "brg-wei", wei, "currency", currParam,
+	logger.Debug("BRG-SWC pledge request received", "brg-wei", wei,
+		"currency", currParam, "currencyCode", currency,
 		"address", addr.Hex())
 
 	txo := txrFactory.Txo()
@@ -31,7 +32,7 @@ func httpPostPledge(c *routing.Context) (err error) {
 	}
 	ethereum.LogTx("BRG minted for SWCq", tx)
 	ethereum.IncTxoNonce(txo, tx)
-	tx2, err := swcqC.DirectPledge(txo, addr, wei, currency)
+	tx2, err := swcqC.DirectPledge(txo, addr, wei) // ,currency
 	if err != nil {
 		logger.Error("Can't pledge ", err)
 		return err

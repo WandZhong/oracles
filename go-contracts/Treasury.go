@@ -13,18 +13,18 @@ import (
 )
 
 // TreasuryABI is the input ABI used to generate the binding from.
-const TreasuryABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"vaults\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"root\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"v\",\"type\":\"address\"}],\"name\":\"addVault\",\"outputs\":[],\"payable\":false,\"type\":\"function\"},{\"inputs\":[{\"name\":\"r\",\"type\":\"address\"}],\"payable\":false,\"type\":\"constructor\"}]"
+const TreasuryABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"v\",\"type\":\"address\"}],\"name\":\"addVault\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"vaults\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"root\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"r\",\"type\":\"address\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
 
 // TreasuryBin is the compiled bytecode used for deploying new contracts.
-const TreasuryBin = `"0x6060604052341561000f57600080fd5b6040516020806101f4833981016040528080519150505b600160a060020a038116151561003b57600080fd5b60018054600160a060020a031916600160a060020a0383161790555b505b61018c806100686000396000f300606060405263ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663a622ee7c8114610053578063ebf0c7171461008e578063ec3a7823146100bd575b600080fd5b341561005e57600080fd5b610072600160a060020a03600435166100e4565b604051600160a060020a03909116815260200160405180910390f35b341561009957600080fd5b6100726100ff565b604051600160a060020a03909116815260200160405180910390f35b34156100c857600080fd5b6100e2600160a060020a036004358116906024351661010e565b005b600060208190529081526040902054600160a060020a031681565b600154600160a060020a031681565b600160a060020a038216151561012057fe5b600160a060020a038181166000908152602081905260409020805473ffffffffffffffffffffffffffffffffffffffff19169184169190911790555b50505600a165627a7a723058208f8c4c23bafe0ad3e111721a7e9a5675c5ae55a821851e9095a58fd281dfa5e50029"`
+const TreasuryBin = `undefined`
 
 // DeployTreasury deploys a new Ethereum contract, binding an instance of Treasury to it.
-func DeployTreasury(auth *bind.TransactOpts, backend bind.ContractBackend, r common.Address) (common.Address, *types.Transaction, *Treasury, error) {
+func DeployTreasury(auth *bind.TransactOpts, backend bind.ContractBackend, r common.Address, rolesContract common.Address) (common.Address, *types.Transaction, *Treasury, error) {
 	parsed, err := abi.JSON(strings.NewReader(TreasuryABI))
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(TreasuryBin), backend, r)
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(TreasuryBin), backend, r, rolesContract)
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
@@ -158,6 +158,110 @@ func (_Treasury *TreasuryTransactorRaw) Transact(opts *bind.TransactOpts, method
 	return _Treasury.Contract.contract.Transact(opts, method, params...)
 }
 
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Treasury *TreasuryCaller) ContractHash(opts *bind.CallOpts) ([32]byte, error) {
+	var (
+		ret0 = new([32]byte)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "contractHash")
+	return *ret0, err
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Treasury *TreasurySession) ContractHash() ([32]byte, error) {
+	return _Treasury.Contract.ContractHash(&_Treasury.CallOpts)
+}
+
+// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+//
+// Solidity: function contractHash() constant returns(bytes32)
+func (_Treasury *TreasuryCallerSession) ContractHash() ([32]byte, error) {
+	return _Treasury.Contract.ContractHash(&_Treasury.CallOpts)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasuryCaller) HasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "hasRole", roleName)
+	return *ret0, err
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasurySession) HasRole(roleName string) (bool, error) {
+	return _Treasury.Contract.HasRole(&_Treasury.CallOpts, roleName)
+}
+
+// HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
+//
+// Solidity: function hasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasuryCallerSession) HasRole(roleName string) (bool, error) {
+	return _Treasury.Contract.HasRole(&_Treasury.CallOpts, roleName)
+}
+
+// Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
+//
+// Solidity: function owner() constant returns(address)
+func (_Treasury *TreasuryCaller) Owner(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "owner")
+	return *ret0, err
+}
+
+// Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
+//
+// Solidity: function owner() constant returns(address)
+func (_Treasury *TreasurySession) Owner() (common.Address, error) {
+	return _Treasury.Contract.Owner(&_Treasury.CallOpts)
+}
+
+// Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
+//
+// Solidity: function owner() constant returns(address)
+func (_Treasury *TreasuryCallerSession) Owner() (common.Address, error) {
+	return _Treasury.Contract.Owner(&_Treasury.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Treasury *TreasuryCaller) Roles(opts *bind.CallOpts) (common.Address, error) {
+	var (
+		ret0 = new(common.Address)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "roles")
+	return *ret0, err
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Treasury *TreasurySession) Roles() (common.Address, error) {
+	return _Treasury.Contract.Roles(&_Treasury.CallOpts)
+}
+
+// Roles is a free data retrieval call binding the contract method 0x392f5f64.
+//
+// Solidity: function roles() constant returns(address)
+func (_Treasury *TreasuryCallerSession) Roles() (common.Address, error) {
+	return _Treasury.Contract.Roles(&_Treasury.CallOpts)
+}
+
 // Root is a free data retrieval call binding the contract method 0xebf0c717.
 //
 // Solidity: function root() constant returns(address)
@@ -182,6 +286,58 @@ func (_Treasury *TreasurySession) Root() (common.Address, error) {
 // Solidity: function root() constant returns(address)
 func (_Treasury *TreasuryCallerSession) Root() (common.Address, error) {
 	return _Treasury.Contract.Root(&_Treasury.CallOpts)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasuryCaller) SenderHasRole(opts *bind.CallOpts, roleName string) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "senderHasRole", roleName)
+	return *ret0, err
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasurySession) SenderHasRole(roleName string) (bool, error) {
+	return _Treasury.Contract.SenderHasRole(&_Treasury.CallOpts, roleName)
+}
+
+// SenderHasRole is a free data retrieval call binding the contract method 0x1ca03b8e.
+//
+// Solidity: function senderHasRole(roleName string) constant returns(bool)
+func (_Treasury *TreasuryCallerSession) SenderHasRole(roleName string) (bool, error) {
+	return _Treasury.Contract.SenderHasRole(&_Treasury.CallOpts, roleName)
+}
+
+// Stopped is a free data retrieval call binding the contract method 0x75f12b21.
+//
+// Solidity: function stopped() constant returns(bool)
+func (_Treasury *TreasuryCaller) Stopped(opts *bind.CallOpts) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Treasury.contract.Call(opts, out, "stopped")
+	return *ret0, err
+}
+
+// Stopped is a free data retrieval call binding the contract method 0x75f12b21.
+//
+// Solidity: function stopped() constant returns(bool)
+func (_Treasury *TreasurySession) Stopped() (bool, error) {
+	return _Treasury.Contract.Stopped(&_Treasury.CallOpts)
+}
+
+// Stopped is a free data retrieval call binding the contract method 0x75f12b21.
+//
+// Solidity: function stopped() constant returns(bool)
+func (_Treasury *TreasuryCallerSession) Stopped() (bool, error) {
+	return _Treasury.Contract.Stopped(&_Treasury.CallOpts)
 }
 
 // Vaults is a free data retrieval call binding the contract method 0xa622ee7c.
@@ -210,23 +366,107 @@ func (_Treasury *TreasuryCallerSession) Vaults(arg0 common.Address) (common.Addr
 	return _Treasury.Contract.Vaults(&_Treasury.CallOpts, arg0)
 }
 
-// AddVault is a paid mutator transaction binding the contract method 0xec3a7823.
+// AddVault is a paid mutator transaction binding the contract method 0x256b5a02.
 //
-// Solidity: function addVault(owner address, v address) returns()
-func (_Treasury *TreasuryTransactor) AddVault(opts *bind.TransactOpts, owner common.Address, v common.Address) (*types.Transaction, error) {
-	return _Treasury.contract.Transact(opts, "addVault", owner, v)
+// Solidity: function addVault(v address) returns()
+func (_Treasury *TreasuryTransactor) AddVault(opts *bind.TransactOpts, v common.Address) (*types.Transaction, error) {
+	return _Treasury.contract.Transact(opts, "addVault", v)
 }
 
-// AddVault is a paid mutator transaction binding the contract method 0xec3a7823.
+// AddVault is a paid mutator transaction binding the contract method 0x256b5a02.
 //
-// Solidity: function addVault(owner address, v address) returns()
-func (_Treasury *TreasurySession) AddVault(owner common.Address, v common.Address) (*types.Transaction, error) {
-	return _Treasury.Contract.AddVault(&_Treasury.TransactOpts, owner, v)
+// Solidity: function addVault(v address) returns()
+func (_Treasury *TreasurySession) AddVault(v common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.AddVault(&_Treasury.TransactOpts, v)
 }
 
-// AddVault is a paid mutator transaction binding the contract method 0xec3a7823.
+// AddVault is a paid mutator transaction binding the contract method 0x256b5a02.
 //
-// Solidity: function addVault(owner address, v address) returns()
-func (_Treasury *TreasuryTransactorSession) AddVault(owner common.Address, v common.Address) (*types.Transaction, error) {
-	return _Treasury.Contract.AddVault(&_Treasury.TransactOpts, owner, v)
+// Solidity: function addVault(v address) returns()
+func (_Treasury *TreasuryTransactorSession) AddVault(v common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.AddVault(&_Treasury.TransactOpts, v)
+}
+
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Treasury *TreasuryTransactor) Restart(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Treasury.contract.Transact(opts, "restart")
+}
+
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Treasury *TreasurySession) Restart() (*types.Transaction, error) {
+	return _Treasury.Contract.Restart(&_Treasury.TransactOpts)
+}
+
+// Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
+//
+// Solidity: function restart() returns()
+func (_Treasury *TreasuryTransactorSession) Restart() (*types.Transaction, error) {
+	return _Treasury.Contract.Restart(&_Treasury.TransactOpts)
+}
+
+// SetOwner is a paid mutator transaction binding the contract method 0x13af4035.
+//
+// Solidity: function setOwner(owner_ address) returns()
+func (_Treasury *TreasuryTransactor) SetOwner(opts *bind.TransactOpts, owner_ common.Address) (*types.Transaction, error) {
+	return _Treasury.contract.Transact(opts, "setOwner", owner_)
+}
+
+// SetOwner is a paid mutator transaction binding the contract method 0x13af4035.
+//
+// Solidity: function setOwner(owner_ address) returns()
+func (_Treasury *TreasurySession) SetOwner(owner_ common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.SetOwner(&_Treasury.TransactOpts, owner_)
+}
+
+// SetOwner is a paid mutator transaction binding the contract method 0x13af4035.
+//
+// Solidity: function setOwner(owner_ address) returns()
+func (_Treasury *TreasuryTransactorSession) SetOwner(owner_ common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.SetOwner(&_Treasury.TransactOpts, owner_)
+}
+
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+//
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Treasury *TreasuryTransactor) SetRolesContract(opts *bind.TransactOpts, roles_ common.Address) (*types.Transaction, error) {
+	return _Treasury.contract.Transact(opts, "setRolesContract", roles_)
+}
+
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+//
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Treasury *TreasurySession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.SetRolesContract(&_Treasury.TransactOpts, roles_)
+}
+
+// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+//
+// Solidity: function setRolesContract(roles_ address) returns()
+func (_Treasury *TreasuryTransactorSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
+	return _Treasury.Contract.SetRolesContract(&_Treasury.TransactOpts, roles_)
+}
+
+// Stop is a paid mutator transaction binding the contract method 0x07da68f5.
+//
+// Solidity: function stop() returns()
+func (_Treasury *TreasuryTransactor) Stop(opts *bind.TransactOpts) (*types.Transaction, error) {
+	return _Treasury.contract.Transact(opts, "stop")
+}
+
+// Stop is a paid mutator transaction binding the contract method 0x07da68f5.
+//
+// Solidity: function stop() returns()
+func (_Treasury *TreasurySession) Stop() (*types.Transaction, error) {
+	return _Treasury.Contract.Stop(&_Treasury.TransactOpts)
+}
+
+// Stop is a paid mutator transaction binding the contract method 0x07da68f5.
+//
+// Solidity: function stop() returns()
+func (_Treasury *TreasuryTransactorSession) Stop() (*types.Transaction, error) {
+	return _Treasury.Contract.Stop(&_Treasury.TransactOpts)
 }

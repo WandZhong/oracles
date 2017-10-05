@@ -10,7 +10,8 @@ import (
 // LogTx is a handy function to create debug log for successful transaction
 func LogTx(msg string, tx *types.Transaction) {
 	if tx != nil {
-		logger.Debug(msg, "hash", tx.Hash().Hex(), "gas", tx.Gas(), "gas_price", tx.GasPrice())
+		logger.Debug(msg, "tx_hash", tx.Hash().Hex(), "nonce", tx.Nonce(),
+			"gas", tx.Gas(), "gas_price", tx.GasPrice())
 	} else {
 		logger.Debug("Invalid transaction")
 	}

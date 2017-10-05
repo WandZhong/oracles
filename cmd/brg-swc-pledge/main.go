@@ -11,12 +11,10 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
 var logger = log.Root()
-var client *ethclient.Client
 var txrFactory ethereum.TxrFactory
 var (
 	brgC     *contracts.BridgeToken
@@ -43,8 +41,7 @@ func init() {
 func setupContracts() {
 	var err error
 	var addrBrg common.Address
-	var cf ethereum.ContractFactory
-	client, cf = setup.MustEthClient(*flags.Network, *flags.ContractsPath)
+	_, cf := flags.MustEthFactory()
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
 	swcqC, swcqAddr, err = cf.GetSWCqueue()

@@ -40,14 +40,10 @@ func init() {
 func main() {
 	defer rollbar.WaitForRollbar(logger)
 
-	distributeSWC(flag.Arg(0))
-}
-
-func distributeSWC(fname string) {
-	records, err := readRecords(fname)
+	records, err := readRecords(flag.Arg(0))
 	checkOK(err)
 	checkOK(validate(records))
-	checkOK(transferSWC(records))
+	distributeSWC(records)
 }
 
 func checkOK(err error) {
