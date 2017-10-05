@@ -8,8 +8,8 @@
 FROM golang:1.9-alpine
 LABEL name=oracle-builder
 
-RUN apk add --update make git gcc libc-dev
 RUN mkdir -p /go/src/bitbucket.org/sweetbridge
-
 WORKDIR /go/src/bitbucket.org/sweetbridge/oracles
 ENTRYPOINT make install-deps build
+
+RUN apk add --update make git gcc libc-dev
