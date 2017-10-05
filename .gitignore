@@ -1,3 +1,7 @@
+###### private
+/private
+
+
 ###### APPS
 /bin
 
@@ -9,7 +13,6 @@ vendor/*
 
 ###### Temporary files
 tmp-contracts-abi
-
 
 ###### Custom .ackrc
 .ackrc
