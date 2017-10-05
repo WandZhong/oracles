@@ -8,7 +8,7 @@ import (
 
 // FlagFail - exits the main process and displays usage information
 func FlagFail(err error) {
-	logger.Error("Wrong CMD parameters", err)
+	logger.Error("!! Wrong CMD parameters !!", err)
 	flag.Usage()
 	os.Exit(1)
 }
@@ -19,7 +19,7 @@ func FlagFail(err error) {
 func Flag(positionalArgs string, commands ...string) {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-			"Usage of %s <parameters> %s:\n", os.Args[0], positionalArgs)
+			"\nusage: %s <parameters> %s:\n", os.Args[0], positionalArgs)
 		if len(commands) != 0 {
 			fmt.Fprint(os.Stderr, "COMMANDS:", commands[0], "\n\n")
 		}

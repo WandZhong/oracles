@@ -15,18 +15,16 @@ type EthFlags struct {
 	PkPwd         *string
 	ContractsPath *string
 	Network       *string
-	Host          *string
 }
 
 // NewEthFlags associate ethereum client flags with the structure fields.
 // This should be called before flag.Parse or Flag function.
 func NewEthFlags() EthFlags {
 	return EthFlags{
-		PkFile:        flag.String("pk", "", "path to the private key json file [required]"),
-		PkPwd:         flag.String("pwd", "", "key file password [required]"),
+		PkFile:        flag.String("pkfile", "", "path to the private key json file [required]"),
+		PkPwd:         flag.String("pkpwd", "", "key file password [required]"),
 		ContractsPath: flag.String("contracts", "", "path to contract schemas directory [required]"),
-		Network:       flag.String("network", "", "blockchain network name [required]"),
-		//		Host:          flag.String("host", "", "ethereum node address. 'http' prefix added automatically. If not provided, ethNetworkAddrs is used to get the address")
+		Network:       flag.String("eth-network", "", "blockchain network name [required]"),
 	}
 }
 
