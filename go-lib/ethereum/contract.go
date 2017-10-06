@@ -76,6 +76,11 @@ func (cf contractFactory) Txo() *bind.TransactOpts {
 	return txo
 }
 
+// Addr returns signer address
+func (cf contractFactory) Addr() common.Address {
+	return cf.txrF.Addr()
+}
+
 func (cf contractFactory) getSchemaAddres(contractName string) (common.Address, errstack.E) {
 	addr, ok := cf.addrs[contractName]
 	if !ok {

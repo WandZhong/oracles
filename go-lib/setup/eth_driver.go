@@ -6,6 +6,12 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
+func init() {
+	for k := range ethNetworkMap {
+		ethNetworks = append(ethNetworks, k)
+	}
+}
+
 type networkMap struct {
 	id   int
 	addr string
@@ -15,6 +21,8 @@ type networkMap struct {
 var ethNetworkMap = map[string]networkMap{}
 
 const testrpcID = 9
+
+var ethNetworks []string
 
 // MustEthClient creates new eth client and ContractFactory based on the network name.
 func MustEthFactory(networkName, contractsPath string, txrF ethereum.TxrFactory) (*ethclient.Client, ethereum.ContractFactory) {

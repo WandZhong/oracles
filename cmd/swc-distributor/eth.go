@@ -6,6 +6,7 @@ import (
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
+	"github.com/orinocopay/go-etherutils"
 	"github.com/robert-zaremba/errstack"
 )
 
@@ -15,7 +16,7 @@ func distributeSWC(records []Record) {
 	utils.Assert(err, "Can't instantiate SWT contract")
 	logger.Debug("Contract address", "swc", addr.Hex())
 
-	checkOK(checkSWCbalance(records, swcC))
+	checkOK(checkSWCbalance(records, swcC, cf))
 	// TODO - whitelists are failing
 	// checkOK(checkWhitelist(records, cf)
 	checkOK(transferSWC(records, swcC, cf))
@@ -30,8 +31,8 @@ func transferSWC(records []Record, swcC *contracts.SweetToken, cf ethereum.Contr
 	txo := cf.Txo()
 	for _, r := range records {
 		wei := ethereum.ToWei(r.Amount)
-		logger.Debug("Transfering", "amount.wei", wei, "dest", r.Address.Hex(),
-			"nonce", txo.Nonce)
+		logger.Debug("Transfering", "SWC", etherutils.WeiToString(wei, false),
+			"dest", r.Address.Hex(), "nonce", txo.Nonce)
 		tx, err := swcC.Transfer(txo, r.Address, wei)
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
@@ -81,15 +82,15 @@ func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 
 }
 
-func checkSWCbalance(records []Record, token *contracts.SweetToken) errstack.E {
+func checkSWCbalance(records []Record, token *contracts.SweetToken, cf ethereum.ContractFactory) errstack.E {
 	var total uint64
 	for _, r := range records {
 		total += r.Amount
 	}
 	totalWei := ethereum.ToWei(total)
-	k := ethereum.MustReadKeySimple(*flags.PkFile)
-	logger.Debug("SWC distribution account holder", "address", k.Address.Hex())
-	balance, err := token.BalanceOf(nil, k.Address)
+	addr := cf.Addr()
+	logger.Debug("SWC distribution account holder", "address", addr.Hex())
+	balance, err := token.BalanceOf(nil, addr)
 	if err != nil {
 		return errstack.WrapAsInf(err, "Can't check SWC balance")
 	}

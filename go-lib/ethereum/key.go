@@ -16,10 +16,12 @@ import (
 // TxrFactory wraps parameters to create bind.TransactOpts
 type TxrFactory interface {
 	Txo() *bind.TransactOpts
+	Addr() common.Address
 }
 
 type txrFactory struct {
 	privKey *ecdsa.PrivateKey
+	addr    common.Address
 }
 
 // NewJSONTxrFactory creates TxrFactory using on JSON account file and passphrase
@@ -32,7 +34,7 @@ func NewJSONTxrFactory(filename, passphrase string) (TxrFactory, errstack.E) {
 	if errStd != nil {
 		return nil, errstack.WrapAsReq(err, "Wrong passphrase")
 	}
-	return txrFactory{key.PrivateKey}, nil
+	return txrFactory{key.PrivateKey, key.Address}, nil
 }
 
 // NewPrivKeyTxrFactory creates new transactor using a hex string of a ECDSA key.
@@ -42,12 +44,18 @@ func NewPrivKeyTxrFactory(hexkey string) (TxrFactory, errstack.E) {
 		return nil, errstack.WrapAsReq(err,
 			"Can't parse ECDSA key. Expected valid hex string.")
 	}
-	return txrFactory{key}, nil
+	addr := crypto.PubkeyToAddress(key.PublicKey)
+	return txrFactory{key, addr}, nil
 }
 
 // Txo implements TxrFactory interface
 func (tp txrFactory) Txo() *bind.TransactOpts {
 	return bind.NewKeyedTransactor(tp.privKey)
+}
+
+// Txo implements TxrFactory interface
+func (tp txrFactory) Addr() common.Address {
+	return tp.addr
 }
 
 // KeySimple is a simple version of keystore.Key structure
