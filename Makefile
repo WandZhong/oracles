@@ -30,10 +30,10 @@ setup-dev: install-deps
 
 # check https://github.com/govend/govend for dependency management
 install-deps:
-	@go get -v github.com/govend/govend \
+	@go get -v github.com/kardianos/govendor\
 		gopkg.in/reform.v1/reform
 	@echo -e $(IBLACK)checking if all dependencies are installed... $(NC)
-	@govend
+	@govendor sync
 	@echo -e "> dependencies check completed" $(CHECK)
 
 
