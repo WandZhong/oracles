@@ -2,6 +2,11 @@
 
 SWC distributor uses a provided credentials to the account holding enough SWT to distribute them according to the distribution list specified as an argument to the command. The distribution list file is a CSV file with same structure as `example.csv`.
 
+The more specific documentation:
+
+* [Release Note - SWC Distributor](https://drive.google.com/open?id=1XHzgqnl4VJ8AosKwRH9IR1wzLXMt9NjJ_JZG2NIdI00)
+* [Use-case description](https://docs.google.com/document/d/1r1mE4FJhasBzjtwcx4ApQUXMe61FZVLzTwLfb5Uw8T0/edit#heading=h.jpodtnqw5wn1)
+
 ## Usage
 
 Run command with `-h` to check the usage:

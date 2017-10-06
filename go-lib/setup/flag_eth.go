@@ -24,9 +24,9 @@ type EthFlags struct {
 // This should be called before flag.Parse or Flag function.
 func NewEthFlags() EthFlags {
 	return EthFlags{
-		PkHex:         flag.String("pk-hex", "", "private key - takes precedence over [required]"),
-		PkFile:        flag.String("pk-file", "", "path to the private key json file [required if pkhex not specified]"),
-		PkPwd:         flag.String("pk-pwd", "", "key file password [required if pkhex not specified]"),
+		PkHex:         flag.String("pk-hex", "", "private key - takes precedence over `pk-file` + `pk-pwd` [required]"),
+		PkFile:        flag.String("pk-file", "", "path to the private key json file [required if `pk-hex` not specified]"),
+		PkPwd:         flag.String("pk-pwd", "", "key file password [required if `pk-hex` not specified]"),
 		ContractsPath: flag.String("contracts", "", "path to contract schemas directory [required]"),
 		Network: flag.String("eth-network", "",
 			fmt.Sprintf("blockchain network name [required]\n\tAvailable options: %s", ethNetworks)),
