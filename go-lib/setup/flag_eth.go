@@ -54,9 +54,9 @@ func (ef EthFlags) Check() error {
 	return nil
 }
 
-// MustNewTxrFactory creates TxrFactory based on command flags.
+// mustNewTxrFactory creates TxrFactory based on command flags.
 // It panics in case of error.
-func (ef EthFlags) MustNewTxrFactory() ethereum.TxrFactory {
+func (ef EthFlags) mustNewTxrFactory() ethereum.TxrFactory {
 	if *ef.PkHex != "" {
 		p, err := ethereum.NewPrivKeyTxrFactory(*ef.PkHex)
 		if err != nil {
@@ -73,6 +73,6 @@ func (ef EthFlags) MustNewTxrFactory() ethereum.TxrFactory {
 
 // MustEthFactory creates ethclient and contract factory based on flag options
 func (ef EthFlags) MustEthFactory() (*ethclient.Client, ethereum.ContractFactory) {
-	txrF := ef.MustNewTxrFactory()
+	txrF := ef.mustNewTxrFactory()
 	return MustEthFactory(*ef.Network, *ef.ContractsPath, txrF)
 }

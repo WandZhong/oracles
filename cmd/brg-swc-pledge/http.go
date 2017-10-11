@@ -24,7 +24,7 @@ func httpPostPledge(c *routing.Context) (err error) {
 		"currency", currParam, "currencyCode", currency,
 		"address", addr.Hex())
 
-	txo := txrFactory.Txo()
+	txo := cf.Txo()
 	tx, err := brgC.MintFor(txo, swcqAddr, big.NewInt(45))
 	if err != nil {
 		logger.Error("Can't mint BRG", err)

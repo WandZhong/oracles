@@ -12,13 +12,16 @@ import (
 )
 
 var logger = log.Root()
-var client *ethclient.Client
-var txrFactory ethereum.TxrFactory
-var brgC *contracts.BridgeToken
-var swcQC *contracts.SWCqueue
-var addrBrg, addrSWCq common.Address
-
 var flags setup.BaseOracleFlags
+var (
+	brgC     *contracts.BridgeToken
+	swcqC    *contracts.SWCqueue
+	swcqAddr common.Address
+	cf       ethereum.ContractFactory
+	client   *ethclient.Client
+
+	addrBrg, addrSWCq common.Address
+)
 
 func init() {
 	flags = setup.NewBaseOracleFlags()
@@ -33,11 +36,10 @@ func setupContracts() {
 	client, cf = flags.MustEthFactory()
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
-	swcQC, addrSWCq, err = cf.GetSWCqueue()
+	swcqC, addrSWCq, err = cf.GetSWCqueue()
 	utils.Assert(err, "Can't instantiate SWCqueue contract")
 	logger.Debug("Contract addresses:", "BRG", addrBrg.Hex(),
 		"SWCqueue", addrSWCq.Hex())
-	txrFactory = flags.MustNewTxrFactory()
 }
 
 func main() {

@@ -15,11 +15,11 @@ import (
 )
 
 var logger = log.Root()
-var txrFactory ethereum.TxrFactory
 var (
 	brgC     *contracts.BridgeToken
 	swcqC    *contracts.SWCqueue
 	swcqAddr common.Address
+	cf       ethereum.ContractFactory
 )
 
 type mainFlags struct {
@@ -41,12 +41,11 @@ func init() {
 func setupContracts() {
 	var err error
 	var addrBrg common.Address
-	_, cf := flags.MustEthFactory()
+	_, cf = flags.MustEthFactory()
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
 	swcqC, swcqAddr, err = cf.GetSWCqueue()
 	logger.Debug("Contract addresses:", "brg", addrBrg.Hex(), "swcq", swcqAddr.Hex())
-	txrFactory = flags.MustNewTxrFactory()
 }
 
 func main() {
