@@ -2,6 +2,7 @@ package ethereum
 
 import (
 	"bytes"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
@@ -14,7 +15,10 @@ var zeroAddressSlice = ZeroAddress.Bytes()
 // ToAddress converts hex string to Ethereum address
 func ToAddress(addr string) (a common.Address, err errstack.E) {
 	if addr == "" {
-		return a, errstack.NewReq("Address is not specifed")
+		return a, errstack.NewReq("can't be empty")
+	}
+	if !strings.HasPrefix(addr, "0x") {
+		return a, errstack.NewReq("must have 0x prefix")
 	}
 	if !common.IsHexAddress(addr) {
 		return a, errstack.NewReq("Invalid address")
