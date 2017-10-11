@@ -53,6 +53,7 @@ func readRecords(fname string) ([]Record, errstack.E) {
 			expectedHeader)
 	}
 
+	var maxSWC = wad.ToWei(*flags.maxSWC)
 	var errb = errstack.NewBuilder()
 	for i := 2; ; i++ {
 		errbRow := errb.ForkIdx(i)
@@ -69,7 +70,11 @@ func readRecords(fname string) ([]Record, errstack.E) {
 		}
 		var r = Record{List: row[0], Idx: i}
 		r.Address = ethereum.ToAddressErrp(row[1], errbRow.Putter("address"))
-		r.Amount = wad.AfToPosWei(row[2], errbRow.Putter("amount"))
+		errpAmount := errbRow.Putter("amount")
+		r.Amount = wad.AfToPosWei(row[2], errpAmount)
+		if r.Amount.Cmp(maxSWC) > 0 {
+			errpAmount.Put(fmt.Sprint("must be bigger or equal then ", *flags.maxSWC))
+		}
 		records = append(records, r)
 	}
 

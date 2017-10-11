@@ -16,11 +16,15 @@ type mainFlags struct {
 	setup.BaseOracleFlags
 	dryRun      *bool
 	expectedMd5 *string
+	maxSWC      *uint64
 }
 
 func (f mainFlags) Check() error {
 	if flag.NArg() < 1 {
 		return errstack.NewReq("command argument is required")
+	}
+	if *f.maxSWC <= 0 {
+		return errstack.NewReq("`-max-swc` must be a positive number")
 	}
 	return f.BaseOracleFlags.Check()
 }
@@ -30,7 +34,8 @@ var flags mainFlags
 func init() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 		dryRun:      flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
-		expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum.")}
+		expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum."),
+		maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]")}
 
 	setup.Flag("source_file.csv")
 	setup.FlagValidate(flags)
