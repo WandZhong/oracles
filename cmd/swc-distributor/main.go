@@ -47,7 +47,6 @@ func main() {
 
 	records, err := readRecords(flag.Arg(0))
 	checkOK(err)
-	checkOK(validate(records))
 	distributeSWC(records)
 }
 

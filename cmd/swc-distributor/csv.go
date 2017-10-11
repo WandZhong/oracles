@@ -35,24 +35,24 @@ func readRecords(fname string) ([]Record, errstack.E) {
 	f, err := os.Open(fname)
 	defer errstack.CallAndLog(logger, f.Close)
 	if err != nil {
-		logger.Fatal("Can't open csv file", "filename", fname, err)
+		return nil, errstack.WrapAsReq(err, "Can't open csv file: "+fname)
 	}
 	var hasher = md5.New()
 	var reader = csv.NewReader(io.TeeReader(f, hasher))
 	reader.Comment = '#'
 
-	var records []Record
-	var notDone = []string{"", "0", "no", "false"}
-	header, err := reader.Read() // skip the header
+	header, err := reader.Read()
 	if err != nil {
-		return records, errstack.NewReq("Can't read CSV header. " + err.Error())
+		return nil, errstack.NewReq("Can't read CSV header. " + err.Error())
 	}
 	expectedHeader := []string{"list", "address", "amount", "comment", "done"}
 	if !bat.StrsEq(header, expectedHeader) {
-		return records, errstack.NewReqF("CSV header don't match. Expecting: %v",
+		return nil, errstack.NewReqF("CSV header don't match. Expecting: %v",
 			expectedHeader)
 	}
 
+	var records []Record
+	var notDone = []string{"", "0", "no", "false"}
 	var maxSWC = wad.ToWei(*flags.maxSWC)
 	var errb = errstack.NewBuilder()
 	for i := 2; ; i++ {
@@ -78,19 +78,21 @@ func readRecords(fname string) ([]Record, errstack.E) {
 		records = append(records, r)
 	}
 
-	md5sum := hex.EncodeToString(hasher.Sum(nil))
-	if *flags.expectedMd5 == "" {
-		logger.Debug("Control sum not specified. Input file md5sum", "hash", md5sum)
-	} else if *flags.expectedMd5 != md5sum {
-		errb.Put("hash", "Input file doesn't match the control sum. Computed md5="+md5sum)
-	}
-	return records, errb.ToReqErr()
+	checkControlSum(hex.EncodeToString(hasher.Sum(nil)), errb)
+	return records, validate(records, errb)
 }
 
-func validate(rs []Record) errstack.E {
+func checkControlSum(controlSum string, errb errstack.Builder) {
+	if *flags.expectedMd5 == "" {
+		logger.Debug("Control sum not specified. Input file md5sum", "hash", controlSum)
+	} else if *flags.expectedMd5 != controlSum {
+		errb.Put("hash", "Input file doesn't match the control sum. Computed md5="+controlSum)
+	}
+}
+
+func validate(rs []Record, errb errstack.Builder) errstack.E {
 	var dup = 0
 	var dupMap = map[common.Address]int{}
-	var errb = errstack.NewBuilder()
 	for _, r := range rs {
 		errbRow := errb.ForkIdx(r.Idx)
 		if len(r.List) < 3 {
