@@ -6,11 +6,13 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"math/big"
 	"os"
 	"strconv"
 	"strings"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
@@ -20,7 +22,7 @@ import (
 type Record struct {
 	List    string
 	Address common.Address
-	Amount  uint64
+	Amount  *big.Int
 	Idx     int
 }
 
@@ -67,7 +69,7 @@ func readRecords(fname string) ([]Record, errstack.E) {
 		}
 		var r = Record{List: row[0], Idx: i}
 		r.Address = ethereum.ToAddressErrp(row[1], errbRow.Putter("address"))
-		r.Amount = bat.Atoui64Errp(row[2], errbRow.Putter("amount"))
+		r.Amount = wad.AfToPosWei(row[2], errbRow.Putter("amount"))
 		records = append(records, r)
 	}
 

@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
-	"github.com/orinocopay/go-etherutils"
 	"github.com/robert-zaremba/errstack"
 )
 
@@ -30,17 +31,16 @@ func transferSWC(records []Record, swcC *contracts.SweetToken, cf ethereum.Contr
 
 	txo := cf.Txo()
 	for _, r := range records {
-		wei := ethereum.ToWei(r.Amount)
-		logger.Debug("Transfering", "SWC", etherutils.WeiToString(wei, false),
+		logger.Debug("Transfering", "SWC", wad.WeiToString(r.Amount),
 			"dest", r.Address.Hex(), "nonce", txo.Nonce)
-		tx, err := swcC.Transfer(txo, r.Address, wei)
+		tx, err := swcC.Transfer(txo, r.Address, r.Amount)
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
 			break
 		} else {
 			ethereum.LogTx("Transferred", tx)
 			ethereum.IncTxoNonce(txo, tx)
-			logger.Debug(">>>> nonce after", "txo", txo.Nonce, "tx", tx.Nonce())
+			// logger.Debug(">>>> nonce after", "txo", txo.Nonce, "tx", tx.Nonce())
 		}
 	}
 	return nil
@@ -83,23 +83,21 @@ func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 }
 
 func checkSWCbalance(records []Record, token *contracts.SweetToken, cf ethereum.ContractFactory) errstack.E {
-	var total uint64
+	var total = new(big.Int)
 	for _, r := range records {
-		total += r.Amount
+		total.Add(total, r.Amount)
 	}
-	totalWei := ethereum.ToWei(total)
 	addr := cf.Addr()
 	logger.Debug("SWC distribution account holder", "address", addr.Hex())
 	balance, err := token.BalanceOf(nil, addr)
 	if err != nil {
 		return errstack.WrapAsInf(err, "Can't check SWC balance")
 	}
-	if balance.Cmp(totalWei) < 0 {
-		bInt := ethereum.WeiToInt(balance)
+	if balance.Cmp(total) < 0 {
 		return errstack.NewReqF("Not enough funds in the source account = %v, min_expected=%v",
-			bInt, total)
+			wad.WeiToString(balance), wad.WeiToInt(total))
 	}
 	logger.Debug("Distribution account balance", "swc.wei", balance.String(),
-		"required", totalWei.String())
+		"required", total.String())
 	return nil
 }

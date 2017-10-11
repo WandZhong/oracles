@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/robert-zaremba/errstack"
@@ -13,7 +14,7 @@ import (
 func httpPostPledge(c *routing.Context) (err error) {
 	brgParam, currParam := c.PostForm("brg"), c.PostForm("currency")
 	errb := errstack.NewBuilder()
-	wei := ethereum.AfToWei(brgParam, errb.Putter("brg"))
+	wei := wad.AfToWei(brgParam, errb.Putter("brg"))
 	currency := liquidity.ToCurrency(currParam, errb.Putter("currency"))
 	addr := ethereum.ToAddressErrp(c.PostForm("address"), errb.Putter("address"))
 	if errb.NotNil() {

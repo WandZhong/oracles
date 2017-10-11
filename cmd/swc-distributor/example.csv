@@ -1,7 +1,7 @@
 list,address,amount,comment,done
 whitelist,0xce0d46d924cc8437c806721496599fc3ffa268c1,10,Glenn,
-whitelist,0xce0d46d924cc8437c806721496599fc3ffa268c2,9,Robert,
-# listnr2,0xce0d46d924cc8437c806721496599fc3ffa268c3,8,Jonny,
+whitelist,0xce0d46d924cc8437c806721496599fc3ffa268c2,9.3,Robert,
+listnr2,0xce0d46d924cc8437c806721496599fc3ffa268c3,0.8,Jonny,
 # listnr3,0xce0d46d924cc8437c806721496599fc3ffa268c3,2,Jonny duplication ignore because it's done,yes
 # listnr3,0xce0d46d924cc8437c806721496599fc3ffa268c3,2,Jonny duplication,0
 # listnr2,0xce0d46d924cc8437c806721496599fc3ffa268a244,8,bad address,
