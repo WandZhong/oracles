@@ -21,16 +21,18 @@ func listenPledge(stopChan <-chan struct{}) {
 	s, err := client.SubscribeFilterLogs(context.TODO(), query, logs)
 	utils.Assert(err, "Can't subscribe for SWC direct pledge events")
 	errChan := s.Err()
+
+loop:
 	for {
 		select {
 		case err := <-errChan:
 			logger.Error("Logs subscription error", err)
-			break
+			break loop
 		case l := <-logs:
 			logger.Info("new log", log15.Spew(l))
 		case <-stopChan:
 			logger.Info("Closing log consumption")
-			break
+			break loop
 		}
 	}
 }

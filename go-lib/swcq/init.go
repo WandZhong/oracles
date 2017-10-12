@@ -1,7 +1,3 @@
 package swcq
 
-import (
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-)
-
-var logger = log.Root()
+// var logger = log.Root()

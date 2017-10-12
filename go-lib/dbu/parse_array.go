@@ -42,7 +42,7 @@ var (
 // (focuses on integration with postgresql).
 func parseArray(source string) ([]string, error) {
 	// return empty array and not nil, because web client cannot handle nil
-	tokens := make([]string, 0, 0)
+	tokens := make([]string, 0)
 	source = strings.Trim(source, "{}")
 	for len(source) > 0 {
 		token, remaining, err := parseToken(source)

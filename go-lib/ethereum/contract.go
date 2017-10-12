@@ -38,11 +38,6 @@ type ContractFactory interface {
 	TxrFactory
 }
 
-type schemaAddress struct {
-	schema Schema
-	addr   common.Address
-}
-
 type contractFactory struct {
 	client    *ethclient.Client
 	sf        SchemaFactory
@@ -82,15 +77,14 @@ func (cf contractFactory) Addr() common.Address {
 }
 
 func (cf contractFactory) getSchemaAddres(contractName string) (common.Address, errstack.E) {
-	addr, ok := cf.addrs[contractName]
-	if !ok {
-		var err errstack.E
-		_, addr, err = cf.sf.ReadGetAddress(contractName)
-		if err != nil {
-			return addr, err
-		}
-		cf.addrs[contractName] = addr
+	if addr, ok := cf.addrs[contractName]; ok {
+		return addr, nil
 	}
+	_, addr, err := cf.sf.ReadGetAddress(contractName)
+	if err != nil {
+		return addr, err
+	}
+	cf.addrs[contractName] = addr
 	return addr, nil
 }
 

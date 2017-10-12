@@ -78,7 +78,7 @@ func (u UUID) String() string {
 
 // Equals check if two UUIDs are equal
 func (u UUID) Equals(u2 UUID) bool {
-	return bytes.Compare(u, u2) == 0
+	return bytes.Equal(u, u2)
 }
 
 // Parse parses UUID from string

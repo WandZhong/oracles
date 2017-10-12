@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/big"
 
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
@@ -46,7 +45,7 @@ func transferSWC(records []Record, swcC *contracts.SweetToken, cf ethereum.Contr
 	return nil
 }
 
-// TODO -- tests are still failing
+/* Not finished. Tests are still failing
 func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 	swcLogic, _, err := cf.GetSWClogic()
 	utils.Assert(err, "Can't instantiate SWTlogic contract")
@@ -81,6 +80,7 @@ func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 	return nil
 
 }
+*/
 
 func checkSWCbalance(records []Record, token *contracts.SweetToken, cf ethereum.ContractFactory) errstack.E {
 	var total = new(big.Int)

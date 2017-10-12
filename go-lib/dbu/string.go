@@ -96,7 +96,7 @@ func (s *Strings) Scan(src interface{}) error {
 // Value is the valuer for string slice which serializes it via comma
 // Returns error if one of strings contain comma
 func (s Strings) Value() (driver.Value, error) {
-	quoted := make([]string, len(s), len(s))
+	quoted := make([]string, len(s))
 	for i := range s {
 		escapedBackslash := strings.Replace(s[i], "\\", "\\\\", -1)
 		escapedQuote := strings.Replace(escapedBackslash, "\"", "\\\"", -1)

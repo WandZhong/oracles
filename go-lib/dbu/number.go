@@ -37,7 +37,7 @@ func (f *Float64s) Scan(src interface{}) error {
 // Value is the valuer for float slice
 func (f Float64s) Value() (driver.Value, error) {
 	ff := []float64(f)
-	res := make([]string, len(ff), len(ff))
+	res := make([]string, len(ff))
 	for i, v := range ff {
 		res[i] = fmt.Sprintf("%.2f", v)
 	}

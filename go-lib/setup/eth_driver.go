@@ -24,8 +24,10 @@ const testrpcID = 9
 
 var ethNetworks []string
 
-// MustEthClient creates new eth client and ContractFactory based on the network name.
-func MustEthFactory(networkName, contractsPath string, txrF ethereum.TxrFactory) (*ethclient.Client, ethereum.ContractFactory) {
+// MustEthFactory creates new eth client and ContractFactory based on the network name.
+func MustEthFactory(networkName, contractsPath string, txrF ethereum.TxrFactory) (
+	*ethclient.Client, ethereum.ContractFactory) {
+
 	n, ok := ethNetworkMap[networkName]
 	if !ok {
 		logger.Fatal("Unknown network name", "network", networkName)

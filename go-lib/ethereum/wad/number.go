@@ -8,7 +8,6 @@ import (
 
 var oneCoin *big.Int
 var oneGwei *big.Int
-var weiZero = big.NewInt(0)
 
 func init() {
 	var accuracy big.Accuracy
