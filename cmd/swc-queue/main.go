@@ -14,11 +14,9 @@ import (
 var logger = log.Root()
 var flags setup.BaseOracleFlags
 var (
-	brgC     *contracts.BridgeToken
-	swcqC    *contracts.SWCqueue
-	swcqAddr common.Address
-	cf       ethereum.ContractFactory
-	client   *ethclient.Client
+	brgC   *contracts.BridgeToken
+	swcqC  *contracts.SWCqueue
+	client *ethclient.Client
 
 	addrBrg, addrSWCq common.Address
 )
@@ -45,7 +43,5 @@ func setupContracts() {
 func main() {
 	defer rollbar.WaitForRollbar(logger)
 	setupContracts()
-
-	var stopChan = make(chan struct{})
-	listenPledge(stopChan)
+	listenPledge()
 }

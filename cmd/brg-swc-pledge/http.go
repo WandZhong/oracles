@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math/big"
 	"net/http"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
@@ -12,34 +11,24 @@ import (
 )
 
 func httpPostPledge(c *routing.Context) (err error) {
-	brgParam, currParam := c.PostForm("brg"), c.PostForm("currency")
 	errb := errstack.NewBuilder()
-	wei := wad.AfToWei(brgParam, errb.Putter("brg"))
+	addr := ethereum.ToAddressErrp(c.Request.PostFormValue("address"), errb.Putter("address"))
+	wei := wad.AfToWei(c.Request.PostFormValue("brg"), errb.Putter("brg"))
+	currParam := c.Request.PostFormValue("currency")
 	currency := liquidity.ToCurrency(currParam, errb.Putter("currency"))
-	addr := ethereum.ToAddressErrp(c.PostForm("address"), errb.Putter("address"))
 	if errb.NotNil() {
 		return routing.NewHTTPError(http.StatusBadRequest,
 			errb.ToReqErr().Error())
 	}
-	logger.Debug("BRG-SWC pledge request received", "brg-wei", wei,
+	logger.Info("BRG-SWC pledge request received", "brg-wei", wei,
 		"currency", currParam, "currencyCode", currency,
 		"address", addr.Hex())
 
-	txo := cf.Txo()
-	tx, err := brgC.MintFor(txo, swcqAddr, big.NewInt(45))
+	txMint, txPledge, err := pledger.Post(addr, wei, currency)
 	if err != nil {
-		logger.Error("Can't mint BRG", err)
 		return err
 	}
-	ethereum.LogTx("BRG minted for SWCq", tx)
-	ethereum.IncTxoNonce(txo, tx)
-	tx2, err := swcqC.DirectPledge(txo, addr, wei) // ,currency
-	if err != nil {
-		logger.Error("Can't pledge ", err)
-		return err
-	}
-	ethereum.LogTx("SWCq direct pledge log recorded", tx2)
-	ethereum.FlogTx(c.Response, "BRG minted for SWCq", tx)
-	ethereum.FlogTx(c.Response, "SWCq direct pledge log recorded", tx2)
+	ethereum.FlogTx(c.Response, "BRG minted for SWCq", txMint)
+	ethereum.FlogTx(c.Response, "SWCq direct pledge log recorded", txPledge)
 	return nil
 }

@@ -4,22 +4,14 @@ import (
 	"flag"
 	"net/http"
 
-	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/middleware"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/log15/rollbar"
-)
-
-var logger = log.Root()
-var (
-	brgC     *contracts.BridgeToken
-	swcqC    *contracts.SWCqueue
-	swcqAddr common.Address
-	cf       ethereum.ContractFactory
 )
 
 type mainFlags struct {
@@ -28,8 +20,11 @@ type mainFlags struct {
 }
 
 var flags mainFlags
+var logger = log.Root()
+var pledger swcq.Pledger
+var client *ethclient.Client
 
-func init() {
+func setupFlags() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 		port: flag.String("port", "8000", "The HTTP listening port")}
 
@@ -40,16 +35,15 @@ func init() {
 
 func setupContracts() {
 	var err error
-	var addrBrg common.Address
-	_, cf = flags.MustEthFactory()
-	brgC, addrBrg, err = cf.GetBRG()
+	var cf ethereum.ContractFactory
+	client, cf = flags.MustEthFactory()
+	pledger, err = swcq.NewPledger(cf)
 	utils.Assert(err, "Can't instantiate BRG contract")
-	swcqC, swcqAddr, err = cf.GetSWCqueue()
-	logger.Debug("Contract addresses:", "brg", addrBrg.Hex(), "swcq", swcqAddr.Hex())
 }
 
 func main() {
 	defer rollbar.WaitForRollbar(logger)
+	setupFlags()
 	setupContracts()
 
 	r := middleware.StdRouter()
