@@ -110,3 +110,11 @@ docker-mk-builder:
 docker-run-builder:
 	docker container start -a oracle-builder_1 || \
 		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
+
+docker-run-builder:
+	docker container start -a oracle-builder_1 || \
+		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
+
+docker-bash:
+	docker container start -a oracle-bash  || \
+		docker run -v ${PWD}/bin:/root/bin -it --name oracle-bash golang:1.9-alpine
