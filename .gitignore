@@ -64,6 +64,8 @@ Session.vim
 .idea/
 sftp-config.json
 .DS_Store
+.vscode
+
 
 # Org-mode
 .org-id-locations
