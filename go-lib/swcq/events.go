@@ -1,9 +1,51 @@
 package swcq
 
-import "github.com/ethereum/go-ethereum/crypto"
+import (
+	"math/big"
+	"strings"
 
-// Event titles
-var (
-	TitleLogSWCqueueDirectPledge = crypto.Keccak256Hash(
-		[]byte("LogSWCqueueDirectPledge(address,uint128,bytes3)"))
+	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"github.com/ethereum/go-ethereum/accounts/abi"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/robert-zaremba/errstack"
 )
+
+// SWCqueue globals
+var (
+	SWCqueueABI abi.ABI
+)
+
+const (
+	logSWCqueueDirectPledge = "LogSWCqueueDirectPledge"
+)
+
+func init() {
+	var err error
+	SWCqueueABI, err = abi.JSON(strings.NewReader(contracts.SWCqueueABI))
+	if err != nil {
+		logger.Fatal("Can't parse SWCqueueABI", err)
+	}
+	if _, ok := SWCqueueABI.Events[logSWCqueueDirectPledge]; !ok {
+		logger.Fatal("Contract SWCqueue doesn't have LogSWCqueueDirectPledge event")
+	}
+}
+
+// LogSWCqueueDirectPledge returns event
+func LogSWCqueueDirectPledge() abi.Event {
+	return SWCqueueABI.Events[logSWCqueueDirectPledge]
+}
+
+// EventDirectPledge represents LogSWCqueueDirectPledge event payload
+type EventDirectPledge struct {
+	Who      common.Address
+	Wad      *big.Int
+	Currency liquidity.Currency
+}
+
+// Unmarshal blockchain log into the event structure
+func (e *EventDirectPledge) Unmarshal(log types.Log) errstack.E {
+	return ethereum.UnmarshalEvent(e, log, LogSWCqueueDirectPledge())
+}

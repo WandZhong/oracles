@@ -2,20 +2,19 @@ package main
 
 import (
 	"context"
-	"math/big"
-	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
-	pgt "github.com/robert-zaremba/go-pgt"
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/log15"
 )
 
 func listenPledge() {
-	events, s, err := ethereum.SubscribeSimple(context.TODO(), client,
-		[][]common.Hash{{swcq.TitleLogSWCqueueDirectPledge}},
+	logger.Debug("Started listening on pledge event")
+	logs, s, err := ethereum.SubscribeSimple(context.TODO(), client,
+		[][]common.Hash{{swcq.LogSWCqueueDirectPledge().Id()}},
 		[]common.Address{addrSWCq})
 	utils.Assert(err, "Can't subscribe for SWC direct pledge events")
 	errChan := s.Err()
@@ -26,20 +25,18 @@ loop:
 			s.Unsubscribe()
 			logger.Error("Events subscription error", err)
 			break loop
-		case e := <-events:
-			logger.Info("new log", log15.Alone("event", e.String()))
+		case l := <-logs:
+			logger.Debug("new log", log15.Alone("event", l.String()))
+			createPledge(l)
 		}
 	}
 }
 
-func createPledge() {
-	p := swcq.Pledge{
-		ID:        pgt.RandomUUID(),
-		UserID:    pgt.RandomUUID(),
-		Wad:       pgt.BigInt{Int: big.NewInt(1000)},
-		Currency:  "USD",
-		CreatedOn: time.Now(),
-		Direct:    false,
+func createPledge(log types.Log) {
+	p, err := swcq.NewPledgeFromDirectPledgeLog(log)
+	if err != nil {
+		logger.Error("Can't construct pledge", err)
+		return
 	}
 	if err := db.Insert(&p); err != nil {
 		logger.Error("Can't insert pledge", err)
@@ -51,7 +48,7 @@ func createPledge() {
 func find() {
 	var p swcq.Pledge
 	_, err := db.QueryOne(&p, `SELECT * FROM swc_queue WHERE swc_queue_id = ?`,
-		"bc401de4-047c-4377-886d-dcb1709c130f")
+		"0x0000000000000000000000000000000000000000000000000000000000000000")
 	if err != nil {
 		logger.Error("Can't find a pledge", err)
 	} else {

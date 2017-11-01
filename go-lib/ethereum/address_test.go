@@ -15,6 +15,12 @@ func checkIsZeroAddr(testcases []string, expected bool, t *testing.T) {
 	}
 }
 
+func failOnErr(err error, msg string, t *testing.T) {
+	if err != nil {
+		t.Fatal(msg, err)
+	}
+}
+
 func TestIsZeroAddr(t *testing.T) {
 	// check invalid or zero addresses
 	var as = []string{"", "0", "0x0",
@@ -41,4 +47,27 @@ func TestIsZeroAddr(t *testing.T) {
 		// short addresses are are left-padded with 0
 		"0x123", "123", "12", "99", "099"}
 	checkIsZeroAddr(as, false, t)
+}
+
+func TestPgtAddress(t *testing.T) {
+	var err error
+	addr, err := ToAddress("0xce0d46d924cc8437c806721496599fc3ffa268b9")
+	failOnErr(err, "Can't convert correct address", t)
+	hex := addr.Hex()
+
+	paddr := PgtAddress{addr}
+	b, err := paddr.Value()
+	failOnErr(err, "Can't serialize PgtAddress", t)
+
+	var paddr2 PgtAddress
+	failOnErr(paddr2.Scan(b), "Can't deserialize PgtAddress", t)
+	if paddr2.Hex() != hex {
+		t.Errorf("Scan * Value is not identity. orig=%v obtained=%v", hex, paddr2.Hex())
+	}
+
+	var paddr3 = new(PgtAddress)
+	failOnErr(paddr3.Scan(b), "Can't deserialize PgtAddress to nil pointer", t)
+	if paddr3.Hex() != hex {
+		t.Errorf("Scan * Value is not identity. orig=%v obtained=%v", hex, paddr2.Hex())
+	}
 }

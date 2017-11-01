@@ -45,7 +45,6 @@ func setupContracts() {
 
 func main() {
 	defer rollbar.WaitForRollbar(logger)
-	// createPledge()
 	// find()
 
 	setupContracts()

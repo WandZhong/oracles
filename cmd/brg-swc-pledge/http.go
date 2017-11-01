@@ -15,7 +15,7 @@ func httpPostPledge(c *routing.Context) (err error) {
 	addr := ethereum.ToAddressErrp(c.Request.PostFormValue("address"), errb.Putter("address"))
 	wei := wad.AfToWei(c.Request.PostFormValue("brg"), errb.Putter("brg"))
 	currParam := c.Request.PostFormValue("currency")
-	currency := liquidity.ToCurrency(currParam, errb.Putter("currency"))
+	currency := liquidity.ParseCurrencyErrp(currParam, errb.Putter("currency"))
 	if errb.NotNil() {
 		return routing.NewHTTPError(http.StatusBadRequest,
 			errb.ToReqErr().Error())

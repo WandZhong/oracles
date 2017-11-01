@@ -2,10 +2,12 @@ package ethereum
 
 import (
 	"bytes"
+	"database/sql/driver"
 	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
+	bat "github.com/robert-zaremba/go-bat"
 )
 
 // ZeroAddress represents Ethereum unknown or invalid address
@@ -38,4 +40,30 @@ func ToAddressErrp(addr string, errp errstack.Putter) common.Address {
 // IsZeroAddr check if `a` is zero or invalid address
 func IsZeroAddr(a common.Address) bool {
 	return bytes.Equal(a.Bytes(), zeroAddressSlice)
+}
+
+// PgtAddress is a ethereum Address wrapper to provide DB interface
+type PgtAddress struct {
+	common.Address
+}
+
+// Scan implements sql.Sanner interface
+func (a *PgtAddress) Scan(src interface{}) error {
+	if src == nil {
+		return nil
+	}
+	s, err := bat.UnsafeToString(src)
+	if err != nil {
+		return err
+	}
+	if !common.IsHexAddress(s) {
+		return errstack.NewReq("Invalid address")
+	}
+	a.Address = common.HexToAddress(s)
+	return nil
+}
+
+// Value implements sql/driver.Valuer
+func (a PgtAddress) Value() (driver.Value, error) {
+	return strings.ToLower(a.Hex()), nil
 }

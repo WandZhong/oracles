@@ -3,6 +3,10 @@ package swcq
 import (
 	"time"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
 )
 
@@ -10,10 +14,26 @@ import (
 type Pledge struct {
 	tableName struct{} `sql:"swc_queue"`
 
-	ID        pgt.UUID   `sql:"swc_queue_id,pk"`
-	UserID    pgt.UUID   `sql:"user_id"`
-	Wad       pgt.BigInt `sql:",notnull"`
-	CreatedOn time.Time  `sql:"created_on"`
-	Currency  string     `sql:",notnull"`
-	Direct    bool       `sql:",notnull"`
+	Tx        string              `sql:"swc_queue_id,pk"` // ID is a Tx hash
+	UserAddr  ethereum.PgtAddress `sql:"user_addr"`
+	Wad       pgt.BigInt          `sql:",notnull"`
+	CreatedOn time.Time           `sql:"created_on"`
+	Currency  liquidity.Currency  `sql:",notnull"`
+	Direct    bool                `sql:",notnull"`
+}
+
+// NewPledgeFromDirectPledgeLog constructs new Pledge from the event
+func NewPledgeFromDirectPledgeLog(log types.Log) (Pledge, errstack.E) {
+	var e = EventDirectPledge{}
+	if err := e.Unmarshal(log); err != nil {
+		return Pledge{}, err
+	}
+	return Pledge{
+		Tx:        log.TxHash.Hex(),
+		UserAddr:  ethereum.PgtAddress{Address: e.Who},
+		Wad:       pgt.BigInt{Int: e.Wad},
+		Currency:  e.Currency,
+		CreatedOn: time.Now(),
+		Direct:    true,
+	}, nil
 }

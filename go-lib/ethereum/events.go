@@ -4,6 +4,7 @@ import (
 	"context"
 
 	ethereum "github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -22,4 +23,13 @@ func SubscribeSimple(ctx context.Context,
 	var events = make(chan types.Log, 5) // to quickler consume batch events
 	s, err := client.SubscribeFilterLogs(ctx, query, events)
 	return events, s, errstack.WrapAsDomain(err, "Can't create Ethereum Subscription")
+}
+
+// UnmarshalEvent blockchain log into the event structure
+// `dest` must be a pointer to initialized structure
+func UnmarshalEvent(dest interface{}, log types.Log, e abi.Event) errstack.E {
+	a := abi.ABI{Events: map[string]abi.Event{"e": e}}
+	err := a.Unpack(dest, "e", log.Data)
+	return errstack.WrapAsInf(err,
+		"Probably the ABI doesn't match with the contract version")
 }
