@@ -8,6 +8,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
@@ -17,6 +18,7 @@ var (
 	brgC   *contracts.BridgeToken
 	swcqC  *contracts.SWCqueue
 	client *ethclient.Client
+	db     *pg.DB
 
 	addrBrg, addrSWCq common.Address
 )
@@ -26,6 +28,7 @@ func init() {
 	setup.Flag("")
 	setup.FlagValidate(flags)
 	setup.MustLogger("swc-queue", *flags.Rollbar)
+	db = setup.MustPsql()
 }
 
 func setupContracts() {
@@ -42,6 +45,9 @@ func setupContracts() {
 
 func main() {
 	defer rollbar.WaitForRollbar(logger)
+	// createPledge()
+	// find()
+
 	setupContracts()
 	listenPledge()
 }

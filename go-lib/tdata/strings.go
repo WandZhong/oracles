@@ -98,9 +98,8 @@ func Ngrams(ss []string, n int) [][]string {
 	for i := range ss {
 		ngram := make([]string, 0, n)
 		for j := 0; j < n; j++ {
-			position := (i + j) % len(ss)
-			token := ss[position]
-			ngram = append(ngram, token)
+			wordIdx := (i + j) % len(ss)
+			ngram = append(ngram, ss[wordIdx])
 		}
 		result = append(result, ngram)
 	}

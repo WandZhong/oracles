@@ -1,14 +1,19 @@
 package swcq
 
-import "time"
+import (
+	"time"
 
-//go:generate reform
+	pgt "github.com/robert-zaremba/go-pgt"
+)
 
 // Pledge represents swc_queue entry
-//reform:swc_queue
 type Pledge struct {
-	ID        string `reform:"id,pk"`
-	UserID    string
-	Wad       int
-	CreatedOn time.Time `reform:"created_on"`
+	tableName struct{} `sql:"swc_queue"`
+
+	ID        pgt.UUID   `sql:"swc_queue_id,pk"`
+	UserID    pgt.UUID   `sql:"user_id"`
+	Wad       pgt.BigInt `sql:",notnull"`
+	CreatedOn time.Time  `sql:"created_on"`
+	Currency  string     `sql:",notnull"`
+	Direct    bool       `sql:",notnull"`
 }

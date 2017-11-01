@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"net/http"
+	"net/http/httptest"
 	"net/url"
 	"time"
 
@@ -58,13 +60,13 @@ func (suite *PledgeS) TestDirectPledge(c *C) {
 		"brg":      {"10"},
 		"currency": {"usd"}}
 	rc := itest.NewRoutingPostCtx(data)
-
 	events, done, cancel := suite.subscribe(c)
-	err := httpPostPledge(rc)
-	if err != nil {
+	if err := httpPostPledge(rc); err != nil {
 		cancel()
 		c.Assert(err, IsNil)
 	}
+	resp := rc.Response.(*httptest.ResponseRecorder)
+	c.Assert(resp.Code, Equals, http.StatusOK)
 
 	select {
 	case <-done:

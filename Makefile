@@ -25,13 +25,11 @@ setup-dev: install-deps
 		github.com/kisielk/errcheck \
 		honnef.co/go/tools/cmd/megacheck \
 		github.com/golang/mock \
-		gopkg.in/reform.v1/reform
 #		rsc.io/gt
 
 # check https://github.com/govend/govend for dependency management
 install-deps:
-	@go get -v github.com/kardianos/govendor\
-		gopkg.in/reform.v1/reform
+	@go get -v github.com/kardianos/govendor
 	@echo -e $(IBLACK)checking if all dependencies are installed... $(NC)
 	@govendor sync
 	@echo -e "> dependencies check completed" $(CHECK)
@@ -111,10 +109,6 @@ docker-run-builder:
 	docker container start -a oracle-builder_1 || \
 		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
 
-docker-run-builder:
-	docker container start -a oracle-builder_1 || \
-		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
-
 docker-bash:
 	docker container start -a oracle-bash  || \
-		docker run -v ${PWD}/bin:/root/bin -it --name oracle-bash golang:1.9-alpine
+		docker run -v ${PWD}/bin:/root/bin -it --name oracle-bash alpine:3.6
