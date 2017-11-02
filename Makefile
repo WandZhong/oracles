@@ -36,6 +36,15 @@ install-deps:
 
 
 ###############################
+# vendoring
+
+vendor-check:
+	@govendor list +external
+
+vendor-add-missing:
+	@govendor add +external
+
+###############################
 # generating
 
 go-generate:
@@ -47,7 +56,6 @@ go-generate:
 
 abigen-backstage:
 	@node scripts/abigen.js submodules/contract-deployments/backstage/
-
 
 ###############################
 # linting
