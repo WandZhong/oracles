@@ -26,7 +26,7 @@ var jsonLogSWCqueueDirectPledge = []byte(`{
 }`)
 
 type EventSuite struct {
-	eventTransfer, eventDirectPledge abi.Event
+	eventDirectPledge abi.Event
 }
 
 func (suite *EventSuite) SetUpSuite(c *C) {

@@ -28,7 +28,7 @@ func (suite *PledgeS) SetUpSuite(c *C) {
 func (suite *PledgeS) subscribe(c *C) (<-chan types.Log, <-chan struct{}, context.CancelFunc) {
 	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
 	events, s, err := ethereum.SubscribeSimple(ctx, client,
-		[][]common.Hash{{swcq.TitleLogSWCqueueDirectPledge}},
+		[][]common.Hash{{swcq.LogSWCqueueDirectPledge().Id()}},
 		[]common.Address{pledger.SWCQaddr})
 	c.Assert(err, IsNil, Commentf("Can't subscribe for SWC direct pledge events"))
 	var out = make(chan types.Log)
