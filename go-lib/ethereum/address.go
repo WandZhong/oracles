@@ -1,7 +1,6 @@
 package ethereum
 
 import (
-	"bytes"
 	"database/sql/driver"
 	"strings"
 
@@ -12,7 +11,6 @@ import (
 
 // ZeroAddress represents Ethereum unknown or invalid address
 var ZeroAddress = common.HexToAddress("00")
-var zeroAddressSlice = ZeroAddress.Bytes()
 
 // ToAddress converts hex string to Ethereum address
 func ToAddress(addr string) (a common.Address, err errstack.E) {
@@ -37,9 +35,28 @@ func ToAddressErrp(addr string, errp errstack.Putter) common.Address {
 	return a
 }
 
+// HashToAddress encodes address from hash data
+func HashToAddress(h common.Hash) (common.Address, errstack.E) {
+	addr := common.BytesToAddress(h.Bytes())
+	if IsZeroAddr(addr) {
+		return addr, errstack.NewReq("must have 0x prefix")
+	}
+	return addr, nil
+}
+
 // IsZeroAddr check if `a` is zero or invalid address
 func IsZeroAddr(a common.Address) bool {
-	return bytes.Equal(a.Bytes(), zeroAddressSlice)
+	return AddrEqual(a, ZeroAddress)
+}
+
+// AddrEqual check if both addresses are equal
+func AddrEqual(a, b common.Address) bool {
+	for i := 0; i < common.AddressLength; i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
 
 // PgtAddress is a ethereum Address wrapper to provide DB interface

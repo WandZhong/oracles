@@ -1,27 +1,26 @@
 package ethereum
 
 import (
-	"testing"
+	"strings"
 
 	"github.com/ethereum/go-ethereum/common"
+	. "github.com/scale-it/checkers"
+	. "gopkg.in/check.v1"
 )
 
-func checkIsZeroAddr(testcases []string, expected bool, t *testing.T) {
+func checkIsZeroAddr(testcases []string, expected bool, c *C) {
 	for _, a := range testcases {
 		h := common.HexToAddress(a)
-		if IsZeroAddr(h) != expected {
-			t.Errorf("IsZeroAddr should return %v for: %q (%s)", expected, a, h.Hex())
-		}
+		c.Check(IsZeroAddr(h), Equals, expected,
+			Commentf("IsZeroAddr should return %v for: %q (%s)", expected, a, h.Hex()))
 	}
 }
 
-func failOnErr(err error, msg string, t *testing.T) {
-	if err != nil {
-		t.Fatal(msg, err)
-	}
-}
+type AddressSuite struct{}
 
-func TestIsZeroAddr(t *testing.T) {
+func (e AddressSuite) TestIsZeroAddr(c *C) {
+	c.Assert(IsZeroAddr(ZeroAddress), IsTrue)
+
 	// check invalid or zero addresses
 	var as = []string{"", "0", "0x0",
 		"0x0000000000000000000000000000000000000000",
@@ -33,7 +32,7 @@ func TestIsZeroAddr(t *testing.T) {
 		"12 34", " 1234", "1234 ",
 		// even so long addresses are trimmed, it checks the character range
 		"yyce0d46d924cc8437c806721496599fc3ffa268b9123"}
-	checkIsZeroAddr(as, true, t)
+	checkIsZeroAddr(as, true, c)
 
 	// check correct addresses
 	as = []string{
@@ -46,28 +45,36 @@ func TestIsZeroAddr(t *testing.T) {
 		"ce0d46d924cc8437c806721496599fc3ffa268b9123",
 		// short addresses are are left-padded with 0
 		"0x123", "123", "12", "99", "099"}
-	checkIsZeroAddr(as, false, t)
+	checkIsZeroAddr(as, false, c)
 }
 
-func TestPgtAddress(t *testing.T) {
+func (e AddressSuite) TestPgtAddress(c *C) {
 	var err error
 	addr, err := ToAddress("0xce0d46d924cc8437c806721496599fc3ffa268b9")
-	failOnErr(err, "Can't convert correct address", t)
+	c.Assert(err, IsNil, Commentf("Can't convert correct address"))
 	hex := addr.Hex()
 
 	paddr := PgtAddress{addr}
 	b, err := paddr.Value()
-	failOnErr(err, "Can't serialize PgtAddress", t)
+	c.Assert(err, IsNil, Commentf("Can't serialize PgtAddress"))
 
 	var paddr2 PgtAddress
-	failOnErr(paddr2.Scan(b), "Can't deserialize PgtAddress", t)
-	if paddr2.Hex() != hex {
-		t.Errorf("Scan * Value is not identity. orig=%v obtained=%v", hex, paddr2.Hex())
-	}
+	c.Assert(paddr2.Scan(b), IsNil, Commentf("Can't deserialize PgtAddress"))
+	c.Check(paddr2.Hex(), Equals, hex)
 
 	var paddr3 = new(PgtAddress)
-	failOnErr(paddr3.Scan(b), "Can't deserialize PgtAddress to nil pointer", t)
-	if paddr3.Hex() != hex {
-		t.Errorf("Scan * Value is not identity. orig=%v obtained=%v", hex, paddr2.Hex())
-	}
+	c.Assert(paddr3.Scan(b), IsNil, Commentf("Can't deserialize PgtAddress to pointer"))
+	c.Check(paddr3.Hex(), Equals, hex)
+}
+
+func (e AddressSuite) TestHashToAddress(c *C) {
+	s := "0x000000000000000000000000d435bbbaa004889f95f54e8232575d87793b42df"
+	addr, err := HashToAddress(common.HexToHash(s))
+	c.Assert(err, IsNil)
+	c.Assert(strings.ToLower(addr.Hex()), Equals, "0x"+s[26:])
+
+	// check wrong address
+	s = "0x0000000000000000000000000001bbbaa004889f95f54e8232575d87793b42zz"
+	addr, err = HashToAddress(common.HexToHash(s))
+	c.Assert(err, Not(IsNil))
 }
