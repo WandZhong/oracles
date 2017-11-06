@@ -8,8 +8,8 @@ import (
 
 // FlagFail - exits the main process and displays usage information
 func FlagFail(err error) {
-	logger.Error("!! Wrong CMD parameters !!", err)
-	flag.Usage()
+	logger.Error("!! Wrong CMD parameters !! Run with `-h` parameter to output a usage information", err)
+
 	os.Exit(1)
 }
 
