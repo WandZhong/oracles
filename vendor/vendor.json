@@ -25,7 +25,7 @@
 		{
 			"checksumSHA1": "ilmegahgek2I/4VG2JVwts0ko8U=",
 			"path": "github.com/ethereum/go-ethereum",
-			"revision": "0131bd6ff9b1850fdd307715c62174af4f05d2c7",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-30T11:05:00Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -33,31 +33,32 @@
 		{
 			"checksumSHA1": "6soUZSnBWT8WL5QnBw0gNIkGH4Q=",
 			"path": "github.com/ethereum/go-ethereum/accounts",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
-			"checksumSHA1": "0jw0bJgU/nyL8FUOybYnq7+FNFw=",
+			"checksumSHA1": "33LpLQd9Vhwg8NkCeK9Sj3DS0Mk=",
+			"origin": "github.com/robert-zaremba/go-ethereum/accounts/abi",
 			"path": "github.com/ethereum/go-ethereum/accounts/abi",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "e4302736cd112cddca00ce95802350604a990c70",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
 			"checksumSHA1": "46s/OBUVKJiNbnCf3hLOjZsRnoY=",
 			"path": "github.com/ethereum/go-ethereum/accounts/abi/bind",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
-			"checksumSHA1": "wy5PONRq4ZGU9FuVYp9JK/HfMdw=",
+			"checksumSHA1": "JfWG8KPecitUS7KEQ8nWEpNFBoM=",
 			"path": "github.com/ethereum/go-ethereum/accounts/keystore",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
 			"checksumSHA1": "/hO7lY99VYmQb9av8DXpVIWhcKs=",
 			"path": "github.com/ethereum/go-ethereum/common",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -65,7 +66,7 @@
 		{
 			"checksumSHA1": "jIwuv+0MX4hsh4E84S4i1Gyb6A0=",
 			"path": "github.com/ethereum/go-ethereum/common/hexutil",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -73,7 +74,7 @@
 		{
 			"checksumSHA1": "Hd1Y5DkzYULQzJlSgYv2w5SiEAo=",
 			"path": "github.com/ethereum/go-ethereum/common/math",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -81,13 +82,13 @@
 		{
 			"checksumSHA1": "auKC662e4M4mXDReh+667bhRdfU=",
 			"path": "github.com/ethereum/go-ethereum/common/mclock",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
 			"checksumSHA1": "xdiD6Wi0rvtT/ZQhPRzwytZBYWU=",
 			"path": "github.com/ethereum/go-ethereum/core/types",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -95,7 +96,7 @@
 		{
 			"checksumSHA1": "rofYNlEqnMen5Lg1N2+VcihuaIU=",
 			"path": "github.com/ethereum/go-ethereum/crypto",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -103,13 +104,13 @@
 		{
 			"checksumSHA1": "W0XLNKJu61SBJW5LfVR3tG+U7ro=",
 			"path": "github.com/ethereum/go-ethereum/crypto/randentropy",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
 			"checksumSHA1": "VsqOiLFDRSDa67wPeqlxKJmE0XE=",
 			"path": "github.com/ethereum/go-ethereum/crypto/secp256k1",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -117,7 +118,7 @@
 		{
 			"checksumSHA1": "pQzUVRi0z/3Z4FpRyExSg1ROLSA=",
 			"path": "github.com/ethereum/go-ethereum/crypto/sha3",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -125,27 +126,27 @@
 		{
 			"checksumSHA1": "FbGsxYO/sbdKu7ed5+h9Fg3mltw=",
 			"path": "github.com/ethereum/go-ethereum/ethclient",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
-			"checksumSHA1": "O56Cc6a0S2pK0oO9wZYO71xXeRM=",
+			"checksumSHA1": "AQbGWAuSzJyW+P+OyPjHP47Z2Cs=",
 			"path": "github.com/ethereum/go-ethereum/event",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
 			"checksumSHA1": "jYu7qwMf5Hc47JdZFx9aZPg9x3A=",
 			"path": "github.com/ethereum/go-ethereum/log",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
 		},
 		{
-			"checksumSHA1": "vi2ddugbO8ikV9efaQ7SBg53mtE=",
+			"checksumSHA1": "42h+uOeV2wU2tMGmV9Dg+iGTGXE=",
 			"path": "github.com/ethereum/go-ethereum/params",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -153,21 +154,21 @@
 		{
 			"checksumSHA1": "Doemb0pCb5TGHWrVzVBan7hgu6I=",
 			"path": "github.com/ethereum/go-ethereum/rlp",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
 		},
 		{
-			"checksumSHA1": "svxKimY/iEIeUxHCdafPcp54TUA=",
+			"checksumSHA1": "WkglX7w1SKlHDrGRR+fH1L/+NZ8=",
 			"path": "github.com/ethereum/go-ethereum/rpc",
-			"revision": "605c2b261f89c8398f2003a24e18a121d042cead",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-05T18:08:14Z"
 		},
 		{
-			"checksumSHA1": "WBhJebKaQbpkdIpQdBXR09izcT4=",
+			"checksumSHA1": "QAWWTf2lx3ScHLK2ktNPGZIHL9Y=",
 			"path": "github.com/ethereum/go-ethereum/trie",
-			"revision": "05101641455a754936acc5ddff92f35f5e33181c",
+			"revision": "3d88ecd61ae7b43f1227acafaec71e49093491b8",
 			"revisionTime": "2017-10-03T17:18:39Z",
 			"version": "release/1.7",
 			"versionExact": "release/1.7"
@@ -414,7 +415,7 @@
 			"revisionTime": "2017-10-03T05:09:24Z"
 		},
 		{
-			"checksumSHA1": "15doxxBfOxOhWExkxjPNo6Y7fEw=",
+			"checksumSHA1": "u++7ORSCKvkMgqqUG4aB+s/4Wus=",
 			"path": "golang.org/x/sys/unix",
 			"revision": "833a04a10549a95dc34458c195cbad61bbb6cb4d",
 			"revisionTime": "2015-12-11T01:34:15Z"
