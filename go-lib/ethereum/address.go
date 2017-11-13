@@ -46,17 +46,7 @@ func HashToAddress(h common.Hash) (common.Address, errstack.E) {
 
 // IsZeroAddr check if `a` is zero or invalid address
 func IsZeroAddr(a common.Address) bool {
-	return AddrEqual(a, ZeroAddress)
-}
-
-// AddrEqual check if both addresses are equal
-func AddrEqual(a, b common.Address) bool {
-	for i := 0; i < common.AddressLength; i++ {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-	return true
+	return a == ZeroAddress
 }
 
 // PgtAddress is a ethereum Address wrapper to provide DB interface

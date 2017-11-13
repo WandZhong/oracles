@@ -71,7 +71,7 @@ func createPledge(p swcq.Pledge) error {
 }
 
 func validatePledge(p *swcq.Pledge) errstack.E {
-	if !ethereum.AddrEqual(p.CtrAddr.Address, addrSWCq) {
+	if p.CtrAddr.Address == addrSWCq {
 		addr := p.CtrAddr.Hex()
 		logger.Debug("Receiving pledge for unsupported contract", "ctr_addr", addr)
 		return errstack.NewDomain("Unsupported queue contract: " + addr)
