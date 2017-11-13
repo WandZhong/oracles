@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
@@ -23,7 +25,7 @@ var (
 	addrBrg, addrSWCq common.Address
 )
 
-func init() {
+func setupFlags() {
 	flags = setup.NewBaseOracleFlags()
 	setup.Flag("")
 	setup.FlagValidate(flags)
@@ -31,9 +33,8 @@ func init() {
 	db = setup.MustPsql()
 }
 
-func setupContracts() {
+func setupContracts() (cf ethereum.ContractFactory) {
 	var err error
-	var cf ethereum.ContractFactory
 	client, cf = flags.MustEthFactory()
 	brgC, addrBrg, err = cf.GetBRG()
 	utils.Assert(err, "Can't instantiate BRG contract")
@@ -41,12 +42,15 @@ func setupContracts() {
 	utils.Assert(err, "Can't instantiate SWCqueue contract")
 	logger.Debug("Contract addresses:", "BRG", addrBrg.Hex(),
 		"SWCqueue", addrSWCq.Hex())
+	return
 }
 
 func main() {
+	setupFlags()
 	defer rollbar.WaitForRollbar(logger)
-	// find()
 
+	ctx := context.Background()
 	setupContracts()
-	listenPledge()
+	go listenPledge(ctx, createPledge)
+	listenTransfer(ctx, createPledge)
 }

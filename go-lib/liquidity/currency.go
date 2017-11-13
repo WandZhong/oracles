@@ -11,12 +11,15 @@ import (
 // Currency type represent currency ISO name
 type Currency [3]byte
 
+// currencies
 var (
-	currenciesList = []string{"USD"}
-	currencies     = map[string]Currency{}
+	currencies = map[string]Currency{}
+
+	CurrUSD = Currency{'U', 'S', 'D'}
 )
 
 func init() {
+	var currenciesList = []string{"USD"}
 	for _, c := range currenciesList {
 		currencies[c] = Currency{c[0], c[1], c[2]}
 	}

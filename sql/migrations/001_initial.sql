@@ -1,6 +1,7 @@
 CREATE TABLE swc_queue (
 	swc_queue_id  VARCHAR NOT NULL PRIMARY KEY,  -- transaction hash
 	user_addr     VARCHAR(50) NOT NULL,
+	ctr_addr      VARCHAR(50) NOT NULL,
 	wad           DECIMAL CHECK (wad > 0), -- brg
 	currency      CHAR(3) NOT NULL CHECK (currency != ''),
 	created_on    TIMESTAMP WITH TIME ZONE NOT NULL,

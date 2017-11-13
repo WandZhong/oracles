@@ -2,7 +2,6 @@ package swcq
 
 import (
 	"math/big"
-	"strings"
 
 	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
@@ -15,7 +14,7 @@ import (
 
 // SWCqueue globals
 var (
-	SWCqueueABI abi.ABI
+	SWCqueueABI = ethereum.MustParseABI("SWCqueue", contracts.SWCqueueABI)
 )
 
 const (
@@ -23,20 +22,13 @@ const (
 )
 
 func init() {
-	var err error
-	SWCqueueABI, err = abi.JSON(strings.NewReader(contracts.SWCqueueABI))
-	if err != nil {
-		logger.Fatal("Can't parse SWCqueueABI", err)
-	}
 	if _, ok := SWCqueueABI.Events[logSWCqueueDirectPledge]; !ok {
 		logger.Fatal("Contract SWCqueue doesn't have LogSWCqueueDirectPledge event")
 	}
 }
 
 // LogSWCqueueDirectPledge returns event
-func LogSWCqueueDirectPledge() abi.Event {
-	return SWCqueueABI.Events[logSWCqueueDirectPledge]
-}
+func LogSWCqueueDirectPledge() abi.Event { return SWCqueueABI.Events[logSWCqueueDirectPledge] }
 
 // EventDirectPledge represents LogSWCqueueDirectPledge event payload
 type EventDirectPledge struct {
@@ -46,6 +38,6 @@ type EventDirectPledge struct {
 }
 
 // Unmarshal blockchain log into the event structure
-func (e *EventDirectPledge) Unmarshal(log types.Log) errstack.E {
-	return ethereum.UnmarshalEvent(e, log, LogSWCqueueDirectPledge())
+func (e *EventDirectPledge) Unmarshal(log *types.Log) errstack.E {
+	return ethereum.UnmarshalEvent(e, log.Data, LogSWCqueueDirectPledge())
 }

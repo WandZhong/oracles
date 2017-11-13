@@ -1,37 +1,21 @@
 package swcq
 
 import (
-	"encoding/json"
 	"math/big"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
-	. "gopkg.in/check.v1"
-
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
+	. "gopkg.in/check.v1"
 )
-
-var jsonLogSWCqueueDirectPledge = []byte(`{
-  "anonymous": false,
-  "inputs": [{
-      "indexed": false, "name": "who", "type": "address"
-    }, {
-      "indexed": false, "name": "wad", "type": "uint128"
-    }, {
-      "indexed": false, "name": "currency", "type": "bytes3"
-  }],
-  "name": "LogSWCqueueDirectPledge",
-  "type": "event"
-}`)
 
 type EventSuite struct {
 	eventDirectPledge abi.Event
 }
 
 func (suite *EventSuite) SetUpSuite(c *C) {
-	err := json.Unmarshal(jsonLogSWCqueueDirectPledge, &suite.eventDirectPledge)
-	c.Assert(err, IsNil)
+	suite.eventDirectPledge = LogSWCqueueDirectPledge()
 }
 
 func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
@@ -59,7 +43,7 @@ func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
 	expected.Wad.SetString("10000000000000000000", 10)
 
 	var o EventDirectPledge
-	err = o.Unmarshal(*log)
+	err = o.Unmarshal(log)
 	c.Assert(err, IsNil)
 
 	c.Check(o.Who, Equals, expected.Who)
