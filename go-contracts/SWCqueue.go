@@ -14,7 +14,7 @@ import (
 )
 
 // SWCqueueABI is the input ABI used to generate the binding from.
-const SWCqueueABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"root_\",\"type\":\"address\"}],\"name\":\"setRoot\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"logTrancheRelease\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"ratio\",\"type\":\"uint256\"}],\"name\":\"setNextBRGusdSWTratio\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"cancel\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"nextBRGusdSWTratio\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"directPledge\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"root\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"root_\",\"type\":\"address\"},{\"name\":\"nextBRGusdSWTratio_\",\"type\":\"uint256\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueCancel\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueDirectPledge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"LogSWCqueueTranchRelease\",\"type\":\"event\"}]"
+const SWCqueueABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"root_\",\"type\":\"address\"}],\"name\":\"setRoot\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"directPledge\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"logTrancheRelease\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"ratio\",\"type\":\"uint256\"}],\"name\":\"setNextBRGusdSWTratio\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"cancel\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"nextBRGusdSWTratio\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"root\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"root_\",\"type\":\"address\"},{\"name\":\"nextBRGusdSWTratio_\",\"type\":\"uint256\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueCancel\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"who\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"},{\"indexed\":false,\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"LogSWCqueueDirectPledge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"price\",\"type\":\"uint256\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"LogSWCqueueTranchRelease\",\"type\":\"event\"}]"
 
 // SWCqueue is an auto generated Go binding around an Ethereum contract.
 type SWCqueue struct {
@@ -143,30 +143,30 @@ func (_SWCqueue *SWCqueueTransactorRaw) Transact(opts *bind.TransactOpts, method
 	return _SWCqueue.Contract.contract.Transact(opts, method, params...)
 }
 
-// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+// ContractHash is a free data retrieval call binding the contract method 0x3a7ab04f.
 //
-// Solidity: function contractHash() constant returns(bytes32)
-func (_SWCqueue *SWCqueueCaller) ContractHash(opts *bind.CallOpts) ([32]byte, error) {
+// Solidity: function contractHash(wad uint128, currency bytes3) constant returns(bytes32)
+func (_SWCqueue *SWCqueueCaller) ContractHash(opts *bind.CallOpts, wad *big.Int, currency [3]byte) ([32]byte, error) {
 	var (
 		ret0 = new([32]byte)
 	)
 	out := ret0
-	err := _SWCqueue.contract.Call(opts, out, "contractHash")
+	err := _SWCqueue.contract.Call(opts, out, "contractHash", wad, currency)
 	return *ret0, err
 }
 
-// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+// ContractHash is a free data retrieval call binding the contract method 0x3a7ab04f.
 //
-// Solidity: function contractHash() constant returns(bytes32)
-func (_SWCqueue *SWCqueueSession) ContractHash() ([32]byte, error) {
-	return _SWCqueue.Contract.ContractHash(&_SWCqueue.CallOpts)
+// Solidity: function contractHash(wad uint128, currency bytes3) constant returns(bytes32)
+func (_SWCqueue *SWCqueueSession) ContractHash(wad *big.Int, currency [3]byte) ([32]byte, error) {
+	return _SWCqueue.Contract.ContractHash(&_SWCqueue.CallOpts, wad, currency)
 }
 
-// ContractHash is a free data retrieval call binding the contract method 0x904c6094.
+// ContractHash is a free data retrieval call binding the contract method 0x3a7ab04f.
 //
-// Solidity: function contractHash() constant returns(bytes32)
-func (_SWCqueue *SWCqueueCallerSession) ContractHash() ([32]byte, error) {
-	return _SWCqueue.Contract.ContractHash(&_SWCqueue.CallOpts)
+// Solidity: function contractHash(wad uint128, currency bytes3) constant returns(bytes32)
+func (_SWCqueue *SWCqueueCallerSession) ContractHash(wad *big.Int, currency [3]byte) ([32]byte, error) {
+	return _SWCqueue.Contract.ContractHash(&_SWCqueue.CallOpts, wad, currency)
 }
 
 // HasRole is a free data retrieval call binding the contract method 0xe3c33a9b.
@@ -195,30 +195,30 @@ func (_SWCqueue *SWCqueueCallerSession) HasRole(roleName string) (bool, error) {
 	return _SWCqueue.Contract.HasRole(&_SWCqueue.CallOpts, roleName)
 }
 
-// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0x910db45b.
+// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0xb2273eee.
 //
-// Solidity: function nextBRGusdSWTratio() constant returns(uint256)
-func (_SWCqueue *SWCqueueCaller) NextBRGusdSWTratio(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function nextBRGusdSWTratio(roles_ address) constant returns(uint256)
+func (_SWCqueue *SWCqueueCaller) NextBRGusdSWTratio(opts *bind.CallOpts, roles_ common.Address) (*big.Int, error) {
 	var (
 		ret0 = new(*big.Int)
 	)
 	out := ret0
-	err := _SWCqueue.contract.Call(opts, out, "nextBRGusdSWTratio")
+	err := _SWCqueue.contract.Call(opts, out, "nextBRGusdSWTratio", roles_)
 	return *ret0, err
 }
 
-// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0x910db45b.
+// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0xb2273eee.
 //
-// Solidity: function nextBRGusdSWTratio() constant returns(uint256)
-func (_SWCqueue *SWCqueueSession) NextBRGusdSWTratio() (*big.Int, error) {
-	return _SWCqueue.Contract.NextBRGusdSWTratio(&_SWCqueue.CallOpts)
+// Solidity: function nextBRGusdSWTratio(roles_ address) constant returns(uint256)
+func (_SWCqueue *SWCqueueSession) NextBRGusdSWTratio(roles_ common.Address) (*big.Int, error) {
+	return _SWCqueue.Contract.NextBRGusdSWTratio(&_SWCqueue.CallOpts, roles_)
 }
 
-// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0x910db45b.
+// NextBRGusdSWTratio is a free data retrieval call binding the contract method 0xb2273eee.
 //
-// Solidity: function nextBRGusdSWTratio() constant returns(uint256)
-func (_SWCqueue *SWCqueueCallerSession) NextBRGusdSWTratio() (*big.Int, error) {
-	return _SWCqueue.Contract.NextBRGusdSWTratio(&_SWCqueue.CallOpts)
+// Solidity: function nextBRGusdSWTratio(roles_ address) constant returns(uint256)
+func (_SWCqueue *SWCqueueCallerSession) NextBRGusdSWTratio(roles_ common.Address) (*big.Int, error) {
+	return _SWCqueue.Contract.NextBRGusdSWTratio(&_SWCqueue.CallOpts, roles_)
 }
 
 // Owner is a free data retrieval call binding the contract method 0x8da5cb5b.
@@ -374,44 +374,44 @@ func (_SWCqueue *SWCqueueTransactorSession) Burn(wad *big.Int, currency [3]byte)
 
 // Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(wad uint128, currency bytes3) returns()
+// Solidity: function cancel(wad uint128, currency bytes3) returns(uint256)
 func (_SWCqueue *SWCqueueTransactor) Cancel(opts *bind.TransactOpts, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
 	return _SWCqueue.contract.Transact(opts, "cancel", wad, currency)
 }
 
 // Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(wad uint128, currency bytes3) returns()
+// Solidity: function cancel(wad uint128, currency bytes3) returns(uint256)
 func (_SWCqueue *SWCqueueSession) Cancel(wad *big.Int, currency [3]byte) (*types.Transaction, error) {
 	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, wad, currency)
 }
 
 // Cancel is a paid mutator transaction binding the contract method 0x90a160d4.
 //
-// Solidity: function cancel(wad uint128, currency bytes3) returns()
+// Solidity: function cancel(wad uint128, currency bytes3) returns(uint256)
 func (_SWCqueue *SWCqueueTransactorSession) Cancel(wad *big.Int, currency [3]byte) (*types.Transaction, error) {
 	return _SWCqueue.Contract.Cancel(&_SWCqueue.TransactOpts, wad, currency)
 }
 
-// DirectPledge is a paid mutator transaction binding the contract method 0xbb9469cb.
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
 //
-// Solidity: function directPledge(who address, wad uint128) returns()
-func (_SWCqueue *SWCqueueTransactor) DirectPledge(opts *bind.TransactOpts, who common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.contract.Transact(opts, "directPledge", who, wad)
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactor) DirectPledge(opts *bind.TransactOpts, who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.contract.Transact(opts, "directPledge", who, wad, currency)
 }
 
-// DirectPledge is a paid mutator transaction binding the contract method 0xbb9469cb.
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
 //
-// Solidity: function directPledge(who address, wad uint128) returns()
-func (_SWCqueue *SWCqueueSession) DirectPledge(who common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad)
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueSession) DirectPledge(who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad, currency)
 }
 
-// DirectPledge is a paid mutator transaction binding the contract method 0xbb9469cb.
+// DirectPledge is a paid mutator transaction binding the contract method 0x209c4986.
 //
-// Solidity: function directPledge(who address, wad uint128) returns()
-func (_SWCqueue *SWCqueueTransactorSession) DirectPledge(who common.Address, wad *big.Int) (*types.Transaction, error) {
-	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad)
+// Solidity: function directPledge(who address, wad uint128, currency bytes3) returns()
+func (_SWCqueue *SWCqueueTransactorSession) DirectPledge(who common.Address, wad *big.Int, currency [3]byte) (*types.Transaction, error) {
+	return _SWCqueue.Contract.DirectPledge(&_SWCqueue.TransactOpts, who, wad, currency)
 }
 
 // LogTrancheRelease is a paid mutator transaction binding the contract method 0x30311449.
@@ -458,21 +458,21 @@ func (_SWCqueue *SWCqueueTransactorSession) Restart() (*types.Transaction, error
 
 // SetNextBRGusdSWTratio is a paid mutator transaction binding the contract method 0x32f9c912.
 //
-// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns()
+// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns(address)
 func (_SWCqueue *SWCqueueTransactor) SetNextBRGusdSWTratio(opts *bind.TransactOpts, ratio *big.Int) (*types.Transaction, error) {
 	return _SWCqueue.contract.Transact(opts, "setNextBRGusdSWTratio", ratio)
 }
 
 // SetNextBRGusdSWTratio is a paid mutator transaction binding the contract method 0x32f9c912.
 //
-// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns()
+// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns(address)
 func (_SWCqueue *SWCqueueSession) SetNextBRGusdSWTratio(ratio *big.Int) (*types.Transaction, error) {
 	return _SWCqueue.Contract.SetNextBRGusdSWTratio(&_SWCqueue.TransactOpts, ratio)
 }
 
 // SetNextBRGusdSWTratio is a paid mutator transaction binding the contract method 0x32f9c912.
 //
-// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns()
+// Solidity: function setNextBRGusdSWTratio(ratio uint256) returns(address)
 func (_SWCqueue *SWCqueueTransactorSession) SetNextBRGusdSWTratio(ratio *big.Int) (*types.Transaction, error) {
 	return _SWCqueue.Contract.SetNextBRGusdSWTratio(&_SWCqueue.TransactOpts, ratio)
 }
@@ -498,25 +498,25 @@ func (_SWCqueue *SWCqueueTransactorSession) SetOwner(owner_ common.Address) (*ty
 	return _SWCqueue.Contract.SetOwner(&_SWCqueue.TransactOpts, owner_)
 }
 
-// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+// SetRolesContract is a paid mutator transaction binding the contract method 0x110056df.
 //
-// Solidity: function setRolesContract(roles_ address) returns()
-func (_SWCqueue *SWCqueueTransactor) SetRolesContract(opts *bind.TransactOpts, roles_ common.Address) (*types.Transaction, error) {
-	return _SWCqueue.contract.Transact(opts, "setRolesContract", roles_)
+// Solidity: function setRolesContract(roles_ address, wad uint128) returns()
+func (_SWCqueue *SWCqueueTransactor) SetRolesContract(opts *bind.TransactOpts, roles_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.contract.Transact(opts, "setRolesContract", roles_, wad)
 }
 
-// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+// SetRolesContract is a paid mutator transaction binding the contract method 0x110056df.
 //
-// Solidity: function setRolesContract(roles_ address) returns()
-func (_SWCqueue *SWCqueueSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
-	return _SWCqueue.Contract.SetRolesContract(&_SWCqueue.TransactOpts, roles_)
+// Solidity: function setRolesContract(roles_ address, wad uint128) returns()
+func (_SWCqueue *SWCqueueSession) SetRolesContract(roles_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.Contract.SetRolesContract(&_SWCqueue.TransactOpts, roles_, wad)
 }
 
-// SetRolesContract is a paid mutator transaction binding the contract method 0xafa202ac.
+// SetRolesContract is a paid mutator transaction binding the contract method 0x110056df.
 //
-// Solidity: function setRolesContract(roles_ address) returns()
-func (_SWCqueue *SWCqueueTransactorSession) SetRolesContract(roles_ common.Address) (*types.Transaction, error) {
-	return _SWCqueue.Contract.SetRolesContract(&_SWCqueue.TransactOpts, roles_)
+// Solidity: function setRolesContract(roles_ address, wad uint128) returns()
+func (_SWCqueue *SWCqueueTransactorSession) SetRolesContract(roles_ common.Address, wad *big.Int) (*types.Transaction, error) {
+	return _SWCqueue.Contract.SetRolesContract(&_SWCqueue.TransactOpts, roles_, wad)
 }
 
 // SetRoot is a paid mutator transaction binding the contract method 0x003ba1ed.
