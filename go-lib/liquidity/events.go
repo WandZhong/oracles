@@ -21,9 +21,7 @@ const (
 )
 
 func init() {
-	if _, ok := BRGusdABI.Events[logTokenTransfer]; !ok {
-		logger.Fatal("Contract BRGusd doesn't have Transfer event")
-	}
+	ethereum.MustHaveEvents(BRGusdABI, logTokenTransfer)
 }
 
 // LogBRGusdTransfer returns event

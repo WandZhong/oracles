@@ -1,4 +1,4 @@
-package swcq
+package trancheq
 
 import (
 	"math/big"

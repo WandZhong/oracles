@@ -17,7 +17,7 @@ Unless you are using docker environment to build the applications (explained bel
 
 4. (alternative). Use `go get` (this will work only if the repo is open) and hack the git config a bit: https://gist.github.com/shurcooL/6927554
 
-    go get bitbucket.org/sweetbridge/oracles/cmd/helloworld
+    go get bitbucket.org/sweetbridge/oracles/cmd/<oracle-name>
 
 Please refer to `setup-quickstart.sh` if you want to install it on debian / ubuntu.
 
@@ -93,6 +93,6 @@ All applications should have defined following parameters:
 
     node scripts/abigen.js <path to the truffle contract builds>
 
-Usually you should just use make:
+Usually it's enough to use `make`:
 
     make abigen-backsage

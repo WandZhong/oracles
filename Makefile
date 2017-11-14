@@ -97,11 +97,11 @@ endef
 build:
 	@$(call _build,"...")
 
-build-brg-swc-pledge:
-	@$(call _build,"brg-swc-pledge")
+build-direct-pledge:
+	@$(call _build,"direct-pledge")
 
-build-swc-queue:
-	@$(call _build,"swc-queue")
+build-tranche-queue:
+	@$(call _build,"tranche-queue")
 
 build-swc-distributor:
 	@$(call _build,"swc-distributor")

@@ -14,3 +14,12 @@ func MustParseABI(name string, ctrABI string) abi.ABI {
 	}
 	return a
 }
+
+// MustHaveEvents ensures that the ABI object has listed events
+func MustHaveEvents(e abi.ABI, eventNames ...string) {
+	for _, s := range eventNames {
+		if _, ok := e.Events[s]; !ok {
+			logger.Fatal("Contract doesn't have requested event", "event_name", s)
+		}
+	}
+}

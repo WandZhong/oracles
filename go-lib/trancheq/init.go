@@ -1,4 +1,4 @@
-package swcq
+package trancheq
 
 import "bitbucket.org/sweetbridge/oracles/go-lib/log"
 

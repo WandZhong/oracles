@@ -1,4 +1,4 @@
-package swcq
+package trancheq
 
 import (
 	"math/big"
@@ -22,9 +22,7 @@ const (
 )
 
 func init() {
-	if _, ok := SWCqueueABI.Events[logSWCqueueDirectPledge]; !ok {
-		logger.Fatal("Contract SWCqueue doesn't have LogSWCqueueDirectPledge event")
-	}
+	ethereum.MustHaveEvents(SWCqueueABI, logSWCqueueDirectPledge)
 }
 
 // LogSWCqueueDirectPledge returns event

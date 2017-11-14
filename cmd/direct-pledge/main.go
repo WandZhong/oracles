@@ -8,7 +8,7 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/middleware"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
+	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/log15/rollbar"
@@ -21,7 +21,7 @@ type mainFlags struct {
 
 var flags mainFlags
 var logger = log.Root()
-var pledger swcq.Pledger
+var pledger trancheq.Pledger
 var client *ethclient.Client
 
 func setupFlags() {
@@ -37,7 +37,7 @@ func setupContracts() {
 	var err error
 	var cf ethereum.ContractFactory
 	client, cf = flags.MustEthFactory()
-	pledger, err = swcq.NewPledger(cf)
+	pledger, err = trancheq.NewPledger(cf)
 	utils.Assert(err, "Can't instantiate BRG contract")
 }
 

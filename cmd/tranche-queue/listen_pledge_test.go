@@ -7,7 +7,7 @@ import (
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
-	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
+	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	. "github.com/scale-it/checkers"
@@ -37,9 +37,9 @@ type pledgeChecker struct {
 	c         *C
 }
 
-func (pc *pledgeChecker) check(p swcq.Pledge) error {
+func (pc *pledgeChecker) check(p trancheq.Pledge) error {
 	pc.c.Check(p.Tx, Equals, pc.txHash)
-	pc.c.Check(p.UserAddr.Hex(), Equals, pc.expected.From.Hex())
+	pc.c.Check(p.WalletAddr.Hex(), Equals, pc.expected.From.Hex())
 	pc.c.Check(p.CtrAddr.Hex(), Equals, pc.expected.To.Hex())
 	pc.c.Check(p.Wad.String(), Equals, pc.expected.Value.String())
 	pc.c.Check(p.Currency, Equals, liquidity.CurrUSD)

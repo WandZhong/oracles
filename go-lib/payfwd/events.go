@@ -12,7 +12,7 @@ import (
 
 // global events
 var (
-	ForwarderFactoryABI abi.ABI
+	ForwarderFactoryABI = ethereum.MustParseABI("ForwarderFactory", contracts.ForwarderFactoryABI)
 	logger              = log.Root()
 )
 
@@ -21,7 +21,7 @@ const (
 )
 
 func init() {
-	ForwarderFactoryABI = ethereum.MustParseABI("ForwarderFactory", contracts.ForwarderFactoryABI)
+	ethereum.MustHaveEvents(ForwarderFactoryABI, logForwarderCreated)
 }
 
 // LogForwarderCreated returns event

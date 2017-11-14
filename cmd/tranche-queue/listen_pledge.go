@@ -5,7 +5,7 @@ import (
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
-	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
+	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -13,10 +13,10 @@ import (
 	"github.com/robert-zaremba/log15"
 )
 
-type listenCallback func(swcq.Pledge) error
+type listenCallback func(trancheq.Pledge) error
 
 func listen(ctx context.Context, title string, topic common.Hash, address common.Address,
-	parser func(*types.Log) (swcq.Pledge, errstack.E),
+	parser func(*types.Log) (trancheq.Pledge, errstack.E),
 	callback listenCallback) {
 
 	logger.Debug("Started listening on " + title)
@@ -50,17 +50,17 @@ func listen(ctx context.Context, title string, topic common.Hash, address common
 	}
 }
 
-func listenPledge(ctx context.Context, callback listenCallback) {
-	listen(ctx, "SWCq DirectPledge", swcq.LogSWCqueueDirectPledge().Id(), addrSWCq,
-		swcq.NewPledgeFromDirectPledgeLog, callback)
+func listenDirectPledge(ctx context.Context, callback listenCallback) {
+	listen(ctx, "SWCq DirectPledge", trancheq.LogSWCqueueDirectPledge().Id(), addrSWCq,
+		trancheq.NewPledgeFromDirectPledge, callback)
 }
 
 func listenTransfer(ctx context.Context, callback listenCallback) {
 	listen(ctx, "SWCq BRG transfer", liquidity.LogBRGusdTransfer().Id(), addrBrg,
-		swcq.NewPledgeFromTransfer, callback)
+		trancheq.NewPledgeFromTransfer, callback)
 }
 
-func createPledge(p swcq.Pledge) error {
+func createPledge(p trancheq.Pledge) error {
 	if err := validatePledge(&p); err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func createPledge(p swcq.Pledge) error {
 	return nil
 }
 
-func validatePledge(p *swcq.Pledge) errstack.E {
+func validatePledge(p *trancheq.Pledge) errstack.E {
 	if p.CtrAddr.Address != addrSWCq {
 		addr := p.CtrAddr.Hex()
 		logger.Debug("Receiving pledge from unsupported contract", "ctr_addr", addr)
@@ -81,7 +81,7 @@ func validatePledge(p *swcq.Pledge) errstack.E {
 }
 
 func find() {
-	var p swcq.Pledge
+	var p trancheq.Pledge
 	_, err := db.QueryOne(&p, `SELECT * FROM swc_queue WHERE swc_queue_id = ?`,
 		"0x0000000000000000000000000000000000000000000000000000000000000000")
 	if err != nil {

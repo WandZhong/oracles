@@ -8,9 +8,10 @@ import (
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	"bitbucket.org/sweetbridge/oracles/go-lib/swcq"
 	"bitbucket.org/sweetbridge/oracles/go-lib/test/itest"
+	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/log15"
 	. "gopkg.in/check.v1"
@@ -28,7 +29,7 @@ func (suite *PledgeS) SetUpSuite(c *C) {
 func (suite *PledgeS) subscribe(c *C) (<-chan types.Log, <-chan struct{}, context.CancelFunc) {
 	ctx, cancel := context.WithTimeout(context.Background(), 40*time.Second)
 	events, s, err := ethereum.SubscribeSimple(ctx, client,
-		[][]common.Hash{{swcq.LogSWCqueueDirectPledge().Id()}},
+		[][]common.Hash{{trancheq.LogSWCqueueDirectPledge().Id()}},
 		[]common.Address{pledger.SWCQaddr})
 	c.Assert(err, IsNil, Commentf("Can't subscribe for SWC direct pledge events"))
 	var out = make(chan types.Log)
@@ -72,6 +73,6 @@ func (suite *PledgeS) TestDirectPledge(c *C) {
 	case <-done:
 	case e := <-events:
 		c.Assert(e.Address, Equals, pledger.SWCQaddr)
-		c.Assert(e.Data, Equals, []byte("00000000000000000000000000ce0d46d924cc8437c806721496599fc3ffa2680000000000000000000000000000000000000000000000008ac7230489e800007573640000000000000000000000000000000000000000000000000000000000"))
+		c.Assert(string(e.Data), Equals, hexutil.MustDecode("00000000000000000000000000ce0d46d924cc8437c806721496599fc3ffa2680000000000000000000000000000000000000000000000008ac7230489e800007573640000000000000000000000000000000000000000000000000000000000"))
 	}
 }
