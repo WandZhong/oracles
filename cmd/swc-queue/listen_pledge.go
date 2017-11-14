@@ -42,7 +42,9 @@ func listen(ctx context.Context, title string, topic common.Hash, address common
 			if err != nil {
 				logger.Error("Can't construct pledge", err)
 			} else {
-				callback(p)
+				if err := callback(p); err != nil {
+					logger.Error("can't process the pledge", err)
+				}
 			}
 		}
 	}
@@ -63,17 +65,16 @@ func createPledge(p swcq.Pledge) error {
 		return err
 	}
 	if err := db.Insert(&p); err != nil {
-		logger.Error("Can't insert pledge", err)
-		return err
+		return errstack.WrapAsReq(err, "Can't insert pledge")
 	}
 	logger.Info("pledge inserted", log15.Alone("pledge", &p))
 	return nil
 }
 
 func validatePledge(p *swcq.Pledge) errstack.E {
-	if p.CtrAddr.Address == addrSWCq {
+	if p.CtrAddr.Address != addrSWCq {
 		addr := p.CtrAddr.Hex()
-		logger.Debug("Receiving pledge for unsupported contract", "ctr_addr", addr)
+		logger.Debug("Receiving pledge from unsupported contract", "ctr_addr", addr)
 		return errstack.NewDomain("Unsupported queue contract: " + addr)
 	}
 	return nil

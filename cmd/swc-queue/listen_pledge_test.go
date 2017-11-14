@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"math/big"
 	"time"
 
@@ -78,5 +77,5 @@ func (suite *PledgeS) TestDirectPledge(c *C) {
 func checkBalance(who common.Address, c *C) {
 	balance, err := brgC.BalanceOf(nil, who)
 	c.Assert(err, IsNil)
-	fmt.Println("Balance", balance)
+	c.Log("Balance", balance)
 }

@@ -21,32 +21,31 @@ var (
 )
 
 var (
-	bcyApi gobcy.API
+	bcyAPI gobcy.API
 )
 
-func initBcyApi() {
+func initBcyAPI() {
 	bcyNet := networks[*flags.bcyNet]
-	bcyApi = gobcy.API{*flags.apiKey, bcyNet.coin, bcyNet.chain}
-	if _, err := bcyApi.GetChain(); err != nil {
+	bcyAPI = gobcy.API{*flags.apiKey, bcyNet.coin, bcyNet.chain}
+	if _, err := bcyAPI.GetChain(); err != nil {
 		logger.Error("could not initialise BCY API", err)
 	}
-	return
 }
 
 type bcyReturnData struct {
 	Address string
-	Id      string
+	ID      string
 }
 
 func handleBtcCreate(ctx *routing.Context) error {
 	callBack := ctx.Request.PostFormValue("callBack")
 
 	forwardAddress := ctx.Request.PostFormValue("toAddress")
-	payfwd, err := bcyApi.CreatePayFwd(gobcy.PayFwd{Destination: forwardAddress, CallbackURL: callBack})
+	payfwd, err := bcyAPI.CreatePayFwd(gobcy.PayFwd{Destination: forwardAddress, CallbackURL: callBack})
 	if err != nil {
 		return errstack.WrapAsInf(err, "creating BTC forwarder")
 	}
-	js, err := json.Marshal(bcyReturnData{Address: payfwd.InputAddr, Id: payfwd.ID})
+	js, err := json.Marshal(bcyReturnData{payfwd.InputAddr, payfwd.ID})
 	if err != nil {
 		return errstack.WrapAsInf(err, "unmarshall response")
 	}

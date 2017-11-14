@@ -12,21 +12,21 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
-func getForwarderAddress(txHash common.Hash) (*common.Address, errstack.E) {
+func getForwarderAddress(txHash common.Hash) (common.Address, errstack.E) {
 	timeout := *flags.txTimeout
 	for i := 0; i < (timeout / 2); i++ {
 		time.Sleep(time.Second * 2)
 		receipt, err := client.TransactionReceipt(context.Background(), txHash)
 		if err == nil {
 			var e = payfwd.EventForwarderCreated{}
-			e.Unmarshal(*receipt.Logs[0])
-			return &e.Forwarder, nil
+			err := e.Unmarshal(*receipt.Logs[0])
+			return e.Forwarder, err
 		}
 		if err.Error() != "not found" {
-			return nil, errstack.WrapAsInfF(err, "can't get transaction receipt for [%s]", txHash.Hex())
+			return common.Address{}, errstack.WrapAsInfF(err, "can't get transaction receipt for [%s]", txHash.Hex())
 		}
 	}
-	return nil, errstack.NewInfF("timed out transaction receipt for [%s]", txHash.Hex())
+	return common.Address{}, errstack.NewInfF("timed out transaction receipt for [%s]", txHash.Hex())
 }
 
 func handleEthCreate(ctx *routing.Context) error {
@@ -58,7 +58,7 @@ func handleEthCreate(ctx *routing.Context) error {
 		return err
 	}
 
-	js, txErr := json.Marshal(payfwd.EventForwarderCreated{Forwarder: *forwarder})
+	js, txErr := json.Marshal(payfwd.EventForwarderCreated{Forwarder: forwarder})
 	if txErr != nil {
 		return errstack.WrapAsDomain(txErr, "unmarshall event forwarder created")
 	}

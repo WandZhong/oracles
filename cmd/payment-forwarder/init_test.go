@@ -24,7 +24,7 @@ func init() {
 		"submodules/contract-deployments/development"))
 	flags.Network = ptr("backstage-dev")
 
-	initBcyApi()
+	initBcyAPI()
 	setupContracts()
 
 	Suite(&PaymentForwarderS{})

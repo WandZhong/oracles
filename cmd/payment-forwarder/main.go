@@ -68,7 +68,7 @@ func setupContracts() {
 
 func main() {
 	setupFlags()
-	initBcyApi()
+	initBcyAPI()
 	setupContracts()
 
 	router := middleware.StdRouter()
@@ -83,7 +83,7 @@ func main() {
 
 	root.Post("/btc", handleBtcCreate)
 
-	root.Post("/eth", handleBtcCreate)
+	root.Post("/eth", handleEthCreate)
 	logger.Info("payment forwarder listening at", "port", *flags.port)
 	if err := http.ListenAndServe(":"+*flags.port, router); err != nil {
 		logger.Error("Can't initiate HTTP service", err)

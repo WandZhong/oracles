@@ -14,6 +14,12 @@ import (
 
 type PaymentForwarderS struct{}
 
+func (suite *PaymentForwarderS) SetUpSuite(c *C) {
+	if !*flagIntegration {
+		c.Skip("-integration not provided")
+	}
+}
+
 func (suite *PaymentForwarderS) TestCreateBtcForwarder(c *C) {
 	data := url.Values{
 		"callBack":  {"https://callback.sweetbridge.com/paymentreceived/bBKL63mYGZkw2sTKS"},
@@ -40,6 +46,7 @@ func (suite *PaymentForwarderS) TestCreateEthForwarder(c *C) {
 
 	rc := itest.NewRoutingPostCtx(data)
 	err := handleEthCreate(rc)
+	c.Check(err, IsNil)
 	res := rc.Response.(*httptest.ResponseRecorder)
 	c.Assert(res.Code, Equals, http.StatusOK)
 

@@ -10,6 +10,7 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
+// global events
 var (
 	ForwarderFactoryABI abi.ABI
 	logger              = log.Root()
@@ -23,10 +24,12 @@ func init() {
 	ForwarderFactoryABI = ethereum.MustParseABI("ForwarderFactory", contracts.ForwarderFactoryABI)
 }
 
+// LogForwarderCreated returns event
 func LogForwarderCreated() abi.Event {
 	return ForwarderFactoryABI.Events[logForwarderCreated]
 }
 
+// EventForwarderCreated represents LogForwarderCreated event payload
 type EventForwarderCreated struct {
 	Forwarder common.Address
 }

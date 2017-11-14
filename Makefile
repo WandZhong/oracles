@@ -73,7 +73,7 @@ lint-go:
 # TODO: integrate github.com/mibk/dupl  and  github.com/opennota/check  and github.com/dominikh/go-simple
 
 lint-go-mega:
-	megacheck ./cmd/... ./go-lib/...
+	@megacheck ./cmd/... ./go-lib/...
 
 
 ###############################
