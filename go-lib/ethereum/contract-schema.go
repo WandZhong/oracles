@@ -46,7 +46,7 @@ func NewSchemaFactory(contractsPath string, network int) (SchemaFactory, errstac
 // Read reads truffle-schema file. The name should not finish with ".json"
 func (sf SchemaFactory) Read(name string) (s Schema, err errstack.E) {
 	if bat.StrSliceIdx(availableContracts, name) < 0 {
-		return s, errstack.NewReq("Unknown contract " + name)
+		return s, errstack.NewDomain("Unknown contract " + name)
 	}
 	if err = bat.DecodeJSONFile(path.Join(sf.Dir, name+".json"), &s, logger); err != nil {
 		return

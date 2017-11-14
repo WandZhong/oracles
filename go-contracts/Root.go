@@ -13,7 +13,7 @@ import (
 )
 
 // RootABI is the input ABI used to generate the binding from.
-const RootABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"swt_\",\"type\":\"address\"}],\"name\":\"setSWT\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"userDirFactory_\",\"type\":\"address\"}],\"name\":\"setUserFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vaultFactory_\",\"type\":\"address\"}],\"name\":\"setVaultFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"brg\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"userDirFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vc\",\"type\":\"address\"}],\"name\":\"setVaultConfig\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"treasury\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"}],\"name\":\"setBRG\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"userDirectories\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"vaultConfig\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"walletFactory_\",\"type\":\"address\"}],\"name\":\"setWalletFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"walletFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"removeDirectory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"vaultFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"swt\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"t\",\"type\":\"address\"}],\"name\":\"setTreasury\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"addDirectory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"},{\"name\":\"swt_\",\"type\":\"address\"},{\"name\":\"vc\",\"type\":\"address\"},{\"name\":\"userDirFactory_\",\"type\":\"address\"},{\"name\":\"walletFactory_\",\"type\":\"address\"},{\"name\":\"vaultFactory_\",\"type\":\"address\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newUserDirectory\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogDirectoryAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
+const RootABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"swt_\",\"type\":\"address\"}],\"name\":\"setSWT\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"userDirFactory_\",\"type\":\"address\"}],\"name\":\"setUserFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vaultFactory_\",\"type\":\"address\"}],\"name\":\"setVaultFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"userDirFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"vc\",\"type\":\"address\"}],\"name\":\"setVaultConfig\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"treasury\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brg_\",\"type\":\"address\"},{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"setBRG\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"userDirectories\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"vaultConfig\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"walletFactory_\",\"type\":\"address\"}],\"name\":\"setWalletFactory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"walletFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"removeDirectory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"vaultFactory\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"swt\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"t\",\"type\":\"address\"}],\"name\":\"setTreasury\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"currency\",\"type\":\"bytes3\"}],\"name\":\"brg\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"addDirectory\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"swt_\",\"type\":\"address\"},{\"name\":\"vc\",\"type\":\"address\"},{\"name\":\"userDirFactory_\",\"type\":\"address\"},{\"name\":\"walletFactory_\",\"type\":\"address\"},{\"name\":\"vaultFactory_\",\"type\":\"address\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newUserDirectory\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"LogDirectoryAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
 
 // Root is an auto generated Go binding around an Ethereum contract.
 type Root struct {
@@ -142,30 +142,30 @@ func (_Root *RootTransactorRaw) Transact(opts *bind.TransactOpts, method string,
 	return _Root.Contract.contract.Transact(opts, method, params...)
 }
 
-// Brg is a free data retrieval call binding the contract method 0x4f9c8fe8.
+// Brg is a free data retrieval call binding the contract method 0xf556463b.
 //
-// Solidity: function brg() constant returns(address)
-func (_Root *RootCaller) Brg(opts *bind.CallOpts) (common.Address, error) {
+// Solidity: function brg(currency bytes3) constant returns(address)
+func (_Root *RootCaller) Brg(opts *bind.CallOpts, currency [3]byte) (common.Address, error) {
 	var (
 		ret0 = new(common.Address)
 	)
 	out := ret0
-	err := _Root.contract.Call(opts, out, "brg")
+	err := _Root.contract.Call(opts, out, "brg", currency)
 	return *ret0, err
 }
 
-// Brg is a free data retrieval call binding the contract method 0x4f9c8fe8.
+// Brg is a free data retrieval call binding the contract method 0xf556463b.
 //
-// Solidity: function brg() constant returns(address)
-func (_Root *RootSession) Brg() (common.Address, error) {
-	return _Root.Contract.Brg(&_Root.CallOpts)
+// Solidity: function brg(currency bytes3) constant returns(address)
+func (_Root *RootSession) Brg(currency [3]byte) (common.Address, error) {
+	return _Root.Contract.Brg(&_Root.CallOpts, currency)
 }
 
-// Brg is a free data retrieval call binding the contract method 0x4f9c8fe8.
+// Brg is a free data retrieval call binding the contract method 0xf556463b.
 //
-// Solidity: function brg() constant returns(address)
-func (_Root *RootCallerSession) Brg() (common.Address, error) {
-	return _Root.Contract.Brg(&_Root.CallOpts)
+// Solidity: function brg(currency bytes3) constant returns(address)
+func (_Root *RootCallerSession) Brg(currency [3]byte) (common.Address, error) {
+	return _Root.Contract.Brg(&_Root.CallOpts, currency)
 }
 
 // ContractHash is a free data retrieval call binding the contract method 0x904c6094.
@@ -569,25 +569,25 @@ func (_Root *RootTransactorSession) Restart() (*types.Transaction, error) {
 	return _Root.Contract.Restart(&_Root.TransactOpts)
 }
 
-// SetBRG is a paid mutator transaction binding the contract method 0x679ccc6d.
+// SetBRG is a paid mutator transaction binding the contract method 0x6a35c0cd.
 //
-// Solidity: function setBRG(brg_ address) returns()
-func (_Root *RootTransactor) SetBRG(opts *bind.TransactOpts, brg_ common.Address) (*types.Transaction, error) {
-	return _Root.contract.Transact(opts, "setBRG", brg_)
+// Solidity: function setBRG(brg_ address, currency bytes3) returns()
+func (_Root *RootTransactor) SetBRG(opts *bind.TransactOpts, brg_ common.Address, currency [3]byte) (*types.Transaction, error) {
+	return _Root.contract.Transact(opts, "setBRG", brg_, currency)
 }
 
-// SetBRG is a paid mutator transaction binding the contract method 0x679ccc6d.
+// SetBRG is a paid mutator transaction binding the contract method 0x6a35c0cd.
 //
-// Solidity: function setBRG(brg_ address) returns()
-func (_Root *RootSession) SetBRG(brg_ common.Address) (*types.Transaction, error) {
-	return _Root.Contract.SetBRG(&_Root.TransactOpts, brg_)
+// Solidity: function setBRG(brg_ address, currency bytes3) returns()
+func (_Root *RootSession) SetBRG(brg_ common.Address, currency [3]byte) (*types.Transaction, error) {
+	return _Root.Contract.SetBRG(&_Root.TransactOpts, brg_, currency)
 }
 
-// SetBRG is a paid mutator transaction binding the contract method 0x679ccc6d.
+// SetBRG is a paid mutator transaction binding the contract method 0x6a35c0cd.
 //
-// Solidity: function setBRG(brg_ address) returns()
-func (_Root *RootTransactorSession) SetBRG(brg_ common.Address) (*types.Transaction, error) {
-	return _Root.Contract.SetBRG(&_Root.TransactOpts, brg_)
+// Solidity: function setBRG(brg_ address, currency bytes3) returns()
+func (_Root *RootTransactorSession) SetBRG(brg_ common.Address, currency [3]byte) (*types.Transaction, error) {
+	return _Root.Contract.SetBRG(&_Root.TransactOpts, brg_, currency)
 }
 
 // SetOwner is a paid mutator transaction binding the contract method 0x13af4035.

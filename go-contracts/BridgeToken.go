@@ -14,7 +14,7 @@ import (
 )
 
 // BridgeTokenABI is the input ABI used to generate the binding from.
-const BridgeTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"bytes32\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
+const BridgeTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"brgWad\",\"type\":\"uint128\"},{\"name\":\"vault\",\"type\":\"address\"},{\"name\":\"uouIndex\",\"type\":\"uint256\"}],\"name\":\"repayUou\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"string\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newLogic\",\"type\":\"address\"}],\"name\":\"LogLogicReplaced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
 
 // BridgeToken is an auto generated Go binding around an Ethereum contract.
 type BridgeToken struct {
@@ -223,10 +223,10 @@ func (_BridgeToken *BridgeTokenCallerSession) ContractHash() ([32]byte, error) {
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_BridgeToken *BridgeTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_BridgeToken *BridgeTokenCaller) Decimals(opts *bind.CallOpts) (uint8, error) {
 	var (
-		ret0 = new(*big.Int)
+		ret0 = new(uint8)
 	)
 	out := ret0
 	err := _BridgeToken.contract.Call(opts, out, "decimals")
@@ -235,15 +235,15 @@ func (_BridgeToken *BridgeTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, 
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_BridgeToken *BridgeTokenSession) Decimals() (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_BridgeToken *BridgeTokenSession) Decimals() (uint8, error) {
 	return _BridgeToken.Contract.Decimals(&_BridgeToken.CallOpts)
 }
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_BridgeToken *BridgeTokenCallerSession) Decimals() (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_BridgeToken *BridgeTokenCallerSession) Decimals() (uint8, error) {
 	return _BridgeToken.Contract.Decimals(&_BridgeToken.CallOpts)
 }
 
@@ -431,10 +431,10 @@ func (_BridgeToken *BridgeTokenCallerSession) Stopped() (bool, error) {
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_BridgeToken *BridgeTokenCaller) Symbol(opts *bind.CallOpts) ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_BridgeToken *BridgeTokenCaller) Symbol(opts *bind.CallOpts) (string, error) {
 	var (
-		ret0 = new([32]byte)
+		ret0 = new(string)
 	)
 	out := ret0
 	err := _BridgeToken.contract.Call(opts, out, "symbol")
@@ -443,15 +443,15 @@ func (_BridgeToken *BridgeTokenCaller) Symbol(opts *bind.CallOpts) ([32]byte, er
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_BridgeToken *BridgeTokenSession) Symbol() ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_BridgeToken *BridgeTokenSession) Symbol() (string, error) {
 	return _BridgeToken.Contract.Symbol(&_BridgeToken.CallOpts)
 }
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_BridgeToken *BridgeTokenCallerSession) Symbol() ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_BridgeToken *BridgeTokenCallerSession) Symbol() (string, error) {
 	return _BridgeToken.Contract.Symbol(&_BridgeToken.CallOpts)
 }
 
@@ -502,67 +502,88 @@ func (_BridgeToken *BridgeTokenTransactorSession) Approve(guy common.Address, wa
 	return _BridgeToken.Contract.Approve(&_BridgeToken.TransactOpts, guy, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_BridgeToken *BridgeTokenTransactor) Burn(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.contract.Transact(opts, "burn", wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_BridgeToken *BridgeTokenSession) Burn(wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.Burn(&_BridgeToken.TransactOpts, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_BridgeToken *BridgeTokenTransactorSession) Burn(wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.Burn(&_BridgeToken.TransactOpts, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_BridgeToken *BridgeTokenTransactor) MintFor(opts *bind.TransactOpts, recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.contract.Transact(opts, "mintFor", recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_BridgeToken *BridgeTokenSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.MintFor(&_BridgeToken.TransactOpts, recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_BridgeToken *BridgeTokenTransactorSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.MintFor(&_BridgeToken.TransactOpts, recipient, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_BridgeToken *BridgeTokenTransactor) Pull(opts *bind.TransactOpts, src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.contract.Transact(opts, "pull", src, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_BridgeToken *BridgeTokenSession) Pull(src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.Pull(&_BridgeToken.TransactOpts, src, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_BridgeToken *BridgeTokenTransactorSession) Pull(src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _BridgeToken.Contract.Pull(&_BridgeToken.TransactOpts, src, wad)
+}
+
+// RepayUou is a paid mutator transaction binding the contract method 0x0badbc55.
+//
+// Solidity: function repayUou(brgWad uint128, vault address, uouIndex uint256) returns()
+func (_BridgeToken *BridgeTokenTransactor) RepayUou(opts *bind.TransactOpts, brgWad *big.Int, vault common.Address, uouIndex *big.Int) (*types.Transaction, error) {
+	return _BridgeToken.contract.Transact(opts, "repayUou", brgWad, vault, uouIndex)
+}
+
+// RepayUou is a paid mutator transaction binding the contract method 0x0badbc55.
+//
+// Solidity: function repayUou(brgWad uint128, vault address, uouIndex uint256) returns()
+func (_BridgeToken *BridgeTokenSession) RepayUou(brgWad *big.Int, vault common.Address, uouIndex *big.Int) (*types.Transaction, error) {
+	return _BridgeToken.Contract.RepayUou(&_BridgeToken.TransactOpts, brgWad, vault, uouIndex)
+}
+
+// RepayUou is a paid mutator transaction binding the contract method 0x0badbc55.
+//
+// Solidity: function repayUou(brgWad uint128, vault address, uouIndex uint256) returns()
+func (_BridgeToken *BridgeTokenTransactorSession) RepayUou(brgWad *big.Int, vault common.Address, uouIndex *big.Int) (*types.Transaction, error) {
+	return _BridgeToken.Contract.RepayUou(&_BridgeToken.TransactOpts, brgWad, vault, uouIndex)
 }
 
 // Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
@@ -588,21 +609,21 @@ func (_BridgeToken *BridgeTokenTransactorSession) Restart() (*types.Transaction,
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_BridgeToken *BridgeTokenTransactor) SetLogic(opts *bind.TransactOpts, logic_ common.Address) (*types.Transaction, error) {
 	return _BridgeToken.contract.Transact(opts, "setLogic", logic_)
 }
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_BridgeToken *BridgeTokenSession) SetLogic(logic_ common.Address) (*types.Transaction, error) {
 	return _BridgeToken.Contract.SetLogic(&_BridgeToken.TransactOpts, logic_)
 }
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_BridgeToken *BridgeTokenTransactorSession) SetLogic(logic_ common.Address) (*types.Transaction, error) {
 	return _BridgeToken.Contract.SetLogic(&_BridgeToken.TransactOpts, logic_)
 }

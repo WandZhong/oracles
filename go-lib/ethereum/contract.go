@@ -1,7 +1,7 @@
 package ethereum
 
 import (
-	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
+	"bitbucket.org/sweetbridge/oracles/go-contracts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -10,22 +10,26 @@ import (
 
 // Contract names
 const (
-	CtrBRG           = "BridgeToken"
-	CtrRoot          = "Root"
-	CtrSWC           = "SweetToken"
-	CtrSWCqueue      = "SWCqueue"
-	CtrSWClogic      = "SweetTokenLogic"
-	CtrTokenLogic    = "TokenLogic"
-	CtrTreasury      = "Treasury"
-	CtrUserDirectory = "UserDirectory"
-	CtrVault         = "Vault"
-	CtrVaultConfig   = "VaultConfig"
-	CtrWallet        = "Wallet"
+	CtrBRG              = "BridgeToken"
+	CtrForwarderFactory = "ForwarderFactory"
+	CtrRoot             = "Root"
+	CtrSWC              = "SweetToken"
+	CtrSWCqueue         = "SWCqueue"
+	CtrSWClogic         = "SweetTokenLogic"
+	CtrTokenLogic       = "TokenLogic"
+	CtrTreasury         = "Treasury"
+	CtrUserDirectory    = "UserDirectory"
+	CtrVault            = "Vault"
+	CtrVaultConfig      = "VaultConfig"
+	CtrWallet           = "Wallet"
 )
 
 // Contracts is a list of available contracts
 var availableContracts = []string{
-	CtrBRG, CtrRoot, CtrSWC, CtrSWCqueue, CtrSWClogic, CtrTokenLogic, CtrTreasury, CtrTreasury,
+	CtrBRG, CtrForwarderFactory, CtrRoot,
+	CtrSWC, CtrSWCqueue, CtrSWClogic,
+	CtrTokenLogic,
+	CtrTreasury, CtrTreasury,
 	CtrUserDirectory, CtrVault, CtrVaultConfig, CtrWallet}
 
 // ContractFactory delivers methods to easily construct contracts
@@ -34,6 +38,7 @@ type ContractFactory interface {
 	GetSWC() (*contracts.SweetToken, common.Address, errstack.E)
 	GetSWClogic() (*contracts.SweetTokenLogic, common.Address, errstack.E)
 	GetSWCqueue() (*contracts.SWCqueue, common.Address, errstack.E)
+	GetForwarderFactory() (*contracts.ForwarderFactory, common.Address, errstack.E)
 
 	TxrFactory
 }
@@ -115,6 +120,14 @@ func (cf contractFactory) GetSWClogic() (c *contracts.SweetTokenLogic, addr comm
 func (cf contractFactory) GetSWCqueue() (c *contracts.SWCqueue, addr common.Address, err errstack.E) {
 	addr, err = cf.mkContract(CtrSWCqueue, func(addr common.Address) (err2 error) {
 		c, err2 = contracts.NewSWCqueue(addr, cf.client)
+		return
+	})
+	return
+}
+
+func (cf contractFactory) GetForwarderFactory() (c *contracts.ForwarderFactory, addr common.Address, err errstack.E) {
+	addr, err = cf.mkContract(CtrForwarderFactory, func(addr common.Address) (err2 error) {
+		c, err2 = contracts.NewForwarderFactory(addr, cf.client)
 		return
 	})
 	return

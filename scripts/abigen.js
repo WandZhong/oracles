@@ -16,7 +16,8 @@ const validContracts = [
   "SweetToken",
   "SweetTokenLogic",
   "TokenLogic",
-  "UserDirectory"
+  "UserDirectory",
+  "ForwarderFactory"
 
   // "Treasury",
   // "Vault",
@@ -25,7 +26,8 @@ const validContracts = [
 ]
 
 const validContractsBin = [
-  "UserDirectory"
+  "UserDirectory",
+  "ForwarderFactory"
   // "Vault",
   // "Wallet"
 ]

@@ -14,7 +14,7 @@ import (
 )
 
 // SweetTokenABI is the input ABI used to generate the binding from.
-const SweetTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"bytes32\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
+const SweetTokenABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"guy\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"decimals\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"who\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"value\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"logic_\",\"type\":\"address\"}],\"name\":\"setLogic\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"logic\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"recipient\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"owner\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"_allowance\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"pull\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"name_\",\"type\":\"string\"},{\"name\":\"symbol_\",\"type\":\"string\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogBurn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"src\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"LogMint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newLogic\",\"type\":\"address\"}],\"name\":\"LogLogicReplaced\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"from\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"to\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":true,\"name\":\"spender\",\"type\":\"address\"},{\"indexed\":false,\"name\":\"value\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"}]"
 
 // SweetToken is an auto generated Go binding around an Ethereum contract.
 type SweetToken struct {
@@ -223,10 +223,10 @@ func (_SweetToken *SweetTokenCallerSession) ContractHash() ([32]byte, error) {
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_SweetToken *SweetTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_SweetToken *SweetTokenCaller) Decimals(opts *bind.CallOpts) (uint8, error) {
 	var (
-		ret0 = new(*big.Int)
+		ret0 = new(uint8)
 	)
 	out := ret0
 	err := _SweetToken.contract.Call(opts, out, "decimals")
@@ -235,15 +235,15 @@ func (_SweetToken *SweetTokenCaller) Decimals(opts *bind.CallOpts) (*big.Int, er
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_SweetToken *SweetTokenSession) Decimals() (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_SweetToken *SweetTokenSession) Decimals() (uint8, error) {
 	return _SweetToken.Contract.Decimals(&_SweetToken.CallOpts)
 }
 
 // Decimals is a free data retrieval call binding the contract method 0x313ce567.
 //
-// Solidity: function decimals() constant returns(uint256)
-func (_SweetToken *SweetTokenCallerSession) Decimals() (*big.Int, error) {
+// Solidity: function decimals() constant returns(uint8)
+func (_SweetToken *SweetTokenCallerSession) Decimals() (uint8, error) {
 	return _SweetToken.Contract.Decimals(&_SweetToken.CallOpts)
 }
 
@@ -431,10 +431,10 @@ func (_SweetToken *SweetTokenCallerSession) Stopped() (bool, error) {
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_SweetToken *SweetTokenCaller) Symbol(opts *bind.CallOpts) ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_SweetToken *SweetTokenCaller) Symbol(opts *bind.CallOpts) (string, error) {
 	var (
-		ret0 = new([32]byte)
+		ret0 = new(string)
 	)
 	out := ret0
 	err := _SweetToken.contract.Call(opts, out, "symbol")
@@ -443,15 +443,15 @@ func (_SweetToken *SweetTokenCaller) Symbol(opts *bind.CallOpts) ([32]byte, erro
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_SweetToken *SweetTokenSession) Symbol() ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_SweetToken *SweetTokenSession) Symbol() (string, error) {
 	return _SweetToken.Contract.Symbol(&_SweetToken.CallOpts)
 }
 
 // Symbol is a free data retrieval call binding the contract method 0x95d89b41.
 //
-// Solidity: function symbol() constant returns(bytes32)
-func (_SweetToken *SweetTokenCallerSession) Symbol() ([32]byte, error) {
+// Solidity: function symbol() constant returns(string)
+func (_SweetToken *SweetTokenCallerSession) Symbol() (string, error) {
 	return _SweetToken.Contract.Symbol(&_SweetToken.CallOpts)
 }
 
@@ -502,65 +502,65 @@ func (_SweetToken *SweetTokenTransactorSession) Approve(guy common.Address, wad 
 	return _SweetToken.Contract.Approve(&_SweetToken.TransactOpts, guy, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_SweetToken *SweetTokenTransactor) Burn(opts *bind.TransactOpts, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.contract.Transact(opts, "burn", wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_SweetToken *SweetTokenSession) Burn(wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.Burn(&_SweetToken.TransactOpts, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x90bc1693.
+// Burn is a paid mutator transaction binding the contract method 0x42966c68.
 //
-// Solidity: function burn(wad uint128) returns()
+// Solidity: function burn(wad uint256) returns()
 func (_SweetToken *SweetTokenTransactorSession) Burn(wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.Burn(&_SweetToken.TransactOpts, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_SweetToken *SweetTokenTransactor) MintFor(opts *bind.TransactOpts, recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.contract.Transact(opts, "mintFor", recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_SweetToken *SweetTokenSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts, recipient, wad)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor(recipient address, wad uint128) returns()
+// Solidity: function mintFor(recipient address, wad uint256) returns()
 func (_SweetToken *SweetTokenTransactorSession) MintFor(recipient common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.MintFor(&_SweetToken.TransactOpts, recipient, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_SweetToken *SweetTokenTransactor) Pull(opts *bind.TransactOpts, src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.contract.Transact(opts, "pull", src, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_SweetToken *SweetTokenSession) Pull(src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.Pull(&_SweetToken.TransactOpts, src, wad)
 }
 
-// Pull is a paid mutator transaction binding the contract method 0x8402181f.
+// Pull is a paid mutator transaction binding the contract method 0xf2d5d56b.
 //
-// Solidity: function pull(src address, wad uint128) returns(bool)
+// Solidity: function pull(src address, wad uint256) returns(bool)
 func (_SweetToken *SweetTokenTransactorSession) Pull(src common.Address, wad *big.Int) (*types.Transaction, error) {
 	return _SweetToken.Contract.Pull(&_SweetToken.TransactOpts, src, wad)
 }
@@ -588,21 +588,21 @@ func (_SweetToken *SweetTokenTransactorSession) Restart() (*types.Transaction, e
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_SweetToken *SweetTokenTransactor) SetLogic(opts *bind.TransactOpts, logic_ common.Address) (*types.Transaction, error) {
 	return _SweetToken.contract.Transact(opts, "setLogic", logic_)
 }
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_SweetToken *SweetTokenSession) SetLogic(logic_ common.Address) (*types.Transaction, error) {
 	return _SweetToken.Contract.SetLogic(&_SweetToken.TransactOpts, logic_)
 }
 
 // SetLogic is a paid mutator transaction binding the contract method 0x71857000.
 //
-// Solidity: function setLogic(logic_ address) returns(bool)
+// Solidity: function setLogic(logic_ address) returns()
 func (_SweetToken *SweetTokenTransactorSession) SetLogic(logic_ common.Address) (*types.Transaction, error) {
 	return _SweetToken.Contract.SetLogic(&_SweetToken.TransactOpts, logic_)
 }

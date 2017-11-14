@@ -14,7 +14,7 @@ import (
 )
 
 // SweetTokenLogicABI is the input ABI used to generate the binding from.
-const SweetTokenLogicABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token_\",\"type\":\"address\"}],\"name\":\"setToken\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"listNamesLen\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"freeTransfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint128\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"isFree\",\"type\":\"bool\"}],\"name\":\"setFreeTransfer\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"addWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"},{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"removeFromWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"whiteLists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"listNames\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"},{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"addToWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint128\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"data\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"listExists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"token\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"token_\",\"type\":\"address\"},{\"name\":\"data_\",\"type\":\"address\"},{\"name\":\"supply_\",\"type\":\"uint256\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"}]"
+const SweetTokenLogicABI = "[{\"constant\":false,\"inputs\":[],\"name\":\"stop\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"owner_\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"token_\",\"type\":\"address\"}],\"name\":\"setToken\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"senderHasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"restart\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"listNamesLen\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"freeTransfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"isFree\",\"type\":\"bool\"}],\"name\":\"setFreeTransfer\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"roles\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"addWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"},{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"removeFromWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"whiteLists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"listNames\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"},{\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"addToWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"indexOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"},{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"data\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"stopped\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"contractHash\",\"outputs\":[{\"name\":\"\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"listExists\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"removeWhiteList\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"burn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"roles_\",\"type\":\"address\"}],\"name\":\"setRolesContract\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"transfer\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"newLogic\",\"type\":\"address\"}],\"name\":\"replaceLogic\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"\",\"type\":\"address\"},{\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"mintFor\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"spender\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"src\",\"type\":\"address\"},{\"name\":\"dst\",\"type\":\"address\"},{\"name\":\"wad\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"roleName\",\"type\":\"string\"}],\"name\":\"hasRole\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"token\",\"outputs\":[{\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"token_\",\"type\":\"address\"},{\"name\":\"data_\",\"type\":\"address\"},{\"name\":\"supply_\",\"type\":\"uint256\"},{\"name\":\"rolesContract\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"LogSetOwner\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"WhiteListAddition\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"listName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"AdditionToWhiteList\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"listName\",\"type\":\"bytes32\"}],\"name\":\"WhiteListRemoval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"listName\",\"type\":\"bytes32\"},{\"indexed\":false,\"name\":\"guy\",\"type\":\"address\"}],\"name\":\"RemovalFromWhiteList\",\"type\":\"event\"}]"
 
 // SweetTokenLogic is an auto generated Go binding around an Ethereum contract.
 type SweetTokenLogic struct {
@@ -297,6 +297,36 @@ func (_SweetTokenLogic *SweetTokenLogicSession) HasRole(roleName string) (bool, 
 // Solidity: function hasRole(roleName string) constant returns(bool)
 func (_SweetTokenLogic *SweetTokenLogicCallerSession) HasRole(roleName string) (bool, error) {
 	return _SweetTokenLogic.Contract.HasRole(&_SweetTokenLogic.CallOpts, roleName)
+}
+
+// IndexOf is a free data retrieval call binding the contract method 0x6f4ce56a.
+//
+// Solidity: function indexOf(listName bytes32) constant returns(uint8, bool)
+func (_SweetTokenLogic *SweetTokenLogicCaller) IndexOf(opts *bind.CallOpts, listName [32]byte) (uint8, bool, error) {
+	var (
+		ret0 = new(uint8)
+		ret1 = new(bool)
+	)
+	out := &[]interface{}{
+		ret0,
+		ret1,
+	}
+	err := _SweetTokenLogic.contract.Call(opts, out, "indexOf", listName)
+	return *ret0, *ret1, err
+}
+
+// IndexOf is a free data retrieval call binding the contract method 0x6f4ce56a.
+//
+// Solidity: function indexOf(listName bytes32) constant returns(uint8, bool)
+func (_SweetTokenLogic *SweetTokenLogicSession) IndexOf(listName [32]byte) (uint8, bool, error) {
+	return _SweetTokenLogic.Contract.IndexOf(&_SweetTokenLogic.CallOpts, listName)
+}
+
+// IndexOf is a free data retrieval call binding the contract method 0x6f4ce56a.
+//
+// Solidity: function indexOf(listName bytes32) constant returns(uint8, bool)
+func (_SweetTokenLogic *SweetTokenLogicCallerSession) IndexOf(listName [32]byte) (uint8, bool, error) {
+	return _SweetTokenLogic.Contract.IndexOf(&_SweetTokenLogic.CallOpts, listName)
 }
 
 // ListExists is a free data retrieval call binding the contract method 0x9495ad6c.
@@ -622,44 +652,44 @@ func (_SweetTokenLogic *SweetTokenLogicTransactorSession) Approve(src common.Add
 	return _SweetTokenLogic.Contract.Approve(&_SweetTokenLogic.TransactOpts, src, dst, wad)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x7261e469.
+// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
-// Solidity: function burn( address,  uint128) returns()
+// Solidity: function burn( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicTransactor) Burn(opts *bind.TransactOpts, arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.contract.Transact(opts, "burn", arg0, arg1)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x7261e469.
+// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
-// Solidity: function burn( address,  uint128) returns()
+// Solidity: function burn( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicSession) Burn(arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.Contract.Burn(&_SweetTokenLogic.TransactOpts, arg0, arg1)
 }
 
-// Burn is a paid mutator transaction binding the contract method 0x7261e469.
+// Burn is a paid mutator transaction binding the contract method 0x9dc29fac.
 //
-// Solidity: function burn( address,  uint128) returns()
+// Solidity: function burn( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicTransactorSession) Burn(arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.Contract.Burn(&_SweetTokenLogic.TransactOpts, arg0, arg1)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor( address,  uint128) returns()
+// Solidity: function mintFor( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicTransactor) MintFor(opts *bind.TransactOpts, arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.contract.Transact(opts, "mintFor", arg0, arg1)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor( address,  uint128) returns()
+// Solidity: function mintFor( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicSession) MintFor(arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.Contract.MintFor(&_SweetTokenLogic.TransactOpts, arg0, arg1)
 }
 
-// MintFor is a paid mutator transaction binding the contract method 0x27cfc219.
+// MintFor is a paid mutator transaction binding the contract method 0xda1919b3.
 //
-// Solidity: function mintFor( address,  uint128) returns()
+// Solidity: function mintFor( address,  uint256) returns()
 func (_SweetTokenLogic *SweetTokenLogicTransactorSession) MintFor(arg0 common.Address, arg1 *big.Int) (*types.Transaction, error) {
 	return _SweetTokenLogic.Contract.MintFor(&_SweetTokenLogic.TransactOpts, arg0, arg1)
 }
@@ -683,6 +713,48 @@ func (_SweetTokenLogic *SweetTokenLogicSession) RemoveFromWhiteList(listName [32
 // Solidity: function removeFromWhiteList(listName bytes32, guy address) returns()
 func (_SweetTokenLogic *SweetTokenLogicTransactorSession) RemoveFromWhiteList(listName [32]byte, guy common.Address) (*types.Transaction, error) {
 	return _SweetTokenLogic.Contract.RemoveFromWhiteList(&_SweetTokenLogic.TransactOpts, listName, guy)
+}
+
+// RemoveWhiteList is a paid mutator transaction binding the contract method 0x9aef8999.
+//
+// Solidity: function removeWhiteList(listName bytes32) returns()
+func (_SweetTokenLogic *SweetTokenLogicTransactor) RemoveWhiteList(opts *bind.TransactOpts, listName [32]byte) (*types.Transaction, error) {
+	return _SweetTokenLogic.contract.Transact(opts, "removeWhiteList", listName)
+}
+
+// RemoveWhiteList is a paid mutator transaction binding the contract method 0x9aef8999.
+//
+// Solidity: function removeWhiteList(listName bytes32) returns()
+func (_SweetTokenLogic *SweetTokenLogicSession) RemoveWhiteList(listName [32]byte) (*types.Transaction, error) {
+	return _SweetTokenLogic.Contract.RemoveWhiteList(&_SweetTokenLogic.TransactOpts, listName)
+}
+
+// RemoveWhiteList is a paid mutator transaction binding the contract method 0x9aef8999.
+//
+// Solidity: function removeWhiteList(listName bytes32) returns()
+func (_SweetTokenLogic *SweetTokenLogicTransactorSession) RemoveWhiteList(listName [32]byte) (*types.Transaction, error) {
+	return _SweetTokenLogic.Contract.RemoveWhiteList(&_SweetTokenLogic.TransactOpts, listName)
+}
+
+// ReplaceLogic is a paid mutator transaction binding the contract method 0xc8d47f16.
+//
+// Solidity: function replaceLogic(newLogic address) returns()
+func (_SweetTokenLogic *SweetTokenLogicTransactor) ReplaceLogic(opts *bind.TransactOpts, newLogic common.Address) (*types.Transaction, error) {
+	return _SweetTokenLogic.contract.Transact(opts, "replaceLogic", newLogic)
+}
+
+// ReplaceLogic is a paid mutator transaction binding the contract method 0xc8d47f16.
+//
+// Solidity: function replaceLogic(newLogic address) returns()
+func (_SweetTokenLogic *SweetTokenLogicSession) ReplaceLogic(newLogic common.Address) (*types.Transaction, error) {
+	return _SweetTokenLogic.Contract.ReplaceLogic(&_SweetTokenLogic.TransactOpts, newLogic)
+}
+
+// ReplaceLogic is a paid mutator transaction binding the contract method 0xc8d47f16.
+//
+// Solidity: function replaceLogic(newLogic address) returns()
+func (_SweetTokenLogic *SweetTokenLogicTransactorSession) ReplaceLogic(newLogic common.Address) (*types.Transaction, error) {
+	return _SweetTokenLogic.Contract.ReplaceLogic(&_SweetTokenLogic.TransactOpts, newLogic)
 }
 
 // Restart is a paid mutator transaction binding the contract method 0x1ef3755d.
