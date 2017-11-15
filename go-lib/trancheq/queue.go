@@ -25,7 +25,7 @@ import (
 	pgt "github.com/robert-zaremba/go-pgt"
 )
 
-// Pledge represents swc_queue entry
+// Pledge represents pledge_queue entry
 type Pledge struct {
 	tableName struct{} `sql:"pledge_queue"`
 

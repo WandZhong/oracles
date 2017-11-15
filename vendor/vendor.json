@@ -290,22 +290,22 @@
 			"revisionTime": "2017-10-30T11:05:00Z"
 		},
 		{
-			"checksumSHA1": "eEokqf1Po46dQuKMT7MKrYqCQ4I=",
+			"checksumSHA1": "iTHxj4XXO23JGuIazIkMZ8QT9EY=",
 			"path": "github.com/robert-zaremba/errstack",
-			"revision": "796dd2925ef0736bc492221827c30f3c8bc67577",
-			"revisionTime": "2017-10-31T08:12:12Z"
+			"revision": "12ccea542a2cf679a7564bc301722233da96fee3",
+			"revisionTime": "2017-11-21T09:02:30Z"
 		},
 		{
-			"checksumSHA1": "hM1qbz1HjdIs9nPiqycoHk3B5FM=",
+			"checksumSHA1": "RdMkR8ti3cWMz/KUztiUWtuyRpw=",
 			"path": "github.com/robert-zaremba/go-bat",
-			"revision": "dab2c9a05b42b036794950877fdabb3c60507445",
-			"revisionTime": "2017-11-01T17:18:08Z"
+			"revision": "93de3860e2baf5ae71049f8bd6e5a39e0629c931",
+			"revisionTime": "2017-11-20T21:52:33Z"
 		},
 		{
-			"checksumSHA1": "J8L7r5WykO13lSAPAq/XzGdMBw4=",
+			"checksumSHA1": "ojXiiFjutenOjU29xdAYMYIqIdM=",
 			"path": "github.com/robert-zaremba/go-pgt",
-			"revision": "d11b147c7c3cec0accb610c9f48073ac49c50f0e",
-			"revisionTime": "2017-11-01T17:47:52Z"
+			"revision": "d79eb38fd9c62b69d9855efe4b16d640de855ab1",
+			"revisionTime": "2017-11-21T14:27:14Z"
 		},
 		{
 			"checksumSHA1": "ojMkzPseUB1fV1Nrs+MPQ3ijl14=",
@@ -346,10 +346,10 @@
 			"revisionTime": "2017-10-30T11:05:00Z"
 		},
 		{
-			"checksumSHA1": "T1lWXgo7spW98/saxQ/M7KnctZs=",
+			"checksumSHA1": "9871oL3hzD+dckKp9AkXwhO2nRk=",
 			"path": "github.com/scale-it/checkers",
-			"revision": "c8f4179e410a5b7737a5551d4c689b2fe973ba08",
-			"revisionTime": "2017-10-02T20:17:42Z"
+			"revision": "acaf0af75553a7c2c870e9ad0978c82e5d0eb675",
+			"revisionTime": "2017-11-21T17:39:38Z"
 		},
 		{
 			"checksumSHA1": "0X99JUw8Ne0QvrbFCwlZVjfE+F8=",

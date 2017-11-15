@@ -81,7 +81,7 @@ func createPledge(p trancheq.Pledge) error {
 		return err
 	}
 	if err := db.Insert(&p); err != nil {
-		return errstack.WrapAsReq(err, "Can't insert pledge")
+		return errstack.WrapAsInf(err, "Can't insert pledge")
 	}
 	logger.Info("pledge inserted", log15.Alone("pledge", &p))
 	return nil

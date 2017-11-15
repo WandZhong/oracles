@@ -15,11 +15,13 @@
 package itest
 
 import (
+	"bytes"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 
 	"github.com/go-ozzo/ozzo-routing"
+	"gopkg.in/check.v1"
 )
 
 // NewRoutingPostCtx returns new POST request with parameters encoded using url-encoding
@@ -29,4 +31,12 @@ func NewRoutingPostCtx(values url.Values) *routing.Context {
 		Method:   http.MethodPost,
 		PostForm: values}
 	return routing.NewContext(httptest.NewRecorder(), &req)
+}
+
+// NewPostJSON creates a JSON post request
+func NewPostJSON(body []byte, c *check.C) *routing.Context {
+	readerBody := bytes.NewReader(body)
+	var req, err = http.NewRequest(http.MethodPost, "/", readerBody)
+	c.Assert(err, check.IsNil)
+	return routing.NewContext(httptest.NewRecorder(), req)
 }

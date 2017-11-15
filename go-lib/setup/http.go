@@ -12,22 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package setup
 
-import (
-	"flag"
-	"testing"
+import "net/http"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	. "gopkg.in/check.v1"
-)
-
-var flagIntegration = flag.Bool("integration", false, "Include integration tests")
-var cf ethereum.ContractFactory
-
-func Test(t *testing.T) { TestingT(t) }
-func init() {
-	cf = setupContracts()
-
-	Suite(&PledgeS{})
+// HTTPServer starts an HTTP server
+func HTTPServer(name, port string, router http.Handler) {
+	logger.Info(name+" listening at", "port", port)
+	if err := http.ListenAndServe(":"+port, router); err != nil {
+		logger.Error("Can't initiate HTTP service", err)
+	}
 }
