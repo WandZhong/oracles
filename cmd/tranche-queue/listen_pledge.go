@@ -56,8 +56,10 @@ func listenDirectPledge(ctx context.Context, callback listenCallback) {
 }
 
 func listenTransfer(ctx context.Context, callback listenCallback) {
+	tp := trancheq.NewLogTransferPledger(map[common.Address]liquidity.Currency{
+		addrBrg: liquidity.CurrUSD})
 	listen(ctx, "SWCq BRG transfer", liquidity.LogBRGusdTransfer().Id(), addrBrg,
-		trancheq.NewPledgeFromTransfer, callback)
+		tp.NewPledge, callback)
 }
 
 func createPledge(p trancheq.Pledge) error {

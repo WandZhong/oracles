@@ -5,6 +5,7 @@ import (
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
@@ -21,6 +22,12 @@ type Pledge struct {
 	CreatedOn  time.Time           `sql:"created_on"`
 	Currency   liquidity.Currency  `sql:",notnull"`
 	Direct     bool                `sql:",notnull"`
+}
+
+// LogPledger is an interface for an object which is able to construct
+// new pledges from a Log
+type LogPledger interface {
+	NewPledge(log *types.Log) (Pledge, errstack.E)
 }
 
 // NewPledgeFromDirectPledge constructs new Pledge from the event
@@ -40,20 +47,33 @@ func NewPledgeFromDirectPledge(log *types.Log) (Pledge, errstack.E) {
 	}, nil
 }
 
-// NewPledgeFromTransfer constructs new Pledge from the event
-func NewPledgeFromTransfer(log *types.Log) (Pledge, errstack.E) {
+type transferPledger struct {
+	brgs map[common.Address]liquidity.Currency
+}
+
+// NewLogTransferPledger constructs new Pledge from a Transfer event. It uses
+// mapping for various BRG* flavours handling different currencies
+func NewLogTransferPledger(brgs map[common.Address]liquidity.Currency) LogPledger {
+	return transferPledger{brgs}
+}
+
+func (tp transferPledger) NewPledge(log *types.Log) (Pledge, errstack.E) {
 	var e liquidity.EventTokenTransfer
 	if err := e.Unmarshal(log); err != nil {
 		return Pledge{}, err
+	}
+	curr, ok := tp.brgs[log.Address]
+	if !ok {
+		return Pledge{}, errstack.NewDomain(
+			"Receiving transfer from unknown contract: " + log.Address.Hex())
 	}
 	return Pledge{
 		Tx:         log.TxHash.Hex(),
 		WalletAddr: ethereum.PgtAddress{Address: e.From},
 		CtrAddr:    ethereum.PgtAddress{Address: e.To},
 		Wad:        pgt.BigInt{Int: e.Value},
-		// TODO: find the right currency based on log.Address
-		Currency:  liquidity.CurrUSD,
-		CreatedOn: time.Now(),
-		Direct:    false,
+		Currency:   curr,
+		CreatedOn:  time.Now(),
+		Direct:     false,
 	}, nil
 }

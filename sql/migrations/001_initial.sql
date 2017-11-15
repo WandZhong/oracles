@@ -14,7 +14,7 @@ CREATE TABLE pledge_queue (
 	wad                DECIMAL CHECK (wad > 0),  -- brg*
 	wad_withdrawed     DECIMAL CHECK (wad >= 0), -- brg*
 	wad_executed       DECIMAL CHECK (wad >= 0), -- brg* used for tranche distribution. This denormalize the model a bit, so maybe it will be removed.
-	currency           CHAR(5) NOT NULL CHECK (currency != ''),
+	currency           CHAR(3) NOT NULL CHECK (currency != ''),
 	direct             BOOL NOT NULL
 );
 
