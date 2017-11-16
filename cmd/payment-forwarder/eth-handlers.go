@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/roles"
 	"bitbucket.org/sweetbridge/oracles/go-lib/payfwd"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/go-ozzo/ozzo-routing"
@@ -35,20 +36,14 @@ func handleEthCreate(ctx *routing.Context) error {
 		return err
 	}
 	txo := cf.Txo()
-	owner, txErr := forwarderFactory.Owner(nil)
-	if txErr != nil {
-		return errstack.WrapAsInf(txErr, "reading owner from ForwarderFactory")
+	ok, err := roles.SenderIsOwnerOrHasRole(txo.From, "admin", forwarderFactory)
+	if err != nil {
+		return err
+	}
+	if !ok {
+		return errstack.NewReqF("User [%s] is not authorised to create a forwarder", txo.From)
 	}
 
-	if txo.From != owner {
-		isAdmin, txErr := forwarderFactory.SenderHasRole(nil, "admin")
-		if txErr != nil {
-			return errstack.WrapAsInf(txErr, "checking role in ForwarderFactory")
-		}
-		if !isAdmin {
-			return errstack.NewReqF("User [%s] is not authorised to create a forwarder ", txo.From)
-		}
-	}
 	txFwdr, txErr := forwarderFactory.CreateForwarder(txo, toAddress)
 	if txErr != nil {
 		return errstack.WrapAsInf(txErr, "creating new Forwarder")
