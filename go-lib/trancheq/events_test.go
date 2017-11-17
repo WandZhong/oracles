@@ -18,9 +18,9 @@ import (
 	"math/big"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"bitbucket.org/sweetbridge/oracles/go-lib/test/ethereumt"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 	. "gopkg.in/check.v1"
 )
 
@@ -45,10 +45,7 @@ func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
       "logIndex":"0x1",
       "removed":false}`
 
-	var log = new(types.Log)
-	err := log.UnmarshalJSON([]byte(data))
-	c.Assert(err, IsNil)
-
+	log := ethereumt.ParseLog(data, c)
 	var expected = EventDirectPledge{
 		Who:      common.HexToAddress("0x00Ce0d46d924CC8437c806721496599FC3FFA268"),
 		Wad:      big.NewInt(0),
@@ -57,9 +54,8 @@ func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
 	expected.Wad.SetString("10000000000000000000", 10)
 
 	var o EventDirectPledge
-	err = o.Unmarshal(log)
+	err := o.Unmarshal(log)
 	c.Assert(err, IsNil)
-
 	c.Check(o.Who, Equals, expected.Who)
 	c.Check(o.Wad.String(), Equals, expected.Wad.String())
 	c.Check(o.Currency, Equals, expected.Currency)

@@ -17,9 +17,9 @@ package liquidity
 import (
 	"math/big"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/test/ethereumt"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 	. "gopkg.in/check.v1"
 )
 
@@ -47,18 +47,14 @@ func (suite EventSuite) TestLogTransferBRG(c *C) {
          "0x000000000000000000000000d435bbbaa004889f95f54e8232575d87793b42df" ],
       "type": "mined" }`
 
-	var log = new(types.Log)
-	err := log.UnmarshalJSON([]byte(data))
-	c.Assert(err, IsNil)
-
+	log := ethereumt.ParseLog(data, c)
 	var expected = EventTokenTransfer{
 		From:  common.HexToAddress("0x0f21F6fB13310AC0E17205840a91dA93119efbec"),
 		To:    common.HexToAddress("0xd435bbBAA004889F95F54E8232575d87793B42df"),
 		Value: big.NewInt(1000000)}
 
 	var o EventTokenTransfer
-	err = o.Unmarshal(log)
+	err := o.Unmarshal(log)
 	c.Assert(err, IsNil)
-
 	c.Check(o, DeepEquals, expected)
 }

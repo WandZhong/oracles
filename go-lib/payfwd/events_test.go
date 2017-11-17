@@ -15,8 +15,8 @@
 package payfwd
 
 import (
+	"bitbucket.org/sweetbridge/oracles/go-lib/test/ethereumt"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
 	. "gopkg.in/check.v1"
 )
 
@@ -34,19 +34,12 @@ func (suite *PaymentForwarderS) TestUnmarshalLog(c *C) {
 		"logIndex": "0x0",
 		"removed": false
 	} `
-
-	var log = new(types.Log)
-	err := log.UnmarshalJSON([]byte(data))
-	c.Assert(err, IsNil)
-
+	log := ethereumt.ParseLog(data, c)
 	var expected = EventForwarderCreated{
 		Forwarder: common.HexToAddress("0xb57b73449b9db70aee8eae5324ff9600670a8005"),
 	}
-
 	var o EventForwarderCreated
-	err = o.Unmarshal(*log)
-	logger.Error("error", err)
+	err := o.Unmarshal(*log)
 	c.Assert(err, IsNil)
-
 	c.Check(o.Forwarder, Equals, expected.Forwarder)
 }
