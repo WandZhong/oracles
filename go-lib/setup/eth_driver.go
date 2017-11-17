@@ -20,37 +20,22 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func init() {
-	for k := range ethNetworkMap {
-		ethNetworks = append(ethNetworks, k)
-	}
+type network struct {
+	ID   int
+	Addr string
 }
-
-type networkMap struct {
-	id   int
-	addr string
-}
-
-// netMap lists all available networks and addresses
-var ethNetworkMap = map[string]networkMap{}
 
 const testrpcID = 9
 
-var ethNetworks []string
-
 // MustEthFactory creates new eth client and ContractFactory based on the network name.
-func MustEthFactory(networkName, contractsPath string, txrF ethereum.TxrFactory) (
+func MustEthFactory(n network, contractsPath string, txrF ethereum.TxrFactory) (
 	*ethclient.Client, ethereum.ContractFactory) {
 
-	n, ok := ethNetworkMap[networkName]
-	if !ok {
-		logger.Fatal("Unknown network name", "network", networkName)
-	}
-	logger.Debug("Creating Eth Client", "address", n.addr, "id", n.id)
-	client, err := ethclient.Dial(n.addr)
-	utils.Assert(err, "Can't connect to the node "+n.addr)
-	sf, err := ethereum.NewSchemaFactory(contractsPath, n.id)
+	logger.Debug("Creating Eth Client", "address", n.Addr, "id", n.ID)
+	client, err := ethclient.Dial(n.Addr)
+	utils.Assert(err, "Can't connect to the node "+n.Addr)
+	sf, err := ethereum.NewSchemaFactory(contractsPath, n.ID)
 	utils.Assert(err, "wrong contractsPath")
-	cf := ethereum.NewContractFactory(client, sf, txrF, n.id == testrpcID)
+	cf := ethereum.NewContractFactory(client, sf, txrF, n.ID == testrpcID)
 	return client, cf
 }

@@ -16,7 +16,6 @@ package setup
 
 import (
 	"flag"
-	"fmt"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -32,6 +31,7 @@ type EthFlags struct {
 	PkPwd         *string
 	ContractsPath *string
 	Network       *string
+	NetworkConfig *string
 }
 
 // NewEthFlags associate ethereum client flags with the structure fields.
@@ -42,15 +42,15 @@ func NewEthFlags() EthFlags {
 		PkFile:        flag.String("pk-file", "", "path to the private key json file [required if `pk-hex` not specified]"),
 		PkPwd:         flag.String("pk-pwd", "", "key file password [required if `pk-hex` not specified]"),
 		ContractsPath: flag.String("contracts", "", "path to contract schemas directory [required]"),
-		Network: flag.String("eth-network", "",
-			fmt.Sprintf("blockchain network name [required]\n\tAvailable options: %s", ethNetworks)),
+		Network:       flag.String("eth-network", "", "blockchain network name, must be specified in eth-network-file file [required]"),
+		NetworkConfig: flag.String("eth-network-file", "", "path to the file with network configuration [required]"),
 	}
 }
 
 // Check validates the flags. It may panic!
 func (ef EthFlags) Check() error {
-	if _, ok := ethNetworkMap[*ef.Network]; !ok {
-		return errstack.NewReq("unknown network: " + *ef.Network)
+	if *ef.Network == "" || *ef.NetworkConfig == "" {
+		return errstack.NewReq("eth-network and eth-network-file must be specified")
 	}
 	if *ef.PkHex != "" {
 		if _, err := crypto.HexToECDSA(*ef.PkHex); err != nil {
@@ -87,6 +87,14 @@ func (ef EthFlags) mustNewTxrFactory() ethereum.TxrFactory {
 
 // MustEthFactory creates ethclient and contract factory based on flag options
 func (ef EthFlags) MustEthFactory() (*ethclient.Client, ethereum.ContractFactory) {
+	var netmap = map[string]network{}
+	if err := bat.DecodeJSONFile(*ef.NetworkConfig, &netmap, logger); err != nil {
+		logger.Fatal("Can't parse eth network config file", "path", *ef.NetworkConfig, err)
+	}
+	n, ok := netmap[*ef.Network]
+	if !ok {
+		logger.Fatal("Unknown network name", "network", *ef.Network)
+	}
 	txrF := ef.mustNewTxrFactory()
-	return MustEthFactory(*ef.Network, *ef.ContractsPath, txrF)
+	return MustEthFactory(n, *ef.ContractsPath, txrF)
 }
