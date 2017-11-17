@@ -45,7 +45,7 @@ func getForwarderAddress(txHash common.Hash) (common.Address, errstack.E) {
 }
 
 func handleEthCreate(ctx *routing.Context) error {
-	toAddress, err := ethereum.ToAddress(ctx.Request.PostFormValue("toAddress"))
+	toAddress, err := ethereum.ParseAddress(ctx.Request.PostFormValue("toAddress"))
 	if err != nil {
 		return err
 	}

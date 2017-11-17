@@ -42,7 +42,7 @@ func (s Schema) Address(networkID int) (a common.Address, e errstack.E) {
 	if !ok {
 		return a, errstack.NewReqF("Can't get %q Smart-Contract address. It's not deployed on network=%v", s.Name, networkID)
 	}
-	return ToAddress(n.Address)
+	return ParseAddress(n.Address)
 }
 
 // SchemaFactory is a structure which provides contract schema functions and data

@@ -64,7 +64,7 @@ func (e AddressSuite) TestIsZeroAddr(c *C) {
 
 func (e AddressSuite) TestPgtAddress(c *C) {
 	var err error
-	addr, err := ToAddress("0xce0d46d924cc8437c806721496599fc3ffa268b9")
+	addr, err := ParseAddress("0xce0d46d924cc8437c806721496599fc3ffa268b9")
 	c.Assert(err, IsNil, Commentf("Can't convert correct address"))
 	hex := addr.Hex()
 

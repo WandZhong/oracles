@@ -26,8 +26,8 @@ import (
 // ZeroAddress represents Ethereum unknown or invalid address
 var ZeroAddress = common.HexToAddress("00")
 
-// ToAddress converts hex string to Ethereum address
-func ToAddress(addr string) (a common.Address, err errstack.E) {
+// ParseAddress converts hex string to Ethereum address
+func ParseAddress(addr string) (a common.Address, err errstack.E) {
 	if addr == "" {
 		return a, errstack.NewReq("can't be empty")
 	}
@@ -40,9 +40,9 @@ func ToAddress(addr string) (a common.Address, err errstack.E) {
 	return common.HexToAddress(addr), nil
 }
 
-// ToAddressErrp calls ToAddress and sets the error in the putter
-func ToAddressErrp(addr string, errp errstack.Putter) common.Address {
-	a, err := ToAddress(addr)
+// ParseAddressErrp calls ToAddress and sets the error in the putter
+func ParseAddressErrp(addr string, errp errstack.Putter) common.Address {
+	a, err := ParseAddress(addr)
 	if err != nil {
 		errp.Put(err)
 	}
