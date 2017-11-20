@@ -41,9 +41,7 @@ var (
 
 func setupFlags() {
 	flags = setup.NewBaseOracleFlags()
-	setup.Flag("")
-	setup.FlagValidate(flags)
-	setup.MustLogger("swc-queue", *flags.Rollbar)
+	setup.FlagSimpleInit("tranche-queue", *flags.Rollbar, flags)
 	db = setup.MustPsql()
 }
 

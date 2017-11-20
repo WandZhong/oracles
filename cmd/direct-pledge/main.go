@@ -42,9 +42,7 @@ func setupFlags() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 		port: flag.String("port", "8000", "The HTTP listening port")}
 
-	setup.Flag("")
-	setup.FlagValidate(flags)
-	setup.MustLogger("brg-swc-pledge", *flags.Rollbar)
+	setup.FlagSimpleInit("direct-pledge", *flags.Rollbar, flags)
 }
 
 func setupContracts() {
@@ -56,8 +54,8 @@ func setupContracts() {
 }
 
 func main() {
-	defer rollbar.WaitForRollbar(logger)
 	setupFlags()
+	defer rollbar.WaitForRollbar(logger)
 	setupContracts()
 
 	r := middleware.StdRouter()

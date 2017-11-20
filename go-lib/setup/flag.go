@@ -52,6 +52,14 @@ func FlagValidate(checkers ...Checker) {
 	}
 }
 
+// FlagSimpleInit provides a common functionality to setup the command line flags
+// without positional arguments
+func FlagSimpleInit(name string, rollbarKey string, flags ...Checker) {
+	Flag("")
+	FlagValidate(flags...)
+	MustLogger(name, rollbarKey)
+}
+
 // Checker is an interface for type which has a Check function
 type Checker interface {
 	Check() error

@@ -29,6 +29,7 @@ import (
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/content"
 	"github.com/robert-zaremba/errstack"
+	"github.com/robert-zaremba/log15/rollbar"
 )
 
 type mainFlags struct {
@@ -67,10 +68,7 @@ func setupFlags() {
 		bcyNet:          flag.String("bcy-net", "", "BlockCypher network (main or test) [required]"),
 		txTimeout:       flag.Int("tx-timeout", 600, "how many seconds should the daemon wait for the transaction receipt?"),
 	}
-
-	setup.Flag("")
-	setup.FlagValidate(flags)
-	setup.MustLogger("brg-swc-pledge", *flags.Rollbar)
+	setup.FlagSimpleInit("payment-forwarder", *flags.Rollbar, flags)
 }
 
 func setupContracts() {
@@ -82,6 +80,7 @@ func setupContracts() {
 
 func main() {
 	setupFlags()
+	defer rollbar.WaitForRollbar(logger)
 	initBcyAPI()
 	setupContracts()
 
