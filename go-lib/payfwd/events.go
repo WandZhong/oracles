@@ -17,7 +17,6 @@ package payfwd
 import (
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
@@ -26,8 +25,8 @@ import (
 
 // global events
 var (
-	ForwarderFactoryABI = ethereum.MustParseABI("ForwarderFactory", contracts.ForwarderFactoryABI)
-	logger              = log.Root()
+	ForwarderFactoryABI = ethereum.MustParseABI("ForwarderFactory",
+		contracts.ForwarderFactoryABI)
 )
 
 const (
