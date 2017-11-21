@@ -12,22 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package model
 
 import (
-	"flag"
-	"testing"
-
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	. "gopkg.in/check.v1"
+	"github.com/go-pg/pg"
+	"github.com/robert-zaremba/errstack"
 )
 
-var flagIntegration = flag.Bool("integration", false, "Include integration tests")
-var cf ethereum.ContractFactory
-
-func Test(t *testing.T) { TestingT(t) }
-func init() {
-	cf = setupContracts()
-
-	Suite(&PledgeS{})
+// CheckPgNoRows wraps pg error into errstack.E
+func CheckPgNoRows(title string, err error) errstack.E {
+	if err == pg.ErrNoRows {
+		return errstack.WrapAsReqF(err, "Can't get %q from DB", title)
+	}
+	return errstack.WrapAsInfF(err, "Can't get %q from DB", title)
 }

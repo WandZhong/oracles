@@ -27,7 +27,6 @@ var cf ethereum.ContractFactory
 
 func Test(t *testing.T) { TestingT(t) }
 func init() {
-	cf = setupContracts()
-
-	Suite(&PledgeS{})
+	Suite(&TokenS{})
+	Suite(&TrancheS{})
 }

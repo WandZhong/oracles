@@ -16,7 +16,6 @@ package main
 
 import (
 	"flag"
-	"net/http"
 
 	"bitbucket.org/sweetbridge/oracles/go-contracts"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
@@ -87,19 +86,12 @@ func main() {
 	router := middleware.StdRouter()
 	root := router.Group("/payfwd")
 	root.Use(
-		// these handlers are shared by the routes in the bcyApi group only
 		content.TypeNegotiator(content.JSON),
 	)
 	root.Get("/health-check", func(ctx *routing.Context) error {
 		return ctx.Write("OK")
 	})
-
 	root.Post("/btc", handleBtcCreate)
-
 	root.Post("/eth", handleEthCreate)
-	logger.Info("payment forwarder listening at", "port", *flags.port)
-	if err := http.ListenAndServe(":"+*flags.port, router); err != nil {
-		logger.Error("Can't initiate HTTP service", err)
-	}
-
+	setup.HTTPServer("payment forwarder", *flags.port, router)
 }

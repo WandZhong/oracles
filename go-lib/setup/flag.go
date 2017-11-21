@@ -75,6 +75,11 @@ func NewRollbarFlags() RollbarFlags {
 	return RollbarFlags{flag.String("rollbar", "", "rollbar token [required in production env]")}
 }
 
+// Check is a dummy Check interface implementation
+func (r RollbarFlags) Check() error {
+	return nil
+}
+
 // BaseOracleFlags represents common oracle flags
 type BaseOracleFlags struct {
 	EthFlags
@@ -85,4 +90,9 @@ type BaseOracleFlags struct {
 func NewBaseOracleFlags() BaseOracleFlags {
 	return BaseOracleFlags{
 		NewEthFlags(), NewRollbarFlags()}
+}
+
+// Check validates the flags. It may panic!
+func (b BaseOracleFlags) Check() error {
+	return b.EthFlags.Check()
 }

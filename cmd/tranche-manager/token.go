@@ -15,19 +15,12 @@
 package main
 
 import (
-	"flag"
-	"testing"
-
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	. "gopkg.in/check.v1"
+	"bitbucket.org/sweetbridge/oracles/go-lib/model"
+	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
+	routing "github.com/go-ozzo/ozzo-routing"
 )
 
-var flagIntegration = flag.Bool("integration", false, "Include integration tests")
-var cf ethereum.ContractFactory
-
-func Test(t *testing.T) { TestingT(t) }
-func init() {
-	cf = setupContracts()
-
-	Suite(&PledgeS{})
+func postToken(c *routing.Context) (err error) {
+	var obj trancheq.Token
+	return model.DecodeAndSave(c.Request.Body, &obj, db)
 }

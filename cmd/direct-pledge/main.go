@@ -60,7 +60,7 @@ func main() {
 
 	r := middleware.StdRouter()
 	r.Post("/pledge", httpPostPledge)
-	logger.Info("brg-src-pledge listening at", "port", *flags.port)
+	logger.Info("direct-pledge listening at", "port", *flags.port)
 	if err := http.ListenAndServe(":"+*flags.port, r); err != nil {
 		logger.Error("Can't initiate HTTP service", err)
 	}

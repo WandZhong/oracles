@@ -29,7 +29,7 @@ import (
 )
 
 var logger = log.Root()
-var flags setup.BaseOracleFlags
+var flags = setup.NewBaseOracleFlags()
 var (
 	brgC   *contracts.BridgeToken
 	swcqC  *contracts.SWCqueue
@@ -39,8 +39,7 @@ var (
 	addrBrg, addrSWCq common.Address
 )
 
-func setupFlags() {
-	flags = setup.NewBaseOracleFlags()
+func init() {
 	setup.FlagSimpleInit("tranche-queue", *flags.Rollbar, flags)
 	db = setup.MustPsql()
 }
@@ -58,7 +57,6 @@ func setupContracts() (cf ethereum.ContractFactory) {
 }
 
 func main() {
-	setupFlags()
 	defer rollbar.WaitForRollbar(logger)
 
 	ctx := context.Background()
