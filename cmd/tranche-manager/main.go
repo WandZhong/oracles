@@ -47,5 +47,6 @@ func main() {
 	r := middleware.StdRouter()
 	r.Post("/tokens", postToken)
 	r.Post("/tranches", postTranche)
+	r.Get("/tranches", getTranches)
 	setup.HTTPServer("tranche-manager", *flags.port, r)
 }

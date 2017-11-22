@@ -40,3 +40,18 @@ func NewPostJSON(body []byte, c *check.C) *routing.Context {
 	c.Assert(err, check.IsNil)
 	return routing.NewContext(httptest.NewRecorder(), req)
 }
+
+// NewRoutingGetCtx creates a new GET request
+func NewRoutingGetCtx(url string) *routing.Context {
+	req := httptest.NewRequest("GET", "/", nil)
+	return routing.NewContext(httptest.NewRecorder(), req)
+}
+
+// AssertHandlerOK verifies if a HTTP request is successfull.
+func AssertHandlerOK(rc *routing.Context, h routing.Handler, c *check.C) *httptest.ResponseRecorder {
+	resp := rc.Response.(*httptest.ResponseRecorder)
+	c.Assert(h(rc), check.IsNil,
+		check.Commentf("Handler returned error. Status: %v", resp.Code))
+	c.Assert(resp.Code, check.Equals, http.StatusOK)
+	return resp
+}

@@ -28,9 +28,9 @@ var zero = big.NewInt(0)
 
 // Token represents tokens DB table entry
 type Token struct {
-	ID        string    `sql:"token_id,pk"` // token name
-	CreatedOn time.Time `sql:"created_on,notnull"`
-	Comment   string    `sql:"comment,notnull"`
+	ID        string    `sql:"token_id,pk" json:"id"` // token name
+	CreatedOn time.Time `sql:"created_on,notnull" json:"createdOn"`
+	Comment   string    `sql:"comment,notnull" json:"comment"`
 
 	MaxTotalContrib pgt.BigInt `sql:"max_total_contrib" json:"maxTotalContrib"` // in wad, 0 = no limit
 }

@@ -15,9 +15,12 @@
 package main
 
 import (
+	"encoding/json"
+
 	"bitbucket.org/sweetbridge/oracles/go-lib/model"
 	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
 	routing "github.com/go-ozzo/ozzo-routing"
+	"github.com/robert-zaremba/errstack"
 )
 
 func postTranche(c *routing.Context) (err error) {
@@ -26,4 +29,21 @@ func postTranche(c *routing.Context) (err error) {
 		return err
 	}
 	return c.Write(obj.ID)
+}
+
+// TranchesResp is a structure for getTranches response
+type TranchesResp struct {
+	Tokens   []trancheq.Token   `json:"tokens"`
+	Tranches []trancheq.Tranche `json:"tranches"`
+}
+
+func getTranches(c *routing.Context) (err error) {
+	var resp = TranchesResp{[]trancheq.Token{}, []trancheq.Tranche{}}
+	if err = db.Model(&resp.Tokens).Select(); err != nil {
+		return errstack.WrapAsInf(err, "Can't fetch tokens")
+	}
+	if err = db.Model(&resp.Tranches).Select(); err != nil {
+		return errstack.WrapAsInf(err, "Can't fetch tranches")
+	}
+	return json.NewEncoder(c.Response).Encode(resp)
 }

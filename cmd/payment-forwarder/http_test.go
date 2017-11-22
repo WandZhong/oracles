@@ -59,13 +59,10 @@ func (suite *PaymentForwarderS) TestCreateEthForwarder(c *C) {
 	}
 
 	rc := itest.NewRoutingPostCtx(data)
-	err := handleEthCreate(rc)
-	c.Check(err, IsNil)
-	res := rc.Response.(*httptest.ResponseRecorder)
-	c.Assert(res.Code, Equals, http.StatusOK)
+	res := itest.AssertHandlerOK(rc, handleEthCreate, c)
 
 	var returnData payfwd.EventForwarderCreated
-	err = json.Unmarshal(res.Body.Bytes(), &returnData)
+	err := json.Unmarshal(res.Body.Bytes(), &returnData)
 	c.Assert(err, IsNil)
 	c.Assert(returnData.Forwarder, NotNil)
 }

@@ -15,8 +15,6 @@
 package main
 
 import (
-	"net/http"
-	"net/http/httptest"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/test/itest"
@@ -30,10 +28,7 @@ type TokenS struct{}
 
 func (suite *TokenS) create(data string, expected trancheq.Token, c *C) {
 	rc := itest.NewPostJSON([]byte(data), c)
-	err := postToken(rc)
-	c.Assert(err, IsNil)
-	resp := rc.Response.(*httptest.ResponseRecorder)
-	c.Assert(resp.Code, Equals, http.StatusOK)
+	itest.AssertHandlerOK(rc, postToken, c)
 
 	t, err := trancheq.GetToken(expected.ID, db)
 	c.Assert(err, IsNil)

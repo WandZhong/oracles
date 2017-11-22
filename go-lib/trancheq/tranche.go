@@ -25,16 +25,16 @@ import (
 
 // Tranche represents tranches DB table entry
 type Tranche struct {
-	ID         int64      `sql:"tranche_id,pk"`
-	TokenID    string     `sql:",notnull"`
-	CreatedOn  time.Time  `sql:"created_on,notnull"`
-	StartsOn   time.Time  `sql:"starts_on,notnull"`
-	ExecutesOn time.Time  `sql:"executes_on,notnull"`
-	Supply     pgt.BigInt `sql:"supply,notnull"`      // in wad
-	MaxContrib pgt.BigInt `sql:"max_contrib,notnull"` // in wad, 0 = no limit
+	ID         int64      `sql:"tranche_id,pk" json:"id"`
+	TokenID    string     `sql:",notnull" json:"tokenID"`
+	CreatedOn  time.Time  `sql:"created_on,notnull" json:"createdOn"`
+	StartsOn   time.Time  `sql:"starts_on,notnull" json:"startsOn"`
+	ExecutesOn time.Time  `sql:"executes_on,notnull" json:"executesOn"`
+	Supply     pgt.BigInt `sql:"supply,notnull" json:"supply"`          // in wad
+	MaxContrib pgt.BigInt `sql:"max_contrib,notnull" json:"maxContrib"` // in wad, 0=no limit
 
 	// TODO: how to handle different flavors (brg*)
-	PriceBRGusd float64 `sql:"price_brg_usd,notnull"`
+	PriceBRGusd float64 `sql:"price_brg_usd,notnull" json:"priceBRGusd"`
 }
 
 // Validate checks if all fields are sematically correct.

@@ -16,8 +16,6 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
-	"net/http/httptest"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/test/itest"
@@ -29,8 +27,9 @@ import (
 )
 
 type TrancheS struct {
-	token trancheq.Token
-	now   time.Time
+	token   trancheq.Token
+	tranche trancheq.Tranche
+	now     time.Time
 }
 
 func (suite *TrancheS) SetUpSuite(c *C) {
@@ -38,6 +37,16 @@ func (suite *TrancheS) SetUpSuite(c *C) {
 	suite.token = trancheq.Token{ID: "SWC12"}
 	suite.token.Validate()
 	c.Assert(db.Insert(&suite.token), IsNil)
+
+	suite.tranche = trancheq.Tranche{
+		ID:          0,
+		TokenID:     suite.token.ID,
+		CreatedOn:   suite.now,
+		StartsOn:    suite.now.Add(time.Hour * 24),
+		ExecutesOn:  suite.now.Add(time.Hour * 48),
+		Supply:      pgt.NewBigInt(10000),
+		PriceBRGusd: 1.92,
+	}
 }
 
 func (suite *TrancheS) TearDownSuite(c *C) {
@@ -51,10 +60,7 @@ func (suite *TrancheS) create(expected trancheq.Tranche, c *C) {
 	c.Assert(err, IsNil)
 
 	rc := itest.NewPostJSON(data, c)
-	err = postTranche(rc)
-	c.Assert(err, IsNil)
-	resp := rc.Response.(*httptest.ResponseRecorder)
-	c.Assert(resp.Code, Equals, http.StatusOK)
+	resp := itest.AssertHandlerOK(rc, postTranche, c)
 	expected.ID, err = bat.Atoi64(resp.Body.String())
 	c.Assert(err, IsNil)
 	c.Assert(expected.ID > 0, IsTrue, Comment("obtained id:", expected.ID))
@@ -71,18 +77,38 @@ func (suite *TrancheS) create(expected trancheq.Tranche, c *C) {
 }
 
 func (suite *TrancheS) TestPostTranche(c *C) {
-
-	var expected = trancheq.Tranche{
-		ID:          0,
-		TokenID:     suite.token.ID,
-		CreatedOn:   suite.now,
-		StartsOn:    suite.now.Add(time.Hour * 24),
-		ExecutesOn:  suite.now.Add(time.Hour * 48),
-		Supply:      pgt.NewBigInt(10000),
-		PriceBRGusd: 1.92,
-	}
+	expected := suite.tranche
 	suite.create(expected, c)
 
 	expected.MaxContrib = pgt.NewBigInt(601)
 	suite.create(expected, c)
+}
+
+func (suite *TrancheS) TestGetTranches(c *C) {
+	// firstly let's add a tranche. Token is already there -> SetUpSuite
+	c.Assert(db.Insert(&suite.tranche), IsNil)
+
+	rc := itest.NewRoutingGetCtx("/")
+	resp := itest.AssertHandlerOK(rc, getTranches, c)
+	var trs TranchesResp
+	err := bat.DecodeJSON(resp.Body, &trs)
+	c.Assert(err, IsNil)
+
+	var found bool
+	for _, t := range trs.Tokens {
+		if t.ID == suite.token.ID {
+			found = true
+			break
+		}
+	}
+	c.Check(found, IsTrue, Comment("Suite token must be included"))
+
+	found = false
+	for _, t := range trs.Tranches {
+		if t.ID == suite.tranche.ID {
+			found = true
+			break
+		}
+	}
+	c.Check(found, IsTrue, Comment("Suite tranche must be included"))
 }
