@@ -25,6 +25,8 @@ setup-dev: install-deps
 		github.com/kisielk/errcheck \
 		honnef.co/go/tools/cmd/megacheck \
 		github.com/golang/mock \
+		github.com/mdempsky/unconvert \
+		github.com/mibk/dupl
 #		rsc.io/gt
 
 # check https://github.com/govend/govend for dependency management
@@ -69,12 +71,12 @@ lint-go:
 	@echo -e $(IBLACK)$(GO) vet go-lib... cmd...$(NC)
 	@$(GO) tool vet -all go-lib
 	@echo -e $(IBLACK)errcheck go-lib... cmd... $(NC)
-	@errcheck -ignoretests ./go-lib/... ./cmd/...
-# TODO: integrate github.com/mibk/dupl  and  github.com/opennota/check  and github.com/dominikh/go-simple
+	@errcheck ./go-lib/... ./cmd/...
 
 lint-go-mega:
 	@megacheck ./cmd/... ./go-lib/...
-
+	@unconvert -v ./go-lib/... ./cmd/...
+	@dupl -v -t 90 ./go-lib ./cmd
 
 ###############################
 # testing

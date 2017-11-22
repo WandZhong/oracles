@@ -95,14 +95,3 @@ func validatePledge(p *trancheq.Pledge) errstack.E {
 	}
 	return nil
 }
-
-func find() {
-	var p trancheq.Pledge
-	_, err := db.QueryOne(&p, `SELECT * FROM swc_queue WHERE swc_queue_id = ?`,
-		"0x0000000000000000000000000000000000000000000000000000000000000000")
-	if err != nil {
-		logger.Error("Can't find a pledge", err)
-	} else {
-		logger.Info("pledge found", log15.Spew(p))
-	}
-}
