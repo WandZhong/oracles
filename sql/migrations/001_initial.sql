@@ -14,6 +14,7 @@ CREATE TABLE tranches (
 	created_on       TIMESTAMP WITH TIME ZONE NOT NULL,
 	starts_on        TIMESTAMP WITH TIME ZONE NOT NULL,
 	executes_on      TIMESTAMP WITH TIME ZONE NOT NULL,
+	ends_on          TIMESTAMP WITH TIME ZONE CHECK (ends_ON > starts_on),
 	supply           DECIMAL NOT NULL CHECK (supply > 0),  -- in wad
 	owner            TEXT,
 

@@ -30,6 +30,7 @@ type Tranche struct {
 	CreatedOn  time.Time  `sql:"created_on,notnull" json:"createdOn"`
 	StartsOn   time.Time  `sql:"starts_on,notnull" json:"startsOn"`
 	ExecutesOn time.Time  `sql:"executes_on,notnull" json:"executesOn"`
+	EndsOn     *time.Time `sql:"ends_on" json:"endsOn"`
 	Supply     pgt.BigInt `sql:"supply,notnull" json:"supply"`          // in wad
 	MaxContrib pgt.BigInt `sql:"max_contrib,notnull" json:"maxContrib"` // in wad, 0=no limit
 
@@ -46,8 +47,11 @@ func (t *Tranche) Validate() errstack.Builder {
 	if t.ExecutesOn.Before(t.CreatedOn.Add(time.Hour)) {
 		errb.Put("executesOn", "must be after 'now'+1hour")
 	}
-	if t.ExecutesOn.Before(t.StartsOn) {
+	if !t.ExecutesOn.After(t.StartsOn) {
 		errb.Put("executesOn", "must be after `startsOn`")
+	}
+	if t.EndsOn != nil && !t.EndsOn.After(t.StartsOn) {
+		errb.Put("endsOn", "must be after `startsOn`")
 	}
 	if t.Supply.Int == nil || t.Supply.Cmp(zero) <= 0 {
 		errb.Put("supply", "must be bigger than zero")

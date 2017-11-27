@@ -302,10 +302,10 @@
 			"revisionTime": "2017-11-20T21:52:33Z"
 		},
 		{
-			"checksumSHA1": "VhDpuStPUrs50hqcaYOhOZrGFXY=",
+			"checksumSHA1": "gsRLYoU0HBCNYgsfZtqDFiGvCvw=",
 			"path": "github.com/robert-zaremba/go-pgt",
-			"revision": "d9eca6f43e2afc270eb6ea97fd23e9bef300be59",
-			"revisionTime": "2017-11-22T09:38:28Z"
+			"revision": "61884604b51212cc846c177471b0449a6b98baa3",
+			"revisionTime": "2017-11-27T21:17:00Z"
 		},
 		{
 			"checksumSHA1": "ojMkzPseUB1fV1Nrs+MPQ3ijl14=",
@@ -346,10 +346,10 @@
 			"revisionTime": "2017-10-30T11:05:00Z"
 		},
 		{
-			"checksumSHA1": "9871oL3hzD+dckKp9AkXwhO2nRk=",
+			"checksumSHA1": "a8PncR476SYAMh52KW8AOG9kvTE=",
 			"path": "github.com/scale-it/checkers",
-			"revision": "acaf0af75553a7c2c870e9ad0978c82e5d0eb675",
-			"revisionTime": "2017-11-21T17:39:38Z"
+			"revision": "b0b6f67175a4804f4d795e6483cd240da40848b9",
+			"revisionTime": "2017-11-27T22:01:34Z"
 		},
 		{
 			"checksumSHA1": "0X99JUw8Ne0QvrbFCwlZVjfE+F8=",

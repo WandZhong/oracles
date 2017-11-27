@@ -38,11 +38,13 @@ func (suite *TrancheS) SetUpSuite(c *C) {
 	suite.token.Validate()
 	c.Assert(db.Insert(&suite.token), IsNil)
 
+	endsOn := suite.now.Add(time.Hour * 36)
 	suite.tranche = trancheq.Tranche{
 		ID:          0,
 		TokenID:     suite.token.ID,
 		CreatedOn:   suite.now,
 		StartsOn:    suite.now.Add(time.Hour * 24),
+		EndsOn:      &endsOn,
 		ExecutesOn:  suite.now.Add(time.Hour * 48),
 		Supply:      pgt.NewBigInt(10000),
 		PriceBRGusd: 1.92,
@@ -71,6 +73,7 @@ func (suite *TrancheS) create(expected trancheq.Tranche, c *C) {
 	c.Check(t.CreatedOn, Not(Equals), suite.now)
 	c.Check(t.StartsOn, TimeEquals, expected.StartsOn)
 	c.Check(t.ExecutesOn, TimeEquals, expected.ExecutesOn)
+	c.Check(t.EndsOn, TimeEquals, expected.EndsOn)
 	c.Check(t.Supply, DeepEquals, expected.Supply)
 	c.Check(t.MaxContrib, DeepEquals, expected.MaxContrib)
 	c.Assert(db.Delete(&t), IsNil)
@@ -81,6 +84,7 @@ func (suite *TrancheS) TestPostTranche(c *C) {
 	suite.create(expected, c)
 
 	expected.MaxContrib = pgt.NewBigInt(601)
+	expected.EndsOn = nil
 	suite.create(expected, c)
 }
 
