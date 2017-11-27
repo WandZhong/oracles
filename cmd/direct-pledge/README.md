@@ -4,10 +4,6 @@ The application is responsible for minting BRG for SWCqueue contract and making 
 
 ## TODO
 
-
-+ Service authentication
-+ Contract owners
-+ Cross arguments check (eg: user account with external DB)
-+ Authentication
++ Cross arguments check (eg: wallet with external DB)
 + Additional check (max value)
 + Log DB, reporting ...

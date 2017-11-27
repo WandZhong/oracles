@@ -57,6 +57,7 @@ Next, whenever you want to build the applications:
 
 	make docker-run-builder
 
+**NOTE**: For docker build we are using Alpine Linux. This allows is compatible for putting the binaries in a tiny Alpine container. However to run the same binary in other distributions (Fedora, Ubuntu, OpenSUSE) you will need to use `libc` from `musl` (which is using by Alpine during linking).
 
 ## Applications
 
