@@ -117,9 +117,15 @@ docker-mk-builder:
 	@docker build -t oracle-builder ./docker
 
 docker-run-builder:
-	docker container start -a oracle-builder_1 || \
-		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
+	@docker container start -a oracle-builder_1  2> /dev/null || \
+		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t  --name oracle-builder_1 oracle-builder make install-deps build
 
+# creates new container for a bash session
+docker-run-builder-bash:
+	@docker container start -a oracle-builder_bash  2> /dev/null || \
+		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -it --name oracle-builder_bash oracle-builder sh
+
+# creates a new container to run and test oracles
 docker-bash:
-	docker container start -a oracle-bash  || \
+	@docker container start -a oracle-bash  2> /dev/null || \
 		docker run -v ${PWD}/bin:/root/bin -it --name oracle-bash alpine:3.6
