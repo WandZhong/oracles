@@ -29,11 +29,10 @@ setup-dev: install-deps
 		github.com/mibk/dupl
 #		rsc.io/gt
 
-# check https://github.com/govend/govend for dependency management
 install-deps:
-	@go get -v github.com/kardianos/govendor
+	@go get -v github.com/Masterminds/glide
 	@echo -e $(IBLACK)checking if all dependencies are installed... $(NC)
-	@govendor sync
+	@glide install
 	@echo -e "> dependencies check completed" $(CHECK)
 
 
@@ -41,10 +40,8 @@ install-deps:
 # vendoring
 
 vendor-check:
-	@govendor list +external
+	@glide list
 
-vendor-add-missing:
-	@govendor add +external
 
 ###############################
 # generating
