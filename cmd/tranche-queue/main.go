@@ -28,8 +28,14 @@ import (
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
+type mainFlags struct {
+	setup.PgFlags
+	setup.BaseOracleFlags
+}
+
+var flags = mainFlags{PgFlags: setup.NewPgFlags(),
+	BaseOracleFlags: setup.NewBaseOracleFlags()}
 var logger = log.Root()
-var flags = setup.NewBaseOracleFlags()
 var (
 	brgC   *contracts.BridgeToken
 	swcqC  *contracts.SWCqueue
@@ -40,8 +46,8 @@ var (
 )
 
 func init() {
-	setup.FlagSimpleInit("tranche-queue", *flags.Rollbar, flags)
-	db = setup.MustPsql()
+	setup.FlagSimpleInit("tranche-queue", *flags.Rollbar, flags.BaseOracleFlags, flags.PgFlags)
+	db = flags.MustConnect()
 }
 
 func setupContracts() (cf ethereum.ContractFactory) {

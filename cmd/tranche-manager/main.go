@@ -25,20 +25,22 @@ import (
 )
 
 type mainFlags struct {
+	setup.PgFlags
 	setup.RollbarFlags
 	port *string
 }
 
-var flags = mainFlags{RollbarFlags: setup.NewRollbarFlags(),
-	port: flag.String("port", "8000", "The HTTP listening port")}
+var flags = mainFlags{PgFlags: setup.NewPgFlags(),
+	RollbarFlags: setup.NewRollbarFlags(),
+	port:         flag.String("port", "8000", "The HTTP listening port")}
 var (
 	db     *pg.DB
 	logger = log.Root()
 )
 
 func init() {
-	setup.FlagSimpleInit("tranche-manager", *flags.Rollbar, flags)
-	db = setup.MustPsql()
+	setup.FlagSimpleInit("tranche-manager", *flags.Rollbar, flags.PgFlags, flags.RollbarFlags)
+	db = flags.MustConnect()
 }
 
 func main() {

@@ -15,10 +15,14 @@
 package setup
 
 import (
+	"flag"
+	"fmt"
 	stdlog "log"
+	"net"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"github.com/go-pg/pg"
+	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
 )
 
@@ -32,21 +36,57 @@ func (l pgLogger) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
-// MustPsql initiates Postgersql connection. It panics in case of error
-func MustPsql() *pg.DB {
+// PgFlags represents PostgreSQL flags
+type PgFlags struct {
+	User *string
+	Pwd  *string
+	DB   *string
+	Addr *string
+}
+
+// NewPgFlags associate PostgreSQL client flags with the structure fields.
+// This should be called before flag.Parse or Flag function.
+func NewPgFlags() PgFlags {
+	return PgFlags{
+		User: flag.String("pg-user", "", "PostgreSQL username [required]"),
+		Pwd:  flag.String("pg-pwd", "", "PostgreSQL user password"),
+		DB:   flag.String("pg-db", "sw", "PostgreSQL database name"),
+		Addr: flag.String("pg-addr", "localhost:5432", "PostgreSQL address"),
+	}
+}
+
+// Check validates the flags.
+func (pf PgFlags) Check() error {
+	if *pf.User == "" {
+		return errstack.NewReq("pg-user must be specifed")
+	}
+	if *pf.Addr != "" {
+		msg := fmt.Sprintf("Malformed pg-addr=%q. Should be host:port", *pf.Addr)
+		if _, _, err := net.SplitHostPort(*pf.Addr); err != nil {
+			return errstack.WrapAsReq(err, msg)
+		}
+		if *pf.Addr == ":" {
+			return errstack.NewReq(msg)
+		}
+	}
+	return nil
+}
+
+// MustConnect initiates Postgersql connection manager. It panics in case of error
+func (pf PgFlags) MustConnect() *pg.DB {
 	l := pgLogger{logger.New("PG:")}
 	pg.SetLogger(stdlog.New(l, "", 0))
 	db := pg.Connect(&pg.Options{
-		User:     "swc-queue",
-		Password: "password",
-		Database: "sw",
-		Addr:     "localhost:5432"})
+		User:     *pf.User,
+		Password: *pf.Pwd,
+		Database: *pf.DB,
+		Addr:     *pf.Addr})
 
 	// let's test the connection
 	var x int
 	_, err := db.QueryOne(&x, "SELECT 1")
 	if err != nil || x != 1 {
-		logger.Fatal("Can't connect to the Postgresql", err)
+		logger.Fatal("Can't connect to the Postgresql", "addr", *pf.Addr, err)
 	}
 	return db
 }

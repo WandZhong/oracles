@@ -47,7 +47,7 @@ func NewEthFlags() EthFlags {
 	}
 }
 
-// Check validates the flags. It may panic!
+// Check validates the flags.
 func (ef EthFlags) Check() error {
 	if *ef.Network == "" || *ef.NetworkConfig == "" {
 		return errstack.NewReq("eth-network and eth-network-file must be specified")
