@@ -45,8 +45,8 @@ func main() {
 	defer rollbar.WaitForRollbar(logger)
 
 	r := middleware.StdRouter()
-	r.Post("/tokens", postToken)
-	r.Post("/tranches", postTranche)
+	// r.Post("/tokens", postToken)
+	// r.Post("/tranches", postTranche)
 	r.Get("/tranches", getTranches)
 	setup.HTTPServer("tranche-manager", *flags.port, r)
 }
