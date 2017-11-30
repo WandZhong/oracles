@@ -15,12 +15,26 @@
 package middleware
 
 import (
+	"strings"
+
 	"github.com/go-ozzo/ozzo-routing"
+	"github.com/go-ozzo/ozzo-routing/content"
 )
 
 // StdRouter defines standard, default router
-func StdRouter() *routing.Router {
-	r := routing.New()
-	r.Use(Log)
-	return r
+// prefix is the routing group which will be use in the service. The leading `/` is added
+// automatically if absent in the prefix.
+func StdRouter(prefix string) *routing.Router {
+	router := routing.New()
+	router.Use(
+		Log,
+		content.TypeNegotiator(content.JSON))
+	if !strings.HasPrefix(prefix, "/") {
+		prefix = "/" + prefix
+	}
+	r := router.Group(prefix)
+	r.Get("/health-check", func(ctx *routing.Context) error {
+		return ctx.Write("OK")
+	})
+	return router
 }

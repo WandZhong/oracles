@@ -25,8 +25,6 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/go-ozzo/ozzo-routing"
-	"github.com/go-ozzo/ozzo-routing/content"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/log15/rollbar"
 )
@@ -59,6 +57,8 @@ var (
 	forwarderFactoryAddress common.Address
 )
 
+const serviceName = "payment-forwarder"
+
 func setupFlags() {
 	flags = mainFlags{
 		BaseOracleFlags: setup.NewBaseOracleFlags(),
@@ -67,7 +67,7 @@ func setupFlags() {
 		bcyNet:          flag.String("bcy-net", "", "BlockCypher network (main or test) [required]"),
 		txTimeout:       flag.Int("tx-timeout", 600, "how many seconds should the daemon wait for the transaction receipt?"),
 	}
-	setup.FlagSimpleInit("payment-forwarder", *flags.Rollbar, flags)
+	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags)
 }
 
 func setupContracts() {
@@ -83,15 +83,8 @@ func main() {
 	initBcyAPI()
 	setupContracts()
 
-	router := middleware.StdRouter()
-	root := router.Group("/payfwd")
-	root.Use(
-		content.TypeNegotiator(content.JSON),
-	)
-	root.Get("/health-check", func(ctx *routing.Context) error {
-		return ctx.Write("OK")
-	})
-	root.Post("/btc", handleBtcCreate)
-	root.Post("/eth", handleEthCreate)
-	setup.HTTPServer("payment forwarder", *flags.port, router)
+	r := middleware.StdRouter(serviceName)
+	r.Post("/btc", handleBtcCreate)
+	r.Post("/eth", handleEthCreate)
+	setup.HTTPServer(serviceName, *flags.port, r)
 }

@@ -38,11 +38,13 @@ var logger = log.Root()
 var pledger trancheq.Pledger
 var client *ethclient.Client
 
+const serviceName = "direct-pledge"
+
 func setupFlags() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 		port: flag.String("port", "8000", "The HTTP listening port")}
 
-	setup.FlagSimpleInit("direct-pledge", *flags.Rollbar, flags)
+	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags)
 }
 
 func setupContracts() {
@@ -58,7 +60,7 @@ func main() {
 	defer rollbar.WaitForRollbar(logger)
 	setupContracts()
 
-	r := middleware.StdRouter()
+	r := middleware.StdRouter(serviceName)
 	r.Post("/pledge", httpPostPledge)
 	logger.Info("direct-pledge listening at", "port", *flags.port)
 	if err := http.ListenAndServe(":"+*flags.port, r); err != nil {
