@@ -19,6 +19,7 @@ import (
 
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/content"
+	"github.com/go-ozzo/ozzo-routing/cors"
 )
 
 // StdRouter defines standard, default router
@@ -28,6 +29,7 @@ func StdRouter(prefix string) *routing.Router {
 	router := routing.New()
 	router.Use(
 		Log,
+		cors.Handler(cors.AllowAll),
 		content.TypeNegotiator(content.JSON))
 	if !strings.HasPrefix(prefix, "/") {
 		prefix = "/" + prefix
