@@ -38,15 +38,17 @@ var (
 	logger = log.Root()
 )
 
+const serviceName = "tranche-manager"
+
 func init() {
-	setup.FlagSimpleInit("tranche-manager", *flags.Rollbar, flags.PgFlags, flags.RollbarFlags)
+	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags.PgFlags, flags.RollbarFlags)
 	db = flags.MustConnect()
 }
 
 func main() {
 	defer rollbar.WaitForRollbar(logger)
 
-	r := middleware.StdRouter()
+	r := middleware.StdRouter(serviceName)
 	// r.Post("/tokens", postToken)
 	// r.Post("/tranches", postTranche)
 	r.Get("/tranches", getTranches)
