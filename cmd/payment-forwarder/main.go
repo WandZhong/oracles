@@ -83,8 +83,8 @@ func main() {
 	initBcyAPI()
 	setupContracts()
 
-	r := middleware.StdRouter(serviceName)
+	handler, r := middleware.StdRouter(serviceName)
 	r.Post("/btc", handleBtcCreate)
 	r.Post("/eth", handleEthCreate)
-	setup.HTTPServer(serviceName, *flags.port, r)
+	setup.HTTPServer(serviceName, *flags.port, handler)
 }

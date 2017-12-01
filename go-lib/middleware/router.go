@@ -25,7 +25,7 @@ import (
 // StdRouter defines standard, default router
 // prefix is the routing group which will be use in the service. The leading `/` is added
 // automatically if absent in the prefix.
-func StdRouter(prefix string) *routing.Router {
+func StdRouter(prefix string) (*routing.Router, *routing.RouteGroup) {
 	router := routing.New()
 	router.Use(
 		Log,
@@ -38,5 +38,5 @@ func StdRouter(prefix string) *routing.Router {
 	r.Get("/health-check", func(ctx *routing.Context) error {
 		return ctx.Write("OK")
 	})
-	return router
+	return router, r
 }

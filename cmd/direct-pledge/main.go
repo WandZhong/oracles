@@ -60,10 +60,10 @@ func main() {
 	defer rollbar.WaitForRollbar(logger)
 	setupContracts()
 
-	r := middleware.StdRouter(serviceName)
+	handler, r := middleware.StdRouter(serviceName)
 	r.Post("/pledge", httpPostPledge)
 	logger.Info("direct-pledge listening at", "port", *flags.port)
-	if err := http.ListenAndServe(":"+*flags.port, r); err != nil {
+	if err := http.ListenAndServe(":"+*flags.port, handler); err != nil {
 		logger.Error("Can't initiate HTTP service", err)
 	}
 }
