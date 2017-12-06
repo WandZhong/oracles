@@ -3,4 +3,7 @@ INSERT INTO tokens VALUES
   ('MET', now(), '', NULL);
 
 INSERT INTO tranches VALUES
-  ('1', 'tge1', 'SWC', now(), '2017-12-04', '2017-12-18', '2017-12-8', 100000000000000000000000, 'Scott', 10000000000000000000000, 2.4);
+	('1', 'tge1', 'SWC', now(), '2017-12-01', '2017-12-14', now() + '20 days', 100000000000000000000000, 'Scott', 10000000000000000000000);
+
+INSERT INTO tranche_prices VALUES
+	('1', 'USD', 2.4);

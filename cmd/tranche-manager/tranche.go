@@ -38,12 +38,12 @@ type TranchesResp struct {
 }
 
 func getTranches(c *routing.Context) (err error) {
-	var resp = TranchesResp{[]trancheq.Token{}, []trancheq.Tranche{}}
+	var resp = TranchesResp{[]trancheq.Token{}, nil}
+	if resp.Tranches, err = trancheq.GetTranches(db); err != nil {
+		return err
+	}
 	if err = db.Model(&resp.Tokens).Select(); err != nil {
 		return errstack.WrapAsInf(err, "Can't fetch tokens")
-	}
-	if err = db.Model(&resp.Tranches).Select(); err != nil {
-		return errstack.WrapAsInf(err, "Can't fetch tranches")
 	}
 	return json.NewEncoder(c.Response).Encode(resp)
 }

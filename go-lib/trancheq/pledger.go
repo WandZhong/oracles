@@ -60,7 +60,7 @@ func (plr Pledger) Post(dst common.Address, wei *big.Int, curr liquidity.Currenc
 	}
 	ethereum.LogTx("BRG minted for SWCq", txMint)
 	ethereum.IncTxoNonce(txo, txMint)
-	txPledge, err := plr.SWCQ.DirectPledge(txo, dst, wei, curr)
+	txPledge, err := plr.SWCQ.DirectPledge(txo, dst, wei, curr.Bytes())
 	if err != nil {
 		logger.Error("Can't pledge", err)
 		return nil, nil, err

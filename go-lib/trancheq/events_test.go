@@ -37,7 +37,7 @@ func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
 	var data = `{
       "address":"0xfdada2f6dfdd969b5f9297f07f3622e4dfe462d6",
       "topics":["0x3a7f5663aac61ec71b13259e6a35978a2fba9256cd41bfacd1840a8b1c6bdd43"],
-      "data":"0x00000000000000000000000000ce0d46d924cc8437c806721496599fc3ffa2680000000000000000000000000000000000000000000000008ac7230489e800007573640000000000000000000000000000000000000000000000000000000000",
+      "data":"0x00000000000000000000000000ce0d46d924cc8437c806721496599fc3ffa2680000000000000000000000000000000000000000000000008ac7230489e800005553440000000000000000000000000000000000000000000000000000000000",
       "blockNumber":"0x13b45",
       "transactionHash":"0xb0b1d0d020b3962f7246cb2978a02d2755a69eb163e6e544a54cc573738f428f",
       "transactionIndex":"0x1",
@@ -49,7 +49,7 @@ func (suite EventSuite) TestLogSWCqueueDirectPledge(c *C) {
 	var expected = EventDirectPledge{
 		Who:      common.HexToAddress("0x00Ce0d46d924CC8437c806721496599FC3FFA268"),
 		Wad:      big.NewInt(0),
-		Currency: liquidity.Currency{'u', 's', 'd'},
+		Currency: liquidity.CurrUSD,
 	}
 	expected.Wad.SetString("10000000000000000000", 10)
 

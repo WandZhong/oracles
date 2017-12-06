@@ -105,6 +105,9 @@ build-direct-pledge:
 build-tranche-queue:
 	@$(call _build,"tranche-queue")
 
+build-tranche-manager:
+	@$(call _build,"tranche-manager")
+
 build-swc-distributor:
 	@$(call _build,"swc-distributor")
 
