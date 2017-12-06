@@ -1,0 +1,10 @@
+FROM buildpack-deps:jessie
+
+# Install the AWS CLI
+RUN apt-get update &&  \
+    apt-get install -y python-pip python-dev bash sed && pip install --upgrade pip && \
+    pip install awscli
+
+COPY bin/tranche-manager .
+COPY docker/tranche-manager.sh .
+ENTRYPOINT ["/tranche-manager.sh"]

@@ -89,7 +89,7 @@ define _build
 	@go generate ./go-lib/...
 # GOOS=darwin GOOS=windows GOARCH=amd64
 	@GOBIN=`pwd`/bin go install -v \
-		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w" \
+		-ldflags "-X bitbucket.org/sweetbridge/oracles/go-lib/setup.GitVersion=$(VERSION) -w -extldflags '-static'" \
 		./cmd/$(1)
 	@echo -e "> build completed" $(CHECK)
 endef
