@@ -15,7 +15,7 @@ imports:
   subpackages:
   - spew
 - name: github.com/ethereum/go-ethereum
-  version: 6adf827d1190e28169997dde238ba25c83bc818c
+  version: a93879600850e89cb8d17b74f8346358b72949dc
   repo: https://github.com/robert-zaremba/go-ethereum.git
   vcs: git
   subpackages:
