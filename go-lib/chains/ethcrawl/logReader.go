@@ -15,9 +15,10 @@
 package ethcrawl
 
 import (
-	"bitbucket.org/sweetbridge/oracles/go-lib/chains"
 	"encoding/hex"
 	"fmt"
+
+	"bitbucket.org/sweetbridge/oracles/go-lib/chains"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
@@ -44,7 +45,7 @@ func (r *logReader) readList(block *types.Block, filter chains.AddressFilter) ([
 
 	logs, err := r.handle.client.FilterLogs(r.handle.ctx, logFilter)
 	if err != nil {
-		return nil, errstack.NewDomain(err.Error())
+		return nil, errstack.WrapAsInf(err, "can't get Ethereum logs")
 	}
 	var lst []*chains.LogData
 	for _, log := range logs {

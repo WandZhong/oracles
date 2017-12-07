@@ -55,7 +55,7 @@ func (r *transReader) readList(block *types.Block, filter chains.AddressFilter) 
 func (r *transReader) read(tx *types.Transaction, index int, filter chains.AddressFilter) (*chains.TransData, errstack.E) {
 	tr, err := r.handle.client.TransactionReceipt(r.handle.ctx, tx.Hash())
 	if err != nil {
-		return nil, errstack.NewDomain(err.Error())
+		return nil, errstack.WrapAsReq(err, "Can't get transaction receipt "+tx.Hash().Hex())
 	}
 
 	var toAddr = tx.To()

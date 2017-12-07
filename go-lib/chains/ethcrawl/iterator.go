@@ -45,7 +45,7 @@ func newIterator(handle *ChainHandle, offset int64) (*iterator, errstack.E) {
 	case offset < 0:
 		block, err := handle.client.BlockByNumber(handle.ctx, nil)
 		if err != nil {
-			return nil, errstack.NewDomain(err.Error())
+			return nil, errstack.WrapAsInf(err, "can't get Ethereum block")
 		}
 		current = block.Number().Add(block.Number(), big.NewInt(offset))
 	}
@@ -62,7 +62,7 @@ func (r *iterator) next() (*types.Block, errstack.E) {
 		return nil, nil
 	}
 	if err != nil {
-		return nil, errstack.NewDomain(err.Error())
+		return nil, errstack.WrapAsDomain(err, "Can't get next block")
 	}
 	r.nextBlockNumber.Add(r.nextBlockNumber, r.increment)
 	return block, nil

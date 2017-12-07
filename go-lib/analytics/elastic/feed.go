@@ -69,7 +69,7 @@ func (r *Feed) Send(index string, docType string, msgType string, msgID string, 
 
 	buf, err := json.MarshalIndent(msg, "", "\t")
 	if err != nil {
-		return errstack.NewDomain(err.Error())
+		return errstack.WrapAsDomain(err, "can't marshal Feed message")
 	}
 	endPoint := path.Join(index, docType)
 
@@ -84,18 +84,19 @@ func (r *Feed) Send(index string, docType string, msgType string, msgID string, 
 
 	req, err := http.NewRequest(method, url, bytes.NewReader(buf))
 	if err != nil {
-		return errstack.NewDomain(err.Error())
+		return errstack.WrapAsDomain(err, "can't construct Feed message")
 	}
 
 	resp, err := r.client.Do(req)
 	if err != nil {
-		return errstack.NewDomain(err.Error())
+		return errstack.WrapAsDomain(err, "can't construct Feed message")
 	}
 	defer errstack.CallAndLog(logger, resp.Body.Close)
 
 	// StatusCode other than 2XX is an error
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
-		return errstack.NewDomain(resp.Status)
+		return errstack.NewDomainF("Sending Feed message returned unexpected status code: %d",
+			resp.Status)
 	}
 	return nil
 }

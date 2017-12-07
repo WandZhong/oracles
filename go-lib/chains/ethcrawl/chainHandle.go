@@ -35,12 +35,12 @@ type ChainHandle struct {
 func NewChainHandle(ctx context.Context, chainAddress string, chainLabel string) (*ChainHandle, errstack.E) {
 	client, err := ethclient.Dial(chainAddress)
 	if err != nil {
-		return nil, errstack.NewInf(err.Error())
+		return nil, errstack.WrapAsInf(err, "can't connect to Ethereum node")
 	}
 
 	netID, err := client.NetworkID(ctx)
 	if err != nil {
-		return nil, errstack.NewInf(err.Error())
+		return nil, errstack.WrapAsInf(err, "can't get Ethereum network ID")
 	}
 
 	// define a default chainLabel if none is provided
