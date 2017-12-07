@@ -21,7 +21,7 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/errstack"
-	bat "github.com/robert-zaremba/go-bat"
+	"github.com/robert-zaremba/go-bat"
 )
 
 // EthFlags represents common Ethereum client flags
@@ -50,7 +50,13 @@ func NewEthFlags() EthFlags {
 // Check validates the flags.
 func (ef EthFlags) Check() error {
 	if *ef.Network == "" || *ef.NetworkConfig == "" {
-		return errstack.NewReq("eth-network and eth-network-file must be specified")
+		if *ef.Network != "" {
+			return errstack.NewReq("eth-network-file must be specified")
+		}
+		if *ef.NetworkConfig != "" {
+			return errstack.NewReq("eth-network must be specified")
+		}
+		return errstack.NewReq("both eth-network and eth-network-file must be specified")
 	}
 	if *ef.PkHex != "" {
 		if _, err := crypto.HexToECDSA(*ef.PkHex); err != nil {

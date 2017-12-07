@@ -34,18 +34,6 @@ var (
 	}
 )
 
-var (
-	bcyAPI gobcy.API
-)
-
-func initBcyAPI() {
-	bcyNet := networks[*flags.bcyNet]
-	bcyAPI = gobcy.API{*flags.apiKey, bcyNet.coin, bcyNet.chain}
-	if _, err := bcyAPI.GetChain(); err != nil {
-		logger.Error("could not initialise BCY API", err)
-	}
-}
-
 type bcyReturnData struct {
 	Address string
 	ID      string
@@ -55,6 +43,9 @@ func handleBtcCreate(ctx *routing.Context) error {
 	callBack := ctx.Request.PostFormValue("callBack")
 
 	forwardAddress := ctx.Request.PostFormValue("toAddress")
+	if len(forwardAddress) == 0 {
+		forwardAddress = *flags.btcPool
+	}
 	payfwd, err := bcyAPI.CreatePayFwd(gobcy.PayFwd{Destination: forwardAddress, CallbackURL: callBack})
 	if err != nil {
 		return errstack.WrapAsInf(err, "creating BTC forwarder")

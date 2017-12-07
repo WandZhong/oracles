@@ -47,7 +47,7 @@ func getForwarderAddress(txHash common.Hash) (common.Address, errstack.E) {
 func handleEthCreate(ctx *routing.Context) error {
 	toAddress, err := ethereum.ParseAddress(ctx.Request.PostFormValue("toAddress"))
 	if err != nil {
-		return err
+		toAddress = ethPool
 	}
 	txo := cf.Txo()
 	ok, err := roles.SenderIsOwnerOrHasRole(txo.From, "admin", forwarderFactory)
