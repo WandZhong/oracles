@@ -27,6 +27,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/log15/rollbar"
+	"github.com/blockcypher/gobcy"
 )
 
 type mainFlags struct {
@@ -35,14 +36,34 @@ type mainFlags struct {
 	apiKey    *string
 	bcyNet    *string
 	txTimeout *int
+	btcPool   *string
+	ethPool   *string
 }
 
+var (
+	bcyAPI  gobcy.API
+	ethPool common.Address
+)
+
 func (f mainFlags) Check() error {
-	if len(*f.apiKey) != 32 {
-		return errstack.NewReq("`-bcy-key` must be a 32 bytes string")
-	}
 	if len(*f.bcyNet) < 4 {
 		return errstack.NewReq("`-bcy-net` must be at least 4 characters long")
+	}
+
+	bcyNet := networks[*flags.bcyNet]
+	bcyAPI = gobcy.API{*flags.apiKey, bcyNet.coin, bcyNet.chain}
+	if _, err := bcyAPI.GetChain(); err != nil {
+		return errstack.NewReq("could not initialise BCY API")
+	}
+
+	var err error
+	_, err = bcyAPI.GetAddr(*flags.btcPool, nil)
+	if err != nil {
+		return errstack.NewReq("`-btc-pool` must be a valid bitcoin address")
+	}
+	ethPool, err = ethereum.ParseAddress(*f.ethPool)
+	if err != nil {
+		return errstack.NewReq("`-eth-pool` must be a valid ethereum address")
 	}
 
 	return f.BaseOracleFlags.Check()
@@ -62,9 +83,11 @@ const serviceName = "payment-forwarder"
 func setupFlags() {
 	flags = mainFlags{
 		BaseOracleFlags: setup.NewBaseOracleFlags(),
-		port:            flag.String("port", "8000", "The HTTP listening port"),
 		apiKey:          flag.String("bcy-key", "", "BlockCypher API Token [required]"),
 		bcyNet:          flag.String("bcy-net", "", "BlockCypher network (main or test) [required]"),
+		btcPool:         flag.String("btc-pool", "", "the default pool address where all BTC will be forwarded to [required]"),
+		ethPool:         flag.String("eth-pool", "", "the default pool address where all ETH will be forwarded to [required]"),
+		port:            flag.String("port", "8000", "The HTTP listening port"),
 		txTimeout:       flag.Int("tx-timeout", 600, "how many seconds should the daemon wait for the transaction receipt?"),
 	}
 	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags)
@@ -80,7 +103,6 @@ func setupContracts() {
 func main() {
 	setupFlags()
 	defer rollbar.WaitForRollbar(logger)
-	initBcyAPI()
 	setupContracts()
 
 	handler, r := middleware.StdRouter(serviceName)
