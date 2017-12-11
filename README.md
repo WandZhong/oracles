@@ -7,15 +7,16 @@ This repository contains blockchain Oracles used by Sweetbridge project.
 Unless you are using docker environment to build the applications (explained below) you have to set-up the following environment:
 
 1. Install `go >= 1.7` and `node.js` and `make`. Make sure that `go` executable is in your `PATH`
-2. Make sure `$GOPATH/bin` (`go env GOPATH`) is part of your `PATH`.
-3. Make sure you have an access to the oracles repository.
-4. Clone this repository into your `GOPATH` (`go env`). Install dependencies:
+1. For static compilation: `libc-static` (eg: `glibc-static`).
+1. Make sure `$GOPATH/bin` (`go env GOPATH`) is part of your `PATH`.
+1. Make sure you have an access to the oracles repository.
+1. Clone this repository into your `GOPATH` (`go env`). Install dependencies:
 
 	git clone git@bitbucket.org:sweetbridge/oracles.git $GOPATH/src/bitbucket.org/sweetbridge/oracles
 	cd ~/go/src/bitbucket.org/sweetbridge/oracles
 	make install-deps
 
-4. (alternative). Use `go get` (this will work only if the repo is open) and hack the git config a bit: https://gist.github.com/shurcooL/6927554
+1. (alternative). Use `go get` (this will work only if the repo is open) and hack the git config a bit: https://gist.github.com/shurcooL/6927554
 
     go get bitbucket.org/sweetbridge/oracles/cmd/<oracle-name>
 
