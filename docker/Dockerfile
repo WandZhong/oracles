@@ -5,7 +5,7 @@
 # all subsequent build should reuse the container:
 #   docker container start -a oracle-builder_1
 
-FROM golang:1.9.2-alpine
+FROM golang:1.9.2-alpine3.6
 LABEL name=oracle-builder
 
 RUN mkdir -p /go/src/bitbucket.org/sweetbridge
