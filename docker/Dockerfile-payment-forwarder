@@ -5,16 +5,13 @@
 # all subsequent build should reuse the container:
 #   docker container start -a oracle-builder_1
 
-FROM buildpack-deps:jessie
-LABEL name=payment-forwarder
+FROM alpine:3.6
 
 # Install the AWS CLI
-RUN apt-get update &&  \
-    apt-get install -y python-pip python-dev bash sed && pip install --upgrade pip && \
-    pip install awscli
+RUN apk add --update libcurl bash python3 groff \
+        && pip3 install awscli
 
-WORKDIR /oracles
 
-RUN apk add --update make git gcc libc-dev
-COPY payment-forwarder /oracles
+COPY bin/payment-forwarder /
+COPY cmd/payment-forwarder/payment-forwarder.sh /
 ENTRYPOINT /payment-forwarder.sh
