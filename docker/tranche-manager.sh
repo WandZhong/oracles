@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check that the environment variable has been set correctly
 if [ -z "$SECRETS_BUCKET_NAME" ]; then
