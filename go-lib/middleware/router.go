@@ -28,7 +28,7 @@ import (
 func StdRouter(prefix string) (*routing.Router, *routing.RouteGroup) {
 	router := routing.New()
 	router.Use(
-		Log,
+		LogTrace,
 		cors.Handler(cors.AllowAll),
 		content.TypeNegotiator(content.JSON))
 	if !strings.HasPrefix(prefix, "/") {
