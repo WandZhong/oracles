@@ -23,10 +23,10 @@ import (
 )
 
 func checkIsZeroAddr(testcases []string, expected bool, c *C) {
-	for _, a := range testcases {
+	for i, a := range testcases {
 		h := common.HexToAddress(a)
 		c.Check(IsZeroAddr(h), Equals, expected,
-			Commentf("IsZeroAddr should return %v for: %q (%s)", expected, a, h.Hex()))
+			Commentf("[%d] IsZeroAddr should return %v for: %q (%s)", i, expected, a, h.Hex()))
 	}
 }
 
@@ -40,8 +40,6 @@ func (e AddressSuite) TestIsZeroAddr(c *C) {
 		"0x0000000000000000000000000000000000000000",
 		"0000000000000000000000000000000000000000",
 		"x", "yyy", "0xy", "0y",
-		// single digits are invalid addresses
-		"1", "2", "9",
 		// spaces are not removed
 		"12 34", " 1234", "1234 ",
 		// even so long addresses are trimmed, it checks the character range
@@ -54,12 +52,67 @@ func (e AddressSuite) TestIsZeroAddr(c *C) {
 		"0000000000000000000000000000000000000001",
 		"0xce0d46d924cc8437c806721496599fc3ffa268b9",
 		"ce0d46d924cc8437c806721496599fc3ffa268b9",
+		// single digits are valid addresses
+		"1", "2", "9",
 		// long addresses are left-trimmed
 		"0xce0d46d924cc8437c806721496599fc3ffa268b9123",
 		"ce0d46d924cc8437c806721496599fc3ffa268b9123",
 		// short addresses are are left-padded with 0
 		"0x123", "123", "12", "99", "099"}
 	checkIsZeroAddr(as, false, c)
+}
+
+func (e AddressSuite) TestParseAddress(c *C) {
+	var testCases = []struct {
+		name string
+		in   string
+		out  string
+		err  string
+	}{{
+		"zero address",
+		"0x0000000000000000000000000000000000000000",
+		"0x0000000000000000000000000000000000000000",
+		"",
+	}, {
+		"zero short address",
+		"0x0",
+		"",
+		"Invalid address.*",
+	}, {
+		"wrong digits in address",
+		"0xhhce0d46d924cc8437c806721496599fc3ffa268",
+		"",
+		"Invalid address.*",
+	}, {
+		"good address",
+		"0x12ce0d46d924cc8437c806721496599fc3ffa268",
+		"0x12ce0d46d924cc8437c806721496599fc3ffa268",
+		"",
+	}, {
+		"bad address: double 0x",
+		"0x0xce0d46d924cc8437c806721496599fc3ffa268",
+		"",
+		"Invalid address.*",
+	}, {
+		"bad address: short address",
+		"0xce0d46d924cc8437c806721496599fc3ffa268",
+		"",
+		"Invalid address.*",
+	}, {
+		"very short address",
+		"0x12",
+		"",
+		"Invalid address",
+	}}
+	for i, tc := range testCases {
+		a, err := ParseAddress(tc.in)
+		if tc.err != "" {
+			c.Check(err, ErrorMatches, tc.err, Comment(i, ": ", tc.name, "; addr: ", a.Hex()))
+		} else {
+			c.Assert(err, IsNil, Comment(i, ": ", tc.name, "; addr: ", a.Hex()))
+			c.Check(strings.ToLower(a.Hex()), Equals, tc.out, Comment(i, ": ", tc.name))
+		}
+	}
 }
 
 func (e AddressSuite) TestPgtAddress(c *C) {
