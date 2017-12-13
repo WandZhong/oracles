@@ -15,11 +15,13 @@
 package middleware
 
 import (
+	"net/http"
 	"strings"
 
 	"github.com/go-ozzo/ozzo-routing"
 	"github.com/go-ozzo/ozzo-routing/content"
 	"github.com/go-ozzo/ozzo-routing/cors"
+	"github.com/robert-zaremba/errstack"
 )
 
 // StdRouter defines standard, default router
@@ -28,6 +30,7 @@ import (
 func StdRouter(prefix string) (*routing.Router, *routing.RouteGroup) {
 	router := routing.New()
 	router.Use(
+		ErrorToStatusError,
 		LogTrace,
 		cors.Handler(cors.AllowAll),
 		content.TypeNegotiator(content.JSON))
@@ -39,4 +42,17 @@ func StdRouter(prefix string) (*routing.Router, *routing.RouteGroup) {
 		return ctx.Write("OK")
 	})
 	return router, r
+}
+
+// ErrorToStatusError handles error and convert it's to routing.HTTPError if possible.
+// The HTTPError structure holds the error status.
+func ErrorToStatusError(c *routing.Context) error {
+	err := c.Next()
+	if errS, ok := err.(errstack.E); ok {
+		if errS.IsReq() {
+			return routing.NewHTTPError(http.StatusBadRequest, errS.Error())
+		}
+		return routing.NewHTTPError(http.StatusInternalServerError, errS.Error())
+	}
+	return err
 }
