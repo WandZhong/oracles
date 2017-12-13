@@ -15,8 +15,6 @@
 package main
 
 import (
-	"net/http"
-
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
@@ -31,9 +29,9 @@ func httpPostPledge(c *routing.Context) (err error) {
 	currParam := c.Request.PostFormValue("currency")
 	currency := liquidity.ParseCurrencyErrp(currParam, errb.Putter("currency"))
 	if errb.NotNil() {
-		return routing.NewHTTPError(http.StatusBadRequest,
-			errb.ToReqErr().Error())
+		return errb.ToReqErr()
 	}
+
 	logger.Info("BRG-SWC pledge request received", "brg-wei", wei,
 		"currency", currParam, "currencyCode", currency,
 		"address", addr.Hex())
