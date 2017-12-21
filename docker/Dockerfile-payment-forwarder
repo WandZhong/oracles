@@ -1,17 +1,10 @@
-# Dockerfile to build oracles
-# Assuming you are in the root directory (oracles):
-#   docker build -t oracle-builder ./docker
-#   docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t --name oracle-builder_1 oracle-builder
-# all subsequent build should reuse the container:
-#   docker container start -a oracle-builder_1
-
 FROM alpine:3.6
 
 # Install the AWS CLI
-RUN apk add --update libcurl bash python3 groff \
-        && pip3 install awscli
+RUN apk add --update libcurl bash python3 groff && \
+    pip3 install awscli
 
-
-COPY bin/payment-forwarder /
-COPY cmd/payment-forwarder/payment-forwarder.sh /
 ENTRYPOINT /payment-forwarder.sh
+
+COPY contract-schemas /contract-schemas
+COPY payment-forwarder payment-forwarder.sh eth-networks.json /
