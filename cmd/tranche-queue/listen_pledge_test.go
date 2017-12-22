@@ -73,7 +73,7 @@ func (suite *PledgeS) TestDirectPledge(c *C) {
 
 	var pc = pledgeChecker{expected: expected, c: c}
 	pc.ctx, pc.ctxCancel = context.WithTimeout(context.Background(), 50*time.Second)
-	go listenTransfer(pc.ctx, pc.check)
+	go subscribeTransfer(pc.ctx, pc.check)
 
 	tx, err := brgC.Transfer(suite.txo, expected.To, expected.Value)
 	if err != nil {

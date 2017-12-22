@@ -27,13 +27,13 @@ import (
 	"github.com/robert-zaremba/log15"
 )
 
-type listenCallback func(trancheq.Pledge) error
+type eventCallback func(trancheq.Pledge) error
 
-func listen(ctx context.Context, title string, topic common.Hash, address common.Address,
+func subscribe(ctx context.Context, title string, topic common.Hash, address common.Address,
 	parser func(*types.Log) (trancheq.Pledge, errstack.E),
-	callback listenCallback) {
+	callback eventCallback) {
 
-	logger.Debug("Started listening on " + title)
+	logger.Debug("Started fetching events: " + title)
 	logs, s, err := ethereum.SubscribeSimple(ctx, client,
 		[][]common.Hash{{topic}},
 		[]common.Address{address})
@@ -48,7 +48,7 @@ func listen(ctx context.Context, title string, topic common.Hash, address common
 			return
 		case <-ctx.Done():
 			s.Unsubscribe()
-			logger.Info("Context cancellation called. Closing event listener")
+			logger.Info("Context cancellation called. Closing event subscription")
 			return
 		case l := <-logs:
 			logger.Debug("new log", "stream", title, log15.Alone("event", l.String()))
@@ -64,15 +64,15 @@ func listen(ctx context.Context, title string, topic common.Hash, address common
 	}
 }
 
-func listenDirectPledge(ctx context.Context, callback listenCallback) {
-	listen(ctx, "SWCq DirectPledge", trancheq.LogSWCqueueDirectPledge().Id(), addrSWCq,
+func subscribeDirectPledge(ctx context.Context, callback eventCallback) {
+	subscribe(ctx, "SWCq DirectPledge", trancheq.LogSWCqueueDirectPledge().Id(), addrSWCq,
 		trancheq.NewPledgeFromDirectPledge, callback)
 }
 
-func listenTransfer(ctx context.Context, callback listenCallback) {
+func subscribeTransfer(ctx context.Context, callback eventCallback) {
 	tp := trancheq.NewLogTransferPledger(map[common.Address]liquidity.Currency{
 		addrBrg: liquidity.CurrUSD})
-	listen(ctx, "SWCq BRG transfer", liquidity.LogBRGusdTransfer().Id(), addrBrg,
+	subscribe(ctx, "SWCq BRG transfer", liquidity.LogBRGusdTransfer().Id(), addrBrg,
 		tp.NewPledge, callback)
 }
 

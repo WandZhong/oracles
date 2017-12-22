@@ -67,6 +67,6 @@ func main() {
 
 	ctx := context.Background()
 	setupContracts()
-	go listenDirectPledge(ctx, createPledge)
-	listenTransfer(ctx, createPledge)
+	go subscribeDirectPledge(ctx, createPledge)
+	subscribeTransfer(ctx, createPledge)
 }
