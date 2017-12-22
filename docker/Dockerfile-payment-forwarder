@@ -1,0 +1,10 @@
+FROM alpine:3.6
+
+# Install the AWS CLI
+RUN apk add --update libcurl bash python3 groff && \
+    pip3 install awscli
+
+ENTRYPOINT /payment-forwarder.sh
+
+COPY contract-schemas /contract-schemas
+COPY payment-forwarder payment-forwarder.sh eth-networks.json /
