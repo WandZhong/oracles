@@ -10,4 +10,4 @@ fi
 eval $(aws s3 cp s3://${SECRETS_BUCKET_NAME}/tranche-manager.txt - | sed 's/^/export /')
 
 
-exec /tranche-manager -pg-user "$POSTGRES_USER" -pg-pwd "$POSTGRES_PASSWORD" -pg-db "$POSTGRES_DATABASE" -pg-addr "$POSTGRES_HOST:$POSTGRES_PORT" -port 8000
+exec /tranche-manager -rollbar "$ROLLBAR" -pg-user "$POSTGRES_USER" -pg-pwd "$POSTGRES_PASSWORD" -pg-db "$POSTGRES_DATABASE" -pg-addr "$POSTGRES_HOST:$POSTGRES_PORT" -port 8000
