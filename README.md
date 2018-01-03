@@ -27,6 +27,13 @@ This is not required for building application, but required for proper developme
 
 	make setup-dev
 
+#### Development workflow
+
++ We use [Gitlab Flow](https://docs.gitlab.com/ce/workflow/gitlab_flow.html).
++ Squash your commits before merging! Here is [why](https://softwareengineering.stackexchange.com/questions/263164/why-squash-git-commits-for-pull-requests).
++ Write tests.
+
+
 ### Building
 
 Whenever you want to sync dependencies (so if you don't follow the development process) you have to make sure that everything is synced. However if you are sure that you don't need it, or you are just repeating builds you can skip it.
@@ -60,11 +67,13 @@ Next, whenever you want to build the applications:
 
 **NOTE**: For docker build we are using Alpine Linux. This allows is compatible for putting the binaries in a tiny Alpine container. However to run the same binary in other distributions (Fedora, Ubuntu, OpenSUSE) you will need to use `libc` from `musl` (which is using by Alpine during linking).
 
+
+
 ## Applications
 
-All applications are listed packaged in the `cmd/` sub-directories. Each package contains the README.md file with the application description.
+All applications are build from the main packages in the `cmd/` sub-directories. Each package contains the README.md file with the application description.
 
-All applications are compiled into self-contained binaries (no external dependencies needed). Each application support the help argument to display the usage description:
+All applications are compiled into self-contained binaries (no external dependencies needed except the compatible **libc** version). Each application support the help argument to display the usage description - please use it to find more information about required and optional parameters:
 
 	./bin/<app_name> -h
 
@@ -84,7 +93,9 @@ Oracles share the following, ethereum-specific obligatory parameters:
 All applications should have defined following parameters:
 
 + `SB_ENV` - environment variable specifying stage (eg: production, backstage, testing ...)
-+ `-rollbar` - flag with rollbar token.
++ `-rollbar` - flag with rollbar token. Has to be specified.
+
+For production release, the command line parameters are specified using environment variables. This are translated to the command line flags using the wrapper shell scripts in the `/docker` directory.
 
 
 ## Scripts
