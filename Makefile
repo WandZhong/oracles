@@ -13,10 +13,12 @@ define golintx
 	find $(1) -maxdepth 1 -name '[^.#]*.go' ! -name '*_test.go' ! -name '*_string.go' ! -name 'benchmark_*.go'  ! -name '*_mock.go' | xargs golint;
 endef
 
-.PHONY: setup-dev \
+.PHONY: all setup-dev \
 	go-generate validate-go-generate-is-uptodate \
 	lint lint-go
 
+
+all: install-deps build
 
 setup-dev: install-deps
 	@echo -en $(IBLACK)fetching server GO lib dependencies... $(NC)
