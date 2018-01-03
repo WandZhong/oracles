@@ -17,29 +17,39 @@ package ethcrawl
 import (
 	"math/big"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/chains"
+	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
+	"math"
+)
+
+var (
+	weiToEth = big.NewFloat(math.Pow10(18))
 )
 
 type transReader struct {
-	handle *ChainHandle
+	handle         *chainHandle
+	filter         crawlers.AddressFilter
+	addReceiptInfo bool
 }
 
-func newTransReader(handle *ChainHandle) *transReader {
+func newTransReader(handle *chainHandle, filter crawlers.AddressFilter, addReceiptInfo bool) *transReader {
 	return &transReader{
-		handle,
+		handle:         handle,
+		filter:         filter,
+		addReceiptInfo: addReceiptInfo,
 	}
 }
 
 // reads the list of transactions from an ethereum block.
-func (r *transReader) readList(block *types.Block, filter chains.AddressFilter) ([]*chains.TransData, errstack.E) {
+func (r *transReader) readList(block *types.Block) ([]*crawlers.BCTrans, errstack.E) {
 	txs := block.Transactions()
-	var lst []*chains.TransData
+	var lst []*crawlers.BCTrans
 	for i, tx := range txs {
-		data, err := r.read(tx, i, filter)
+		data, err := r.read(tx, i)
 		if err != nil {
 			return nil, err
 		}
@@ -52,12 +62,7 @@ func (r *transReader) readList(block *types.Block, filter chains.AddressFilter) 
 }
 
 // Returns a TransData object if it matches the provided filter.
-func (r *transReader) read(tx *types.Transaction, index int, filter chains.AddressFilter) (*chains.TransData, errstack.E) {
-	tr, err := r.handle.client.TransactionReceipt(r.handle.ctx, tx.Hash())
-	if err != nil {
-		return nil, errstack.WrapAsReq(err, "Can't get transaction receipt "+tx.Hash().Hex())
-	}
-
+func (r *transReader) read(tx *types.Transaction, index int) (*crawlers.BCTrans, errstack.E) {
 	var toAddr = tx.To()
 	var toAddrStr, fromAddrStr string
 	if toAddr != nil {
@@ -66,34 +71,53 @@ func (r *transReader) read(tx *types.Transaction, index int, filter chains.Addre
 	fromAddrStr = sender(tx).String()
 
 	// Applying the filters
-	if filter != nil && filter.MatchesNone(toAddrStr, fromAddrStr) {
-		return nil, nil
+	if r.filter != nil {
+		noMatch, err := r.filter.MatchesNone(toAddrStr, fromAddrStr)
+		if err != nil {
+			return nil, err
+		}
+		if noMatch {
+			return nil, nil
+		}
 	}
 
-	contractAddrStr := ""
-	contractAddr := tr.ContractAddress
-	contractCreation := !ethereum.IsZeroAddr(contractAddr)
-	if contractCreation {
-		contractAddrStr = contractAddr.String()
-	}
-
-	data := &chains.TransData{
-		TxIndex: int64(index),
-		Data:    string(tx.Data()),
-		TxHash:  tx.Hash().String(),
-
-		CumulativeGasUsed: tr.CumulativeGasUsed.Int64(),
-		Gas:               tx.Gas().Int64(),
-		GasPrice:          tx.GasPrice().Int64(),
-		GasUsed:           tr.GasUsed.Int64(),
-		From:              fromAddrStr,
-		To:                toAddrStr,
-		Value:             tx.Value().Int64(),
-		CreatedContractAddress: contractAddrStr,
-		ContractCreated:        contractCreation,
+	data := &crawlers.BCTrans{
+		TxIndex:  int64(index),
+		Data:     string(tx.Data()),
+		TxHash:   tx.Hash().String(),
+		Gas:      tx.Gas().Int64(),
+		GasPrice: tx.GasPrice().Int64(),
+		From:     fromAddrStr,
+		To:       toAddrStr,
+		RawValue: tx.Value(),
 	}
 	data.ID = data.TxHash
+	fl := new(big.Float)
+	fl.SetInt(data.RawValue)
+	data.Value = fl.Quo(fl, weiToEth)
 
+	// Executed if TransactionReceipt are requested
+	if r.addReceiptInfo {
+		tr, err := r.handle.client.TransactionReceipt(r.handle.ctx, tx.Hash())
+		if err != nil {
+			if err != nil {
+				return nil, errstack.WrapAsReq(err, "Can't get transaction receipt "+tx.Hash().Hex())
+			}
+		}
+
+		data.GasUsed = tr.GasUsed.Int64()
+		data.CumulativeGasUsed = tr.CumulativeGasUsed.Int64()
+
+		contractAddrStr := ""
+		contractAddr := tr.ContractAddress
+		contractCreation := !ethereum.IsZeroAddr(contractAddr)
+		if contractCreation {
+			contractAddrStr = contractAddr.String()
+		}
+		data.CreatedContractAddress = contractAddrStr
+		data.ContractCreated = contractCreation
+
+	}
 	return data, nil
 }
 
@@ -109,7 +133,6 @@ func sender(tx *types.Transaction) *common.Address {
 			fromAddr = common.BytesToAddress(f[:])
 		}
 	}
-
 	return &fromAddr
 }
 

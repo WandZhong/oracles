@@ -18,7 +18,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/chains"
+	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
@@ -26,15 +26,16 @@ import (
 
 // A log reader
 type logReader struct {
-	handle *ChainHandle
+	handle *chainHandle
+	filter crawlers.AddressFilter
 }
 
-func newLogReader(handle *ChainHandle) *logReader {
-	return &logReader{handle}
+func newLogReader(handle *chainHandle, filter crawlers.AddressFilter) *logReader {
+	return &logReader{handle, filter}
 }
 
 // reads the list of logs from an ethereum block.
-func (r *logReader) readList(block *types.Block, filter chains.AddressFilter) ([]*chains.LogData, errstack.E) {
+func (r *logReader) readList(block *types.Block) ([]*crawlers.BCLog, errstack.E) {
 	// Filter on all the logs of the provided block
 	logFilter := ethereum.FilterQuery{
 		FromBlock: block.Number(),
@@ -45,27 +46,35 @@ func (r *logReader) readList(block *types.Block, filter chains.AddressFilter) ([
 
 	logs, err := r.handle.client.FilterLogs(r.handle.ctx, logFilter)
 	if err != nil {
-		return nil, errstack.WrapAsInf(err, "can't get Ethereum logs")
+		return nil, errstack.WrapAsInf(err, "Logs query failure")
 	}
-	var lst []*chains.LogData
+	var lst []*crawlers.BCLog
 	for _, log := range logs {
-		data, err := r.read(&log, filter)
+		data, err := r.read(&log)
 		if err != nil {
 			return nil, err
 		}
-		lst = append(lst, data)
+		if data != nil {
+			lst = append(lst, data)
+		}
 	}
 	return lst, nil
 }
 
 // Returns a LogData object if it matches the provided filter
-func (r *logReader) read(log *types.Log, filter chains.AddressFilter) (*chains.LogData, errstack.E) {
+func (r *logReader) read(log *types.Log) (*crawlers.BCLog, errstack.E) {
 	addr := log.Address.String()
-	if filter != nil && filter.MatchesNone(addr) {
-		return nil, nil
+	if r.filter != nil {
+		noMatch, err := r.filter.MatchesNone(addr)
+		if err != nil {
+			return nil, err
+		}
+		if noMatch {
+			return nil, nil
+		}
 	}
 
-	data := &chains.LogData{
+	data := &crawlers.BCLog{
 		LogIndex: log.Index,
 		TxHash:   log.TxHash.String(),
 		TxIndex:  int64(log.TxIndex),

@@ -69,7 +69,7 @@ type Checker interface {
 
 // RollbarFlags wraps flags for Rollbar client
 type RollbarFlags struct {
-	Rollbar *string
+	Rollbar *string `long:"t" description:"rollbar token" default:""`
 }
 
 // NewRollbarFlags setups flags for Rollbar client

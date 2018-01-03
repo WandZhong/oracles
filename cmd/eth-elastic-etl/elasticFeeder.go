@@ -16,12 +16,12 @@ package main
 
 import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/analytics/elastic"
-	"bitbucket.org/sweetbridge/oracles/go-lib/chains"
+	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
 	"github.com/robert-zaremba/errstack"
 )
 
-// elasticProcessor is an implementation of DataProcessor to send messages to ElasticSearch
-type elasticProcessor struct {
+// elasticFeeder is an implementation of BCBlockProcessor to send records as messages to ElasticSearch
+type elasticFeeder struct {
 	feed *elastic.Feed
 }
 
@@ -35,25 +35,26 @@ const (
 	esSourceName   = "EthereumFeed"
 )
 
-func newElasticProcessor(host string) chains.DataProcessor {
-	return &elasticProcessor{feed: elastic.NewFeed(host, esSourceName)}
+func newElasticProcessor(host string) crawlers.BCBlockProcessor {
+	return &elasticFeeder{feed: elastic.NewFeed(host, esSourceName)}
 }
 
-func (r *elasticProcessor) Process(block *chains.BlockData) errstack.E {
+// Process is the implementation of the BCBlock processor
+func (r *elasticFeeder) Process(block *crawlers.BCBlock) errstack.E {
 
-	if err := r.processTransactions(block.Header, block.Transactions); err != nil {
+	if err := r.processTransactions(block.BCBlockHeader, block.Transactions); err != nil {
 		return err
 	}
-	return r.processLogs(block.Header, block.Logs)
+	return r.processLogs(block.BCBlockHeader, block.Logs)
 }
 
 type msgTransBody struct {
-	*chains.HeaderData
-	*chains.TransData
+	*crawlers.BCBlockHeader
+	*crawlers.BCTrans
 }
 
 // Send a message per transaction
-func (r *elasticProcessor) processTransactions(blockHeader *chains.HeaderData, transactions []*chains.TransData) errstack.E {
+func (r *elasticFeeder) processTransactions(blockHeader *crawlers.BCBlockHeader, transactions []*crawlers.BCTrans) errstack.E {
 	for _, t := range transactions {
 		ti := msgTransBody{blockHeader, t}
 		if err := r.feed.Send(esTransIndex, esTransDocType, esTransMsgType, t.ID, &ti); err != nil {
@@ -64,12 +65,12 @@ func (r *elasticProcessor) processTransactions(blockHeader *chains.HeaderData, t
 }
 
 type msgLogBody struct {
-	*chains.HeaderData
-	*chains.LogData
+	*crawlers.BCBlockHeader
+	*crawlers.BCLog
 }
 
 // Sends a message per log
-func (r *elasticProcessor) processLogs(blockHeader *chains.HeaderData, logs []*chains.LogData) errstack.E {
+func (r *elasticFeeder) processLogs(blockHeader *crawlers.BCBlockHeader, logs []*crawlers.BCLog) errstack.E {
 	for _, l := range logs {
 		li := msgLogBody{blockHeader, l}
 		if err := r.feed.Send(esLogsIndex, esLogsDocType, esLogsMsgType, l.ID, &li); err != nil {

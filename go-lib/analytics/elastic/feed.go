@@ -72,6 +72,7 @@ func (r *Feed) Send(index string, docType string, msgType string, msgID string, 
 		return errstack.WrapAsDomain(err, "can't marshal Feed message")
 	}
 	endPoint := path.Join(index, docType)
+	logger.Debug(string(buf))
 
 	var url, method string
 	if msgID == "" {
@@ -84,12 +85,12 @@ func (r *Feed) Send(index string, docType string, msgType string, msgID string, 
 
 	req, err := http.NewRequest(method, url, bytes.NewReader(buf))
 	if err != nil {
-		return errstack.WrapAsDomain(err, "can't construct Feed message")
+		return errstack.WrapAsDomain(err, "Error building request")
 	}
 
 	resp, err := r.client.Do(req)
 	if err != nil {
-		return errstack.WrapAsDomain(err, "can't construct Feed message")
+		return errstack.WrapAsDomain(err, "Error sending request")
 	}
 	defer errstack.CallAndLog(logger, resp.Body.Close)
 

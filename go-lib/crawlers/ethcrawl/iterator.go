@@ -15,25 +15,21 @@
 package ethcrawl
 
 import (
-	"math/big"
-
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
+	"math/big"
 )
 
+// A block iterator
 type iterator struct {
 	nextBlockNumber *big.Int
 	increment       *big.Int
-	handle          *ChainHandle
+	handle          *chainHandle
 }
 
-// Factory for a iterator
-// - handle: the chainContext
-// - offset is used to determine the starting point of the iteration. Valid values are:
-//   > 0 : is the offeset of the block starting from block zero
-//   < 0 : is the negative offset starting at the last block
-func newIterator(handle *ChainHandle, offset int64) (*iterator, errstack.E) {
+// initiate a new iterator
+func newIterator(handle *chainHandle, offset int64) (*iterator, errstack.E) {
 
 	var current *big.Int
 

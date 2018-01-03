@@ -38,10 +38,10 @@ func (l pgLogger) Write(p []byte) (int, error) {
 
 // PgFlags represents PostgreSQL flags
 type PgFlags struct {
-	User *string
-	Pwd  *string
-	DB   *string
-	Addr *string
+	User *string `long:"user" required:"yes" description:"Username"`
+	Pwd  *string `long:"pwd" description:"Password"`
+	DB   *string `long:"db" description:"Database name"`
+	Addr *string `long:"addr" description:"Server address" default:"localhost:5432"`
 }
 
 // NewPgFlags associate PostgreSQL client flags with the structure fields.
