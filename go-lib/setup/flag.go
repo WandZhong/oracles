@@ -28,7 +28,7 @@ func FlagFail(err error) {
 }
 
 // Flag parses flag and setups usage function.
-// `positionalArgs` is a string representing positional args
+// `positionalArgs` is a string representing positional args, eg: "arg1 arg2 arg3"
 // `commands` if provided is a positional argument command description.
 func Flag(positionalArgs string, commands ...string) {
 	flag.Usage = func() {
@@ -52,12 +52,14 @@ func FlagValidate(checkers ...Checker) {
 	}
 }
 
-// FlagSimpleInit provides a common functionality to setup the command line flags
-// without positional arguments
-func FlagSimpleInit(name string, rollbarKey string, flags ...Checker) {
-	Flag("")
+// FlagSimpleInit provides a common functionality to setup the command line flags.
+// `positionalArgs` documents expected positional argumentes, eg `"arg1 arg2 arg3"`.
+// `rollbarKey` is a pointer, because it can be a flag, which is gonig to be initialized
+//    in this function.
+func FlagSimpleInit(name, positionalArgs string, rollbarKey *string, flags ...Checker) {
+	Flag(positionalArgs)
 	FlagValidate(flags...)
-	MustLogger(name, rollbarKey)
+	MustLogger(name, *rollbarKey)
 }
 
 // Checker is an interface for type which has a Check function

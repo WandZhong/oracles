@@ -41,7 +41,7 @@ var (
 const serviceName = "tranche-manager"
 
 func init() {
-	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags.PgFlags, flags.RollbarFlags)
+	setup.FlagSimpleInit(serviceName, "", flags.Rollbar, flags.PgFlags, flags.RollbarFlags)
 	db = flags.MustConnect()
 }
 

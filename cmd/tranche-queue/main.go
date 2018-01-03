@@ -46,7 +46,8 @@ var (
 )
 
 func init() {
-	setup.FlagSimpleInit("tranche-queue", *flags.Rollbar, flags.BaseOracleFlags, flags.PgFlags)
+	setup.FlagSimpleInit("tranche-queue", "", flags.Rollbar,
+		flags.BaseOracleFlags, flags.PgFlags)
 	db = flags.MustConnect()
 }
 

@@ -25,13 +25,12 @@ import (
 func MustLogger(appname string, rollbartoken string) {
 	assert(checkAppName(appname))
 	appname = envName + "-" + appname
-	logger.Info("Rollbar", "token", rollbartoken)
 	rc := rollbar.Config{
 		Version: GitVersion,
 		Env:     appname,
 		Token:   rollbartoken}
-	var err error
-	logger, err = log.New(log.RootName,
+	// it's OK. Logger is a pointer, so we don't need to overwrite the global object
+	_, err := log.New(log.RootName,
 		log.Config{Color: true, TimeFmt: "sec", Level: "DEBUG"}, rc)
 	assert(err)
 	if strings.HasPrefix(envName, "prod") && rollbartoken == "" {

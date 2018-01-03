@@ -51,9 +51,7 @@ func init() {
 		expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum."),
 		maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]")}
 
-	setup.Flag("source_file.csv")
-	setup.FlagValidate(flags)
-	setup.MustLogger("swc-distributor", *flags.Rollbar)
+	setup.FlagSimpleInit("swc-distributor", "source_file.csv", flags.Rollbar, flags)
 }
 
 func main() {

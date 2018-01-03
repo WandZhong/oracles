@@ -98,7 +98,7 @@ func New(name string, c Config, rc rollbar.Config) (Logger, error) {
 	l := log15.Get(name)
 	l.SetHandler(h)
 	if rc.Token == "" {
-		l.Debug("Rollbar token not set. Disabling rollbar integration.")
+		l.Info("Rollbar token not set. Disabling rollbar integration.")
 	}
 	return l, nil
 }

@@ -44,7 +44,7 @@ func setupFlags() {
 	flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 		port: flag.String("port", "8000", "The HTTP listening port")}
 
-	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags)
+	setup.FlagSimpleInit(serviceName, "", flags.Rollbar, flags)
 }
 
 func setupContracts() {

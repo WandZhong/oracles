@@ -23,11 +23,11 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/middleware"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
+	"github.com/blockcypher/gobcy"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/log15/rollbar"
-	"github.com/blockcypher/gobcy"
 )
 
 type mainFlags struct {
@@ -90,7 +90,7 @@ func setupFlags() {
 		port:            flag.String("port", "8000", "The HTTP listening port"),
 		txTimeout:       flag.Int("tx-timeout", 600, "how many seconds should the daemon wait for the transaction receipt?"),
 	}
-	setup.FlagSimpleInit(serviceName, *flags.Rollbar, flags)
+	setup.FlagSimpleInit(serviceName, "", flags.Rollbar, flags)
 }
 
 func setupContracts() {
