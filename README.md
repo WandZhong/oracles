@@ -33,6 +33,10 @@ This is not required for building application, but required for proper developme
 + Squash your commits before merging! Here is [why](https://softwareengineering.stackexchange.com/questions/263164/why-squash-git-commits-for-pull-requests).
 + Write tests.
 
+### Dependencies
+
++ DB model is defined in the [model](https://bitbucket.org/sweetbridge/model) repository.
+
 
 ### Building
 
@@ -82,9 +86,10 @@ All applications are compiled into self-contained binaries (no external dependen
 
 Oracles share the following, ethereum-specific obligatory parameters:
 
-* `-pk-hex` -- the plaintext hex-encoded private key.
-* `-pk-file` + `-pk-pwd` -- the JSON encrypted private key. Required if the `-pk-hex` is not specified.
-* `-eth-network` -- the network name which oracles is connecting to (use `-h` to list all network names).
+* `-pk-hex` -- a plaintext hex-encoded private key.
+* `-pk-file` + `-pk-pwd` -- a JSON encrypted private key. Required if the `-pk-hex` is not specified.
+* `-eth-network` -- a network name which oracles is connecting to (use `-h` to list all network names).
+* `-eth-network-file` -- a JSON file describing Ethereum networks. It's compatible with `networks` [Truffle](http://truffleframework.com/docs/advanced/configuration) file section.
 * `-contracts` -- the path to the directory containing contract schemas. The contracts have to be deployed on the network before using them, and each schema used by the application have to have contract address (per network) written in. Furthermore the address in schema has to reflect the contract version described by the schema. Shortly speaking: don't manipulate the schemas unless you know what are you doing. Usually the schema in `submodules/contract-deployments/backstage/` reflect to the working contracts deployed on the backstage.
 
 
