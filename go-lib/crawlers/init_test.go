@@ -12,25 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package chains
+package crawlers
 
 import (
-	"github.com/robert-zaremba/errstack"
+	. "gopkg.in/check.v1"
+	"testing"
 )
 
-// DataProcessor is A BlockData processor interface
-type DataProcessor interface {
-	Process(blockData *BlockData) errstack.E
-}
-
-// ChainCrawler is a blockchain crawler interface
-type ChainCrawler interface {
-	Process() errstack.E
-}
-
-// AddressFilter is the Interface for addresses filters
-// Operations are:
-// - MatchesNone: returns in none of the addresses are part of the filter
-type AddressFilter interface {
-	MatchesNone(addresses ...string) bool
+func Test(t *testing.T) { TestingT(t) }
+func init() {
+	Suite(&FixedAddressesSuite{})
+	Suite(&CrawlerOptsSuite{})
 }

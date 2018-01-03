@@ -17,7 +17,7 @@ package elastic
 import (
 	"time"
 
-	"github.com/ethereum/go-ethereum/log"
+	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 )
 
 var logger = log.Root()
@@ -30,6 +30,7 @@ docMsg represents the message to be sent to ElasticSearch.
 - UserContext: user security context
 - Data: the data specific (payload). The data structure is determined by the field Type.
 - Tags: a set of tags
+
 */
 type docMsg struct {
 	Type        string      `json:"type"`

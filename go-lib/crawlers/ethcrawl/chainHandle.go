@@ -22,8 +22,8 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
-// ChainHandle is a context for exploring ethereum
-type ChainHandle struct {
+// chainHandle is a context for exploring ethereum
+type chainHandle struct {
 	chainLabel   string
 	networkID    int64
 	chainAddress string
@@ -31,8 +31,8 @@ type ChainHandle struct {
 	ctx          context.Context
 }
 
-// NewChainHandle return an initialized ChainHandle
-func NewChainHandle(ctx context.Context, chainAddress string, chainLabel string) (*ChainHandle, errstack.E) {
+// newChainHandle return an initialized chainHandle
+func newChainHandle(ctx context.Context, chainAddress string, chainLabel string) (*chainHandle, errstack.E) {
 	client, err := ethclient.Dial(chainAddress)
 	if err != nil {
 		return nil, errstack.WrapAsInf(err, "can't connect to Ethereum node")
@@ -48,7 +48,7 @@ func NewChainHandle(ctx context.Context, chainAddress string, chainLabel string)
 		chainLabel = fmt.Sprintf("ETH-%s", netID.String())
 	}
 
-	return &ChainHandle{
+	return &chainHandle{
 		chainAddress: chainAddress,
 		chainLabel:   chainLabel,
 		networkID:    netID.Int64(),
