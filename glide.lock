@@ -1,5 +1,5 @@
-hash: 8400d211c1ec2be1312c30b801769a0fea7203746d353286146e764b799c9e94
-updated: 2017-11-29T02:34:10.311921287+01:00
+hash: d864adeefb45bef67611d93125246a5b8c9e82612b6b9844bfa74a10c8fffa75
+updated: 2018-01-04T17:22:05.645889703+01:00
 imports:
 - name: github.com/aristanetworks/goarista
   version: 54fadd0c513d502544edf098480238dc9da50f9e
@@ -16,9 +16,7 @@ imports:
   subpackages:
   - spew
 - name: github.com/ethereum/go-ethereum
-  version: eeed8267316545544b1e3bec1e0799e1337c6ac2
-  repo: https://github.com/robert-zaremba/go-ethereum.git
-  vcs: git
+  version: 1c2378b926b4ae96ae42a4e802058a2fcd42c87b
   subpackages:
   - accounts
   - accounts/abi
@@ -46,6 +44,7 @@ imports:
   version: bd886380e6a7fe8d842c68b595fadae2dcc3bee8
   subpackages:
   - content
+  - cors
 - name: github.com/go-pg/pg
   version: 91c6bdd887406878e9bde15f3c4a12c1197da739
   subpackages:
@@ -60,6 +59,8 @@ imports:
   version: 293f5da99ebf75dfe83bdc40605c1dca64a484a9
   subpackages:
   - httputil/header
+- name: github.com/jessevdk/go-flags
+  version: 96dc06278ce32a0e9d957d590bb987c81ee66407
 - name: github.com/jinzhu/inflection
   version: 1c35d901db3da928c72a72d8458480cc9ade058f
 - name: github.com/kardianos/osext
@@ -117,14 +118,6 @@ imports:
 - name: golang.org/x/net
   version: b60f3a92103dfd93dfcb900ec77c6d0643510868
   subpackages:
-  - context
-  - context/ctxhttp
-  - http2
-  - http2/hpack
-  - idna
-  - internal/timeseries
-  - lex/httplex
-  - trace
   - websocket
 - name: golang.org/x/sys
   version: 1006bb3484c92b19a5b6612452e038b554fadb9c
