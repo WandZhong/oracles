@@ -20,10 +20,11 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 
+	"math"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/robert-zaremba/errstack"
-	"math"
 )
 
 var (
@@ -85,8 +86,8 @@ func (r *transReader) read(tx *types.Transaction, index int) (*crawlers.BCTrans,
 		TxIndex:  int64(index),
 		Data:     string(tx.Data()),
 		TxHash:   tx.Hash().String(),
-		Gas:      tx.Gas().Int64(),
-		GasPrice: tx.GasPrice().Int64(),
+		Gas:      tx.Gas(),
+		GasPrice: tx.GasPrice().Uint64(),
 		From:     fromAddrStr,
 		To:       toAddrStr,
 		RawValue: tx.Value(),
@@ -105,8 +106,8 @@ func (r *transReader) read(tx *types.Transaction, index int) (*crawlers.BCTrans,
 			}
 		}
 
-		data.GasUsed = tr.GasUsed.Int64()
-		data.CumulativeGasUsed = tr.CumulativeGasUsed.Int64()
+		data.GasUsed = tr.GasUsed
+		data.CumulativeGasUsed = tr.CumulativeGasUsed
 
 		contractAddrStr := ""
 		contractAddr := tr.ContractAddress

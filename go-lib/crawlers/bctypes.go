@@ -52,10 +52,10 @@ type BCTrans struct {
 	ID                     string     `json:"uid"`
 	TxIndex                int64      `json:"txIndex"`
 	TxHash                 string     `json:"txHash"`
-	GasPrice               int64      `json:"gasPrice"`
-	Gas                    int64      `json:"gas"`
-	CumulativeGasUsed      int64      `json:"cumulativeGasUsed"`
-	GasUsed                int64      `json:"gasUsed"`
+	GasPrice               uint64     `json:"gasPrice"`
+	Gas                    uint64     `json:"gas"`
+	CumulativeGasUsed      uint64     `json:"cumulativeGasUsed"`
+	GasUsed                uint64     `json:"gasUsed"`
 	From                   string     `json:"from"`
 	To                     string     `json:"to,omitempty"`
 	ContractCreated        bool       `json:"contractCreation,omitempty"`
