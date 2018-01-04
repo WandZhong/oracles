@@ -51,5 +51,9 @@ type EventDirectPledge struct {
 
 // Unmarshal blockchain log into the event structure
 func (e *EventDirectPledge) Unmarshal(log *types.Log) errstack.E {
-	return ethereum.UnmarshalEvent(e, log.Data, LogSWCqueueDirectPledge())
+	curr := [3]byte{}
+	dest := &[3]interface{}{&e.Who, &e.Wad, &curr}
+	err := ethereum.UnmarshalEvent(dest, log.Data, LogSWCqueueDirectPledge())
+	e.Currency = liquidity.Currency(curr[:])
+	return err
 }

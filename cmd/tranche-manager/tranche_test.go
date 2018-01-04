@@ -18,9 +18,11 @@ import (
 	"encoding/json"
 	"time"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"bitbucket.org/sweetbridge/oracles/go-lib/model"
 	"bitbucket.org/sweetbridge/oracles/go-lib/test/itest"
 	"bitbucket.org/sweetbridge/oracles/go-lib/trancheq"
-	"github.com/robert-zaremba/go-bat"
+	bat "github.com/robert-zaremba/go-bat"
 	pgt "github.com/robert-zaremba/go-pgt"
 	. "github.com/scale-it/checkers"
 	. "gopkg.in/check.v1"
@@ -35,20 +37,27 @@ type TrancheS struct {
 func (suite *TrancheS) SetUpSuite(c *C) {
 	suite.now = time.Now().UTC()
 	suite.token = trancheq.Token{ID: "SWC12"}
-	suite.token.Validate()
-	c.Assert(db.Insert(&suite.token), IsNil)
+	_, err := db.Exec(`DELETE FROM tranches WHERE token_id = ?`, suite.token.ID)
+	c.Assert(err, IsNil)
+	_, err = db.Exec(`DELETE FROM tokens WHERE token_id = ?`, suite.token.ID)
+	c.Assert(err, IsNil)
+
+	c.Assert(model.ValidateSave(&suite.token, db), IsNil)
 
 	endsOn := suite.now.Add(time.Hour * 36)
 	suite.tranche = trancheq.Tranche{
-		ID:          0,
-		TokenID:     suite.token.ID,
-		CreatedOn:   suite.now,
-		StartsOn:    suite.now.Add(time.Hour * 24),
-		EndsOn:      &endsOn,
-		ExecutesOn:  suite.now.Add(time.Hour * 48),
-		Supply:      pgt.NewBigInt(10000),
-		PriceBRGusd: 1.92,
-	}
+		TrancheDB: trancheq.TrancheDB{
+			ID:         0, // will be autoasigned
+			TokenID:    suite.token.ID,
+			CreatedOn:  suite.now,
+			StartsOn:   suite.now.Add(time.Hour * 24),
+			EndsOn:     &endsOn,
+			ExecutesOn: suite.now.Add(time.Hour * 48),
+			Supply:     pgt.NewBigInt(10000)},
+		Prices: map[liquidity.Currency]float64{
+			liquidity.CurrUSD:  1.92,
+			liquidity.CurrcETH: 0.001,
+		}}
 }
 
 func (suite *TrancheS) TearDownSuite(c *C) {
@@ -90,7 +99,7 @@ func (suite *TrancheS) TestPostTranche(c *C) {
 
 func (suite *TrancheS) TestGetTranches(c *C) {
 	// firstly let's add a tranche. Token is already there -> SetUpSuite
-	c.Assert(db.Insert(&suite.tranche), IsNil)
+	c.Assert(suite.tranche.Save(db), IsNil)
 
 	rc := itest.NewRoutingGetCtx("/")
 	resp := itest.AssertHandlerOK(rc, getTranches, c)
@@ -111,6 +120,7 @@ func (suite *TrancheS) TestGetTranches(c *C) {
 	for _, t := range trs.Tranches {
 		if t.ID == suite.tranche.ID {
 			found = true
+			c.Check(t.Prices, HasLen, len(suite.tranche.Prices))
 			break
 		}
 	}

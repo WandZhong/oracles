@@ -12,25 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package model
+package liquidity
 
 import (
-	"github.com/go-pg/pg"
-	"github.com/robert-zaremba/errstack"
+	"encoding/json"
+
+	. "gopkg.in/check.v1"
 )
 
-// CheckPgNoRows wraps pg error into errstack.E
-func CheckPgNoRows(title string, err error) errstack.E {
-	if err == pg.ErrNoRows {
-		return errstack.WrapAsReqF(err, "Can't get %q from DB", title)
-	}
-	return errstack.WrapAsInfF(err, "Can't get %q from DB", title)
+type CurrencySuite struct{}
+
+func (suite CurrencySuite) TestJSONMarshal(c *C) {
+	curr := CurrUSD
+	data, err := json.Marshal(curr)
+	c.Assert(err, IsNil)
+	var curr2 Currency
+	err = json.Unmarshal(data, &curr2)
+	c.Assert(err, IsNil)
+	c.Assert(curr, Equals, curr2)
 }
 
-// ErrNotNoRows check if errors is not Nil and is not ErrNoRows
-func ErrNotNoRows(title string, err error) errstack.E {
-	if err == nil || err == pg.ErrNoRows {
-		return nil
-	}
-	return errstack.WrapAsInfF(err, "Can't select %q from DB", title)
+func (suite CurrencySuite) TestJSONMarshalMap(c *C) {
+	m := map[Currency]int{CurrUSD: 2}
+	_, err := json.Marshal(m)
+	c.Assert(err, IsNil)
 }

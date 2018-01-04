@@ -27,15 +27,27 @@ type Validated interface {
 	Validate() errstack.Builder
 }
 
-// DecodeAndSave is handy model function which decodes, validates and save into DB an object.
+// DBSave is an interface for a domain entity which is able to save into DB.
+type DBSave interface {
+	Save(db *pg.DB) errstack.E
+}
+
+// ValidateSave validates and save an object into DB.
+func ValidateSave(obj Validated, db *pg.DB) errstack.E {
+	if errb := obj.Validate(); errb.NotNil() {
+		return errb.ToReqErr()
+	}
+	if obj, ok := obj.(DBSave); ok {
+		return obj.Save(db)
+	}
+	return errstack.WrapAsInf(db.Insert(obj), "Can't insert token")
+}
+
+// DecodeAndSave is handy model function which decodes, validates and save an object into DB.
 // `dest` must be a pointer.
 func DecodeAndSave(src io.ReadCloser, dest Validated, db *pg.DB) errstack.E {
 	if err := bat.DecodeJSON(src, dest); err != nil {
 		return err
 	}
-	if errb := dest.Validate(); errb.NotNil() {
-		return errb.ToReqErr()
-	}
-	err := errstack.WrapAsInf(db.Insert(dest), "Can't insert token")
-	return err
+	return ValidateSave(dest, db)
 }
