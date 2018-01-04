@@ -6,5 +6,5 @@ RUN apk add --update libcurl bash python3 groff && \
 
 ENTRYPOINT /payment-forwarder.sh
 
-COPY contract-schemas /contract-schemas
+COPY submodules/contract-deployments/ /contract-schemas
 COPY payment-forwarder payment-forwarder.sh eth-networks.json /
