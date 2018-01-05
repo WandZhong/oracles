@@ -31,5 +31,5 @@ func (suite *DBSuite) TestNewPgFlagsCheck(c *chk.C) {
 	c.Assert(pf.Check(), chk.IsNil)
 
 	pf = PgFlags{User: strPtr("u1"), Addr: strPtr("example.com")}
-	c.Assert(pf.Check(), chk.ErrorMatches, "missing port in address")
+	c.Assert(pf.Check(), chk.ErrorMatches, ".*missing port in address.*")
 }

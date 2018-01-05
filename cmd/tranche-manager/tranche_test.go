@@ -49,10 +49,10 @@ func (suite *TrancheS) SetUpSuite(c *C) {
 		TrancheDB: trancheq.TrancheDB{
 			ID:         0, // will be autoasigned
 			TokenID:    suite.token.ID,
-			CreatedOn:  suite.now,
-			StartsOn:   suite.now.Add(time.Hour * 24),
-			EndsOn:     &endsOn,
-			ExecutesOn: suite.now.Add(time.Hour * 48),
+			CreatedAt:  suite.now,
+			StartsAt:   suite.now.Add(time.Hour * 24),
+			EndsAt:     &endsOn,
+			ExecutesAt: suite.now.Add(time.Hour * 48),
 			Supply:     pgt.NewBigInt(10000)},
 		Prices: map[liquidity.Currency]float64{
 			liquidity.CurrUSD:  1.92,
@@ -78,11 +78,11 @@ func (suite *TrancheS) create(expected trancheq.Tranche, c *C) {
 
 	t, err := trancheq.GetTranche(expected.ID, db)
 	c.Assert(err, IsNil)
-	c.Check(t.CreatedOn, WithinDuration, suite.now, time.Minute)
-	c.Check(t.CreatedOn, Not(Equals), suite.now)
-	c.Check(t.StartsOn, TimeEquals, expected.StartsOn)
-	c.Check(t.ExecutesOn, TimeEquals, expected.ExecutesOn)
-	c.Check(t.EndsOn, TimeEquals, expected.EndsOn)
+	c.Check(t.CreatedAt, WithinDuration, suite.now, time.Minute)
+	c.Check(t.CreatedAt, Not(Equals), suite.now)
+	c.Check(t.StartsAt, TimeEquals, expected.StartsAt)
+	c.Check(t.ExecutesAt, TimeEquals, expected.ExecutesAt)
+	c.Check(t.EndsAt, TimeEquals, expected.EndsAt)
 	c.Check(t.Supply, DeepEquals, expected.Supply)
 	c.Check(t.MaxContrib, DeepEquals, expected.MaxContrib)
 	c.Assert(db.Delete(&t), IsNil)
@@ -93,7 +93,7 @@ func (suite *TrancheS) TestPostTranche(c *C) {
 	suite.create(expected, c)
 
 	expected.MaxContrib = pgt.NewBigInt(601)
-	expected.EndsOn = nil
+	expected.EndsAt = nil
 	suite.create(expected, c)
 }
 
