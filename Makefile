@@ -20,7 +20,7 @@ endef
 
 all: install-deps build
 
-setup-dev: install-deps
+setup-dev:
 	@echo -en $(IBLACK)fetching server GO lib dependencies... $(NC)
 	@echo "*** (Don't forget to add GOBIN to your PATH) ***"
 	@go get -v -u github.com/golang/lint/golint \

@@ -25,7 +25,7 @@ Please refer to `setup-quickstart.sh` if you want to install it on debian / ubun
 ### Development:
 This is not required for building application, but required for proper development.
 
-	make setup-dev
+	make setup-dev install-deps
 
 #### Development workflow
 
