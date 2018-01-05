@@ -33,7 +33,7 @@ type Pledge struct {
 	WalletAddr ethereum.PgtAddress `sql:"wallet_addr"`
 	CtrAddr    ethereum.PgtAddress `sql:"ctr_addr,notnull"`
 	Wad        pgt.BigInt          `sql:",notnull"`
-	CreatedOn  time.Time           `sql:"created_on"`
+	CreatedAt  time.Time           `sql:"created_at"`
 	Currency   liquidity.Currency  `sql:",notnull"`
 	Direct     bool                `sql:",notnull"`
 }
@@ -56,7 +56,7 @@ func NewPledgeFromDirectPledge(log *types.Log) (Pledge, errstack.E) {
 		CtrAddr:    ethereum.PgtAddress{Address: log.Address},
 		Wad:        pgt.BigInt{Int: e.Wad},
 		Currency:   e.Currency,
-		CreatedOn:  time.Now(),
+		CreatedAt:  time.Now(),
 		Direct:     true,
 	}, nil
 }
@@ -87,7 +87,7 @@ func (tp transferPledger) NewPledge(log *types.Log) (Pledge, errstack.E) {
 		CtrAddr:    ethereum.PgtAddress{Address: e.To},
 		Wad:        pgt.BigInt{Int: e.Value},
 		Currency:   curr,
-		CreatedOn:  time.Now(),
+		CreatedAt:  time.Now(),
 		Direct:     false,
 	}, nil
 }

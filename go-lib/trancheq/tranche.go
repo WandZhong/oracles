@@ -38,10 +38,10 @@ type TrancheDB struct {
 
 	ID         int64      `sql:"tranche_id,pk" json:"id"`
 	TokenID    string     `sql:",notnull" json:"tokenID"`
-	CreatedOn  time.Time  `sql:"created_on,notnull" json:"createdOn"`
-	StartsOn   time.Time  `sql:"starts_on,notnull" json:"startsOn"`
-	ExecutesOn time.Time  `sql:"executes_on,notnull" json:"executesOn"`
-	EndsOn     *time.Time `sql:"ends_on" json:"endsOn"`
+	CreatedAt  time.Time  `sql:"created_at,notnull" json:"createdAt"`
+	StartsAt   time.Time  `sql:"starts_at,notnull" json:"startsAt"`
+	ExecutesAt time.Time  `sql:"executes_at,notnull" json:"executesAt"`
+	EndsAt     *time.Time `sql:"ends_at" json:"endsAt"`
 	Supply     pgt.BigInt `sql:"supply,notnull" json:"supply"`          // in wad
 	MaxContrib pgt.BigInt `sql:"max_contrib,notnull" json:"maxContrib"` // in wad, 0=no limit
 }
@@ -61,18 +61,18 @@ func newTrache(t TrancheDB, ps []price) Tranche {
 }
 
 // Validate checks if all fields are sematically correct.
-// It also resets the automatic fields (ID, CreatedOn)
+// It also resets the automatic fields (ID, CreatedAt)
 func (t *Tranche) Validate() errstack.Builder {
 	var errb = errstack.NewBuilder()
 	t.ID = 0
-	t.CreatedOn = time.Now().UTC()
-	if t.ExecutesOn.Before(t.CreatedOn.Add(time.Hour)) {
+	t.CreatedAt = time.Now().UTC()
+	if t.ExecutesAt.Before(t.CreatedAt.Add(time.Hour)) {
 		errb.Put("executesOn", "must be after 'now'+1hour")
 	}
-	if !t.ExecutesOn.After(t.StartsOn) {
+	if !t.ExecutesAt.After(t.StartsAt) {
 		errb.Put("executesOn", "must be after `startsOn`")
 	}
-	if t.EndsOn != nil && !t.EndsOn.After(t.StartsOn) {
+	if t.EndsAt != nil && !t.EndsAt.After(t.StartsAt) {
 		errb.Put("endsOn", "must be after `startsOn`")
 	}
 	if t.Supply.Int == nil || t.Supply.Cmp(zero) <= 0 {

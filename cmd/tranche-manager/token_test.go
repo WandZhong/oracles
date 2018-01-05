@@ -32,7 +32,7 @@ func (suite *TokenS) create(data string, expected trancheq.Token, c *C) {
 
 	t, err := trancheq.GetToken(expected.ID, db)
 	c.Assert(err, IsNil)
-	c.Check(t.CreatedOn, WithinDuration, time.Now(), time.Minute)
+	c.Check(t.CreatedAt, WithinDuration, time.Now(), time.Minute)
 	c.Check(t.ID, Equals, expected.ID)
 	c.Check(t.MaxTotalContrib.Int, DeepEquals, expected.MaxTotalContrib.Int)
 	c.Assert(db.Delete(&expected), IsNil)
