@@ -19,8 +19,9 @@ node {
         echo 'Checkout started'
         checkout scm
         echo "Branch name: ${env.BRANCH_NAME}"
+}
 
-    }
+
 
  stage('Clone config repo') {
         /* Let's make sure we have the repository cloned to our workspace */
@@ -40,15 +41,26 @@ node {
                     sh 'make docker-run-builder'
  }
 
+ stage('Dockerize payment-forwarder') {
 
- stage('Build docker container') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-        echo 'Image is being build now...'
-        sh 'cp docker/Dockerfile-payment-forwarder Dockerfile'
-        app = docker.build('sweetbridge/payment-forwarder')
-    }
+   dir ('docker'){
+     echo 'payment-forwarder: calling dockerize.sh'
+     sh 'sh dockerize.sh payment-forwarder'
+  }
+   dir('docker/tmp/payment-forwarder'){
+     echo 'payment-forwarder: Image is being build now...'
+     app = docker.build('sweetbridge/payment-forwarder')
+   }
+ }
 
-
-
+ stage('Dockerize tranche-manager') {
+   dir ('docker'){
+     echo 'tranche-manager: calling dockerize.sh'
+     sh 'sh dockerize.sh tranche-manager'
+   }
+   dir ('docker/tmp/tranche-manager'){
+     echo 'tranche-manager: Image is being build now...'
+     app = docker.build('sweetbridge/tranche-manager')
+   }
+ }
 }
