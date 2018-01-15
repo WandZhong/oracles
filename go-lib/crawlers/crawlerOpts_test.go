@@ -33,28 +33,32 @@ func (r CrawlerOptsSuite) TestOpts(c *C) {
 			[]string{},
 			true,
 		}, {
-			"Missing chain option",
-			[]string{"--chain"},
+			"missing chain option",
+			[]string{"--filter=ABC", "--offset=10"},
+			true,
+		}, {
+			"missing filter",
+			[]string{"--chain=nonull", "--offset=10"},
 			true,
 		}, {
 			"offset != 0",
-			[]string{"--chain=nonull", "--offset=10"},
+			[]string{"--chain=nonull", "--filter=AAA", "--offset=10"},
 			false,
 		}, {
 			"Offset = 0",
-			[]string{"--chain=nonull", "--offset=0"},
+			[]string{"--chain=nonull", "--filter=AAA", "--offset=0"},
 			true,
 		}, {
 			"Delay >  0",
-			[]string{"--chain=nonull", "--offset=10", "--delay=1"},
+			[]string{"--chain=nonull", "--filter=AAA", "--offset=10", "--delay=1"},
 			false,
 		}, {
 			"Delay ==  0",
-			[]string{"--chain=nonull", "--offset=10", "--delay=0"},
+			[]string{"--chain=nonull", "--filter=AAA", "--offset=10", "--delay=0"},
 			false,
 		}, {
 			"Delay < 0",
-			[]string{"--chain=nonull", "--offset=10", "--delay=-1"},
+			[]string{"--chain=nonull", "--filter=AAA", "--offset=10", "--delay=-1"},
 			true,
 		},
 	}

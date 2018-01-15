@@ -15,6 +15,7 @@
 package crawlers
 
 import (
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
 	"strings"
 )
@@ -23,6 +24,9 @@ import (
 func NewFixedAddressesFilter(addresses []string) (AddressFilter, errstack.E) {
 	if len(addresses) == 0 {
 		return nil, errstack.NewReq("Addresses must be provided")
+	}
+	if err := checkAddressesFormat(addresses); err != nil {
+		return nil, err
 	}
 
 	table := make(map[string]struct{}, len(addresses))
@@ -42,6 +46,9 @@ func (r *fixedAddressFilter) MatchesNone(addresses ...string) (bool, errstack.E)
 	if len(addresses) == 0 {
 		return false, errstack.NewReq("Address(ses) are mandatory to initialize a filter")
 	}
+	if err := checkAddressesFormat(addresses); err != nil {
+		return false, err
+	}
 
 	result := true
 	for _, v := range addresses {
@@ -50,4 +57,18 @@ func (r *fixedAddressFilter) MatchesNone(addresses ...string) (bool, errstack.E)
 		}
 	}
 	return result, nil
+}
+
+// Checks the format of the provided list of addresses
+func checkAddressesFormat(addresses []string) errstack.E {
+	var rejects []string
+	for _, a := range addresses {
+		if !common.IsHexAddress(a) {
+			rejects = append(rejects, a)
+		}
+	}
+	if len(rejects) > 0 {
+		return errstack.NewReqF("Invalid address(es) format", rejects)
+	}
+	return nil
 }

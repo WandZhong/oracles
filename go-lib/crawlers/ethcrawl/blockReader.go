@@ -38,9 +38,11 @@ const (
 	// ReadTransReceipt indicates that the transaction receipt must be read
 	ReadTransReceipt BlockReadingMode = 2
 	// ReadTransLog indicates that the transaction logs must be read
-	ReadTransLog              BlockReadingMode = 4
-	ReadTransDetailAndReceipt                  = ReadTransDetail + ReadTransReceipt
-	ReadAll                                    = ReadTransDetailAndReceipt + ReadTransLog
+	ReadTransLog BlockReadingMode = 4
+	// ReadTransDetailAndReceipt indicates that transaction details and receipts must be read
+	ReadTransDetailAndReceipt = ReadTransDetail + ReadTransReceipt
+	// ReadAll indicates that logs and full transaction details must be read
+	ReadAll = ReadTransDetailAndReceipt + ReadTransLog
 )
 
 // Returns a blockReader

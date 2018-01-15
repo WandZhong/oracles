@@ -6,32 +6,27 @@ import (
 
 type FixedAddressesSuite struct{}
 
-// TestInitOK checks a proper initialisation of a filter
+func (r FixedAddressesSuite) TestNotInit(c *C) {
+	_, err := NewFixedAddressesFilter([]string{"AAA"})
+	c.Assert(err, NotNil) // "Creating a filter with no address"
+}
+
 func (r FixedAddressesSuite) TestInitOK(c *C) {
 	_, err := NewFixedAddressesFilter([]string{"0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8"})
-	c.Assert(err, IsNil) // "Creating a filter with no entry should raise an error"
+	c.Assert(err, IsNil) // "No error expected with a valid addresses formats"
 }
 
-// TestInitWithoutAddress checks initialization of a filter with no address provided
-func (r FixedAddressesSuite) TestInitWithoutAddress(c *C) {
-	_, err := NewFixedAddressesFilter(nil)
-	c.Assert(err, NotNil) // "Creating a filter with no entry should raise an error"
+func (r FixedAddressesSuite) TestInitKO(c *C) {
+	_, err := NewFixedAddressesFilter([]string{"AAA"})
+	c.Assert(err, NotNil) // "Creating a filter with an invalid address format"
 }
 
-// TestInitWithBadAddress checks initialization of a filter with a invalid address value
-func (r FixedAddressesSuite) TestInitWithBadAddress(c *C) {
-	_, err := NewFixedAddressesFilter([]string{"ABC"})
-	c.Assert(err, NotNil) // "Creating a filter with an invalid address"
-}
-
-// TestCheckWithoutAddress checks the function invoqued with no address raises an error
 func (r FixedAddressesSuite) TestCheckWithoutAddress(c *C) {
 	filter, _ := NewFixedAddressesFilter([]string{"0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8"})
 	_, err := filter.MatchesNone()
 	c.Assert(err, NotNil) // "Address(es) to be checked are missing"
 }
 
-// TestCheckValidaddress checks the function invoked with bad address raises an error
 func (r FixedAddressesSuite) TestCheckValidaddress(c *C) {
 	filter, _ := NewFixedAddressesFilter([]string{"0xEA674fdDe714fd979de3EdF0F56AA9716B898ec8"})
 	_, err := filter.MatchesNone("ABC")

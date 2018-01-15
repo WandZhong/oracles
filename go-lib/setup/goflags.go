@@ -27,12 +27,12 @@ type ConfigFileOption struct {
 	Config string `short:"c" long:"config" no-ini:"true" required:"true"`
 }
 
-// Filepath returns the path of the config file.
+// ConfigFilepath returns the path of the config file.
 func (r *ConfigFileOption) ConfigFilepath() string {
 	return r.Config
 }
 
-// Interface that allows reading the config file path
+// ConfigFilePathGetter is an Interface that allows reading the config file path
 type ConfigFilePathGetter interface {
 	ConfigFilepath() string
 }
@@ -43,6 +43,7 @@ func ReadOpts(opts interface{}) errstack.E {
 	return err
 }
 
+/*
 // ReadOptsUsingIniFile reads options from an ini file, using go-flags library
 func ReadOptsUsingIniFile(opts ConfigFilePathGetter) errstack.E {
 	p, err := readOpts(opts)
@@ -61,6 +62,7 @@ func ReadOptsUsingIniFile(opts ConfigFilePathGetter) errstack.E {
 	}
 	return nil
 }
+*/
 
 // Utility function that initialises a parser, to load options from commmand line. It returns a parser, if no error.
 // This function determines if a help option is present and prints the built-in help.
