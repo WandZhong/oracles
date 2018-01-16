@@ -17,6 +17,7 @@ package liquidity
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/robert-zaremba/errstack"
@@ -32,15 +33,17 @@ var (
 
 	// The Smart Contract defines currency as [3]byte.
 	// But here, for simplicity we ware using string (encoding)
-	CurrUSD  = Currency("USD")
-	CurrcETH = Currency("xETH")
+	CurrUSD = Currency("USD")
+	CurrETH = Currency("ETH")
+	CurrBTC = Currency("BTC")
 )
 
 func init() {
-	var currenciesList = []Currency{CurrUSD, CurrcETH}
+	var currenciesList = []Currency{CurrUSD, CurrETH, CurrBTC}
 	for _, c := range currenciesList {
 		currencies[string(c)] = c
 	}
+	fmt.Println(currencies)
 }
 
 // ParseCurrencyErrp converts currency string into Currency type
@@ -49,10 +52,7 @@ func ParseCurrencyErrp(curr string, errp errstack.Putter) Currency {
 		errp.Put("expecting 3-characters currency ISO code. Got empty code.")
 		return ""
 	}
-	if len(curr) > 3 {
-		// non fiat currencies has prefix
-		curr = curr[:1] + strings.ToUpper(curr[1:])
-	}
+	curr = strings.Trim(curr, " ")
 	c, ok := currencies[curr]
 	if !ok {
 		errp.Put("Unknown Currency: " + curr)

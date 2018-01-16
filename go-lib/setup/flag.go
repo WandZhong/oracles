@@ -18,6 +18,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // FlagFail - exits the main process and displays usage information
@@ -44,7 +45,12 @@ func Flag(positionalArgs string, commands ...string) {
 }
 
 // FlagValidate runs flag checkers
-func FlagValidate(checkers ...Checker) {
+func FlagValidate(positionalArgs string, checkers ...Checker) {
+	expected := strings.Fields(positionalArgs)
+	if len(expected) != flag.NArg() {
+		FlagFail(fmt.Errorf("Missing required positional arguments: %s. Number of args Provided: %d, expected: %d",
+			expected, flag.NArg(), len(expected)))
+	}
 	for _, c := range checkers {
 		if err := c.Check(); err != nil {
 			FlagFail(err)
@@ -58,7 +64,7 @@ func FlagValidate(checkers ...Checker) {
 //    in this function.
 func FlagSimpleInit(name, positionalArgs string, rollbarKey *string, flags ...Checker) {
 	Flag(positionalArgs)
-	FlagValidate(flags...)
+	FlagValidate(positionalArgs, flags...)
 	MustLogger(name, *rollbarKey)
 }
 

@@ -20,33 +20,28 @@ import (
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"github.com/robert-zaremba/errstack"
+	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
-var logger = log.Root()
+var (
+	db     *pg.DB
+	logger = log.Root()
+)
 
 type mainFlags struct {
-	setup.BaseOracleFlags
-	dryRun      *bool
-	expectedMd5 *string
-	maxSWC      *uint64
+	setup.PgFlags
+	setup.RollbarFlags
+	port *string
 }
 
-func (f mainFlags) Check() error {
-	if *f.maxSWC <= 0 {
-		return errstack.NewReq("`-max-swc` must be a positive number")
-	}
-	return f.BaseOracleFlags.Check()
-}
-
-var flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
-	dryRun:      flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
-	expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum."),
-	maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]")}
+var flags = mainFlags{PgFlags: setup.NewPgFlags(),
+	RollbarFlags: setup.NewRollbarFlags(),
+	port:         flag.String("port", "8000", "The HTTP listening port")}
 
 func init() {
-	setup.FlagSimpleInit("swc-distributor", "source_file.csv", flags.Rollbar, flags)
+	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", flags.Rollbar, flags.PgFlags)
+	db = flags.MustConnect()
 }
 
 func main() {
@@ -54,7 +49,7 @@ func main() {
 
 	records, err := readRecords(flag.Arg(0))
 	checkOK(err)
-	distributeSWC(records)
+	checkOK(insertTransactions(records))
 }
 
 func checkOK(err error) {
