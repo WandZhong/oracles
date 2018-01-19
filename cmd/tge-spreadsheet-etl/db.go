@@ -18,6 +18,8 @@ import (
 	"strings"
 	"time"
 
+	"hash/fnv"
+
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/go-pgt"
@@ -25,7 +27,8 @@ import (
 
 // DirectBuy represents the swc direct buy for the next distribution.
 type DirectBuy struct {
-	ID        pgt.UUID           `sql:"direct_buy_id,pk"`
+	ID        int64              `sql:"direct_buy_id,pk"`
+	Hash      []byte             `sql:"hash"`
 	UserID    pgt.UUID           `sql:"individual_id"`
 	Email     string             `sql:"email"`
 	TrancheID uint64             `sql:"tranche_id,notnull"`
@@ -45,7 +48,7 @@ func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
 	var user pgt.UUID
 	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
 	if err != nil {
-		if strings.Index(err.Error(), "no rows in") < 0 {
+		if !strings.Contains(err.Error(), "no rows in") {
 			return user, errstack.WrapAsInf(err, "can't query DB")
 		}
 		logger.Error("Can't find user", "email", r.Email, "name", r.FullName)
@@ -61,8 +64,12 @@ func createDBRecords(records []Record) ([]DirectBuy, errstack.E) {
 		if err != nil {
 			return dbs, err
 		}
+		h, err := mkHash(&r)
+		if err != nil {
+			return dbs, err
+		}
 		d := DirectBuy{
-			pgt.RandomUUID(), user, r.Email, r.TrancheID, r.AmountSWC,
+			r.ID, h, user, r.Email, r.TrancheID, r.AmountSWC,
 			r.AmountIn, r.Currency, r.UsdRate, r.SenderID, r.Timestamp, now, now}
 		dbs = append(dbs, d)
 	}
@@ -74,14 +81,33 @@ func insertRecords(records []Record) errstack.E {
 	if err != nil {
 		return err
 	}
-	logger.Info("All direct_buys created. Inserting into DB")
-	return errstack.WrapAsInf(db.Insert(&dbs), "DB direct_buy insert")
+	logger.Info("All direct_buys created. Inserting into DB...")
+	result, errStd := db.Model(&dbs).
+		OnConflict("(direct_buy_id) DO UPDATE").
+		Set("tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at").
+		Insert()
+	logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())
+	return errstack.WrapAsInf(errStd, "DB direct_buy insert")
 	// for i := range dbs {
-	// 	err = errstack.WrapAsInf(db.Insert(&dbs[i]), "DB direct_buy insert")
-	// 	if err != nil {
-	// 		fmt.Println(dbs[i])
-	// 		return err
-	// 	}
+	// 	fmt.Println(dbs[i].ID)
+	// 	// err = errstack.WrapAsInf(db.Insert(&dbs[i]), "DB direct_buy insert")
+	// 	// if err != nil {
+	// 	// 	fmt.Println(dbs[i])
+	// 	// 	return err
+	// 	// }
 	// }
 	// return nil
+}
+
+func mkHash(r *Record) ([]byte, errstack.E) {
+	h := fnv.New128()
+	for _, s := range []string{r.Timestamp.String(),
+		r.Email,
+		string(r.Currency),
+		r.TxHash} {
+		if _, err := h.Write([]byte(s)); err != nil {
+			return h.Sum(nil), errstack.WrapAsInf(err, "can't sum the string: "+s)
+		}
+	}
+	return h.Sum(nil), nil
 }

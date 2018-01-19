@@ -28,26 +28,28 @@ import (
 
 const (
 	rowDate = iota
-	rowEmailConf
+	_       // rowEmailConf
 	rowTranche
-	rowEscrow
+	_ // rowEscrow
 	rowEmail
 	rowFullName
-	rowLastName
-	rowFristName
+	_ // rowLastName
+	_ // rowFristName
 	rowCurrency
 	rowAmount
 	rowFXRate
-	rowAmountUSD
-	rowSWCPrice
+	_ // rowAmountUSD
+	_ // rowSWCPrice
 	rowSWCAmount
-	rowMarketValue
-	rowCryptoExRate
-	rowMatchedAddr
-	rowEmpty1
+	_ // rowMarketValue
+	_ // rowCryptoExRate
+	_ // rowSWCStatus
+	_ // rowMatchedAddr
+	_ // rowEmpty1
 	rowSenderID
 	rowTxHash
-	rowPaymenetDate
+	_ // rowDate2
+	rowID
 )
 
 // Record represent SWC distribution record
@@ -62,6 +64,8 @@ type Record struct {
 	UsdRate   float64
 	TrancheID uint64
 	AmountSWC float64
+	TxHash    string
+	ID        int64
 }
 
 // String implements stringer interface
@@ -76,6 +80,10 @@ func readRecords(fname string) ([]Record, errstack.E) {
 	}
 	defer errstack.CallAndLog(logger, fclose)
 
+	if rowID != 22 || rowCurrency != 8 {
+		logger.Fatal("CSV file columns has changed")
+	}
+
 	var records []Record
 	var errb = errstack.NewBuilder()
 	for i := 3; ; i++ {
@@ -87,15 +95,21 @@ func readRecords(fname string) ([]Record, errstack.E) {
 			errbRow.Put("row", "Can't read the row. "+err.Error())
 			continue
 		}
-		if row[0] == "" && row[1] == "" && row[2] == "" {
+		if len(row) < 3 || row[0] == "" && row[1] == "" && row[2] == "" {
 			logger.Info("Columns 1,2,3 empty. Skipping further reading", "current_row", i)
 			break
 		}
+		if len(row) < rowID-1 {
+			errbRow.Put("row", fmt.Sprintf("Expecting %d columns, got %d", rowID, len(row)))
+			continue
+		}
+
 		if row[0] == "???" {
 			continue
 		}
 		var r = Record{RowNum: i, Email: row[rowEmail], FullName: row[rowFullName],
-			SenderID: row[rowSenderID]}
+			SenderID: row[rowSenderID], TxHash: row[rowTxHash]}
+		r.ID = bat.Atoi64Errp(row[rowID], errbRow.Putter("id"))
 		r.Currency = liquidity.ParseCurrencyErrp(row[rowCurrency], errbRow.Putter("currency"))
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
 		r.AmountSWC = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
