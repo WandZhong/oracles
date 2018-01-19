@@ -16,7 +16,6 @@ package main
 
 import (
 	"flag"
-	"os"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
@@ -49,13 +48,11 @@ func main() {
 
 	records, err := readRecords(flag.Arg(0))
 	checkOK(err)
-	checkOK(insertTransactions(records))
+	checkOK(insertRecords(records))
 }
 
 func checkOK(err error) {
 	if err != nil {
-		logger.Error("Bad request", err)
-		rollbar.WaitForRollbar(logger)
-		os.Exit(2)
+		logger.Fatal("Bad request", err)
 	}
 }

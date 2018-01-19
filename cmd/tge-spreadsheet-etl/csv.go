@@ -26,6 +26,30 @@ import (
 	bat "github.com/robert-zaremba/go-bat"
 )
 
+const (
+	rowDate = iota
+	rowEmailConf
+	rowTranche
+	rowEscrow
+	rowEmail
+	rowFullName
+	rowLastName
+	rowFristName
+	rowCurrency
+	rowAmount
+	rowFXRate
+	rowAmountUSD
+	rowSWCPrice
+	rowSWCAmount
+	rowMarketValue
+	rowCryptoExRate
+	rowMatchedAddr
+	rowEmpty1
+	rowSenderID
+	rowTxHash
+	rowPaymenetDate
+)
+
 // Record represent SWC distribution record
 type Record struct {
 	RowNum    int
@@ -33,13 +57,16 @@ type Record struct {
 	Email     string
 	FullName  string
 	SenderID  string
-	Amount    float64
+	AmountIn  float64
 	Currency  liquidity.Currency
+	UsdRate   float64
+	TrancheID uint64
+	AmountSWC float64
 }
 
 // String implements stringer interface
 func (r Record) String() string {
-	return fmt.Sprint("{", r.FullName, " <", r.Email, "> ", r.Amount, " ", r.Currency, " ", r.Timestamp, "}")
+	return fmt.Sprint("{", r.FullName, " <", r.Email, "> ", r.AmountIn, " ", r.Currency, " ", r.Timestamp, "}")
 }
 
 func readRecords(fname string) ([]Record, errstack.E) {
@@ -64,10 +91,21 @@ func readRecords(fname string) ([]Record, errstack.E) {
 			logger.Info("Columns 1,2,3 empty. Skipping further reading", "current_row", i)
 			break
 		}
-		var r = Record{RowNum: i, Email: row[3], FullName: row[4], SenderID: row[17]}
-		r.Currency = liquidity.ParseCurrencyErrp(row[7], errbRow.Putter("currency"))
-		r.Amount = readAmount(row[8], errbRow.Putter("amount"))
-		r.Timestamp, err = time.Parse("1/2/2006", row[0])
+		if row[0] == "???" {
+			continue
+		}
+		var r = Record{RowNum: i, Email: row[rowEmail], FullName: row[rowFullName],
+			SenderID: row[rowSenderID]}
+		r.Currency = liquidity.ParseCurrencyErrp(row[rowCurrency], errbRow.Putter("currency"))
+		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
+		r.AmountSWC = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
+		r.UsdRate = readAmount(row[rowFXRate], errbRow.Putter("fx_rate"))
+		errp := errbRow.Putter("swc_price")
+		r.TrancheID = uint64(bat.Atoi64Errp(row[rowTranche], errp))
+		if r.TrancheID < 1 {
+			errp.Put("tranche must be >= 1")
+		}
+		r.Timestamp, err = time.Parse("1/2/2006", row[rowDate])
 		if err != nil {
 			errbRow.Put("payment_date", err.Error())
 		}
@@ -82,6 +120,7 @@ func readAmount(src string, errp errstack.Putter) float64 {
 	// Firstly let's fix numbers with thousend's separator, eg: "41'000"
 	src = strings.Replace(src, "'", "", -1)
 	src = strings.Replace(src, ",", "", -1)
+	// src = strings.TrimSpace(src)
 	v, err := bat.Atof64(src)
 	if err != nil {
 		errp.Put(err)

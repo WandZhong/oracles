@@ -17,7 +17,6 @@ package liquidity
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"fmt"
 	"strings"
 
 	"github.com/robert-zaremba/errstack"
@@ -43,7 +42,6 @@ func init() {
 	for _, c := range currenciesList {
 		currencies[string(c)] = c
 	}
-	fmt.Println(currencies)
 }
 
 // ParseCurrencyErrp converts currency string into Currency type

@@ -23,60 +23,65 @@ import (
 	"github.com/robert-zaremba/go-pgt"
 )
 
-// Transaction represents transactions_tge DB record
-type Transaction struct {
-	tableName struct{} `sql:"transactions_tge"`
-
-	ID       pgt.UUID           `sql:"transaction_id,pk"`
-	Amount   float64            `sql:"amount,notnull"`
-	Currency liquidity.Currency `sql:"currency_id"`
-	UserID   pgt.UUID           `sql:"individual_id"`
-	Email    string             `sql:"email"`
-	SenderID string             `sql:"sender_id"`
+// DirectBuy represents the swc direct buy for the next distribution.
+type DirectBuy struct {
+	ID        pgt.UUID           `sql:"direct_buy_id,pk"`
+	UserID    pgt.UUID           `sql:"individual_id"`
+	Email     string             `sql:"email"`
+	TrancheID uint64             `sql:"tranche_id,notnull"`
+	AmountOut float64            `sql:"amount_out,notnull"`
+	AmountIn  float64            `sql:"amount_in,notnull"`
+	Currency  liquidity.Currency `sql:"currency_id"`
+	UsdRate   float64            `sql:"usd_rate,notnull"`
+	SenderID  string             `sql:"sender_id"`
 
 	TransactionDate time.Time `sql:"transaction_date,notnull"`
 	CreatedAt       time.Time `sql:"created_at,notnull"`
 	UpdatedAt       time.Time `sql:"updated_at,notnull"`
 }
 
-// NewTransactionFromRecord
-func NewTransactionFromRecord(r Record, now time.Time) (Transaction, errstack.E) {
+// missing user is not reported as an error!
+func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
 	var user pgt.UUID
 	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
 	if err != nil {
 		if strings.Index(err.Error(), "no rows in") < 0 {
-			return Transaction{}, errstack.WrapAsInf(err, "can't query DB")
+			return user, errstack.WrapAsInf(err, "can't query DB")
 		}
 		logger.Error("Can't find user", "email", r.Email, "name", r.FullName)
 	}
-	return Transaction{
-		struct{}{}, pgt.RandomUUID(), r.Amount, r.Currency, user, r.Email, r.SenderID,
-		r.Timestamp, now, now,
-	}, nil
+	return user, nil
 }
 
-func createTransactions(records []Record) ([]Transaction, errstack.E) {
+func createDBRecords(records []Record) ([]DirectBuy, errstack.E) {
 	now := time.Now()
-	var ts []Transaction
+	var dbs []DirectBuy
 	for _, r := range records {
-		t, err := NewTransactionFromRecord(r, now)
+		user, err := findUserByEmail(r)
 		if err != nil {
-			if !err.IsReq() {
-				return ts, err
-			}
-			logger.Error("can't create transaction: " + err.Error())
-		} else {
-			ts = append(ts, t)
+			return dbs, err
 		}
+		d := DirectBuy{
+			pgt.RandomUUID(), user, r.Email, r.TrancheID, r.AmountSWC,
+			r.AmountIn, r.Currency, r.UsdRate, r.SenderID, r.Timestamp, now, now}
+		dbs = append(dbs, d)
 	}
-	return ts, nil
+	return dbs, nil
 }
 
-func insertTransactions(records []Record) errstack.E {
-	ts, err := createTransactions(records)
+func insertRecords(records []Record) errstack.E {
+	dbs, err := createDBRecords(records)
 	if err != nil {
 		return err
 	}
-	logger.Info("All transactions properly created. Inserting into DB...")
-	return errstack.WrapAsInf(db.Insert(&ts), "DB insert")
+	logger.Info("All direct_buys created. Inserting into DB")
+	return errstack.WrapAsInf(db.Insert(&dbs), "DB direct_buy insert")
+	// for i := range dbs {
+	// 	err = errstack.WrapAsInf(db.Insert(&dbs[i]), "DB direct_buy insert")
+	// 	if err != nil {
+	// 		fmt.Println(dbs[i])
+	// 		return err
+	// 	}
+	// }
+	// return nil
 }
