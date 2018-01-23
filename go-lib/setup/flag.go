@@ -65,7 +65,11 @@ func FlagValidate(positionalArgs string, checkers ...Checker) {
 func FlagSimpleInit(name, positionalArgs string, rollbarKey *string, flags ...Checker) {
 	Flag(positionalArgs)
 	FlagValidate(positionalArgs, flags...)
-	MustLogger(name, *rollbarKey)
+	var rbKey string
+	if rollbarKey != nil {
+		rbKey = *rollbarKey
+	}
+	MustLogger(name, rbKey)
 }
 
 // Checker is an interface for type which has a Check function

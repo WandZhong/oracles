@@ -18,30 +18,10 @@ import (
 	"strings"
 	"time"
 
-	"hash/fnv"
-
-	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/go-pgt"
 )
-
-// DirectBuy represents the swc direct buy for the next distribution.
-type DirectBuy struct {
-	ID        int64              `sql:"direct_buy_id,pk"`
-	Hash      []byte             `sql:"hash"`
-	UserID    pgt.UUID           `sql:"individual_id"`
-	Email     string             `sql:"email"`
-	TrancheID uint64             `sql:"tranche_id,notnull"`
-	AmountOut float64            `sql:"amount_out,notnull"`
-	AmountIn  float64            `sql:"amount_in,notnull"`
-	Currency  liquidity.Currency `sql:"currency_id"`
-	UsdRate   float64            `sql:"usd_rate,notnull"`
-	SenderID  string             `sql:"sender_id"`
-
-	TransactionDate time.Time `sql:"transaction_date,notnull"`
-	CreatedAt       time.Time `sql:"created_at,notnull"`
-	UpdatedAt       time.Time `sql:"updated_at,notnull"`
-}
 
 // missing user is not reported as an error!
 func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
@@ -56,58 +36,44 @@ func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
 	return user, nil
 }
 
-func createDBRecords(records []Record) ([]DirectBuy, errstack.E) {
+func createDirectBuys(records []Record) ([]directbuy.DirectBuy, errstack.E) {
 	now := time.Now()
-	var dbs []DirectBuy
+	var dbs []directbuy.DirectBuy
+	var err errstack.E
 	for _, r := range records {
-		user, err := findUserByEmail(r)
-		if err != nil {
+		d := r.DirectBuy
+		if d.UserID, err = findUserByEmail(r); err != nil {
 			return dbs, err
 		}
-		h, err := mkHash(&r)
-		if err != nil {
+		d.CreatedAt = now
+		d.UpdatedAt = now
+		if err = d.MkHash(r.TxHash); err != nil {
 			return dbs, err
 		}
-		d := DirectBuy{
-			r.ID, h, user, r.Email, r.TrancheID, r.AmountSWC,
-			r.AmountIn, r.Currency, r.UsdRate, r.SenderID, r.Timestamp, now, now}
 		dbs = append(dbs, d)
 	}
 	return dbs, nil
 }
 
-func insertRecords(records []Record) errstack.E {
-	dbs, err := createDBRecords(records)
+func insert(records []Record) errstack.E {
+	ds, err := createDirectBuys(records)
 	if err != nil {
 		return err
 	}
+
 	logger.Info("All direct_buys created. Inserting into DB...")
-	result, errStd := db.Model(&dbs).
+	result, errStd := db.Model(&ds).
 		OnConflict("(direct_buy_id) DO UPDATE").
 		Set("tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at").
 		Insert()
 	logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())
 	return errstack.WrapAsInf(errStd, "DB direct_buy insert")
-	// for i := range dbs {
-	// 	fmt.Println(dbs[i].ID)
-	// 	// err = errstack.WrapAsInf(db.Insert(&dbs[i]), "DB direct_buy insert")
-	// 	// if err != nil {
-	// 	// 	fmt.Println(dbs[i])
-	// 	// 	return err
-	// 	// }
+	// for i := range ds {
+	// 	err = errstack.WrapAsInf(db.Insert(&ds[i]), "DB direct_buy insert")
+	// 	if err != nil {
+	// 		fmt.Println(ds[i])
+	// 		return err
+	// 	}
 	// }
 	// return nil
-}
-
-func mkHash(r *Record) ([]byte, errstack.E) {
-	h := fnv.New128()
-	for _, s := range []string{r.Timestamp.String(),
-		r.Email,
-		string(r.Currency),
-		r.TxHash} {
-		if _, err := h.Write([]byte(s)); err != nil {
-			return h.Sum(nil), errstack.WrapAsInf(err, "can't sum the string: "+s)
-		}
-	}
-	return h.Sum(nil), nil
 }

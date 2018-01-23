@@ -29,18 +29,12 @@ var (
 )
 
 func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
+	setup.FlagSimpleInit("tge-spreadsheet-etl", "tranche_id report_out_filename.csv", nil, flags)
 	db = flags.MustConnect()
 }
 
 func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
-}
-
-func checkOK(err error) {
-	if err != nil {
-		logger.Fatal("Bad request", err)
+	if err := createDirectBuyReport(flag.Arg(0), flag.Arg(1)); err != nil {
+		logger.Error("Can't build report", err)
 	}
 }

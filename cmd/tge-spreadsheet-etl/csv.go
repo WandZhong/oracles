@@ -15,11 +15,11 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"strings"
 	"time"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/encoding"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
 	"github.com/robert-zaremba/errstack"
@@ -52,28 +52,14 @@ const (
 	rowID
 )
 
-// Record represent SWC distribution record
+// Record represent TGE spreadsheet record
 type Record struct {
-	RowNum    int
-	Timestamp time.Time
-	Email     string
-	FullName  string
-	SenderID  string
-	AmountIn  float64
-	Currency  liquidity.Currency
-	UsdRate   float64
-	TrancheID uint64
-	AmountSWC float64
-	TxHash    string
-	ID        int64
+	directbuy.DirectBuy
+	TxHash   string
+	FullName string
 }
 
-// String implements stringer interface
-func (r Record) String() string {
-	return fmt.Sprint("{", r.FullName, " <", r.Email, "> ", r.AmountIn, " ", r.Currency, " ", r.Timestamp, "}")
-}
-
-func readRecords(fname string) ([]Record, errstack.E) {
+func read(fname string) ([]Record, errstack.E) {
 	reader, fclose, errS := encoding.NewCSVFileReader(fname, 2)
 	if errS != nil {
 		return nil, errS
@@ -107,23 +93,28 @@ func readRecords(fname string) ([]Record, errstack.E) {
 		if row[0] == "???" {
 			continue
 		}
-		var r = Record{RowNum: i, Email: row[rowEmail], FullName: row[rowFullName],
-			SenderID: row[rowSenderID], TxHash: row[rowTxHash]}
+		var r = Record{
+			DirectBuy: directbuy.DirectBuy{
+				Email:    row[rowEmail],
+				SenderID: row[rowSenderID],
+			},
+			FullName: row[rowFullName],
+			TxHash:   row[rowTxHash]}
 		r.ID = bat.Atoi64Errp(row[rowID], errbRow.Putter("id"))
 		r.Currency = liquidity.ParseCurrencyErrp(row[rowCurrency], errbRow.Putter("currency"))
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
-		r.AmountSWC = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
+		r.AmountOut = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
 		r.UsdRate = readAmount(row[rowFXRate], errbRow.Putter("fx_rate"))
 		errp := errbRow.Putter("swc_price")
 		r.TrancheID = uint64(bat.Atoi64Errp(row[rowTranche], errp))
 		if r.TrancheID < 1 {
 			errp.Put("tranche must be >= 1")
 		}
-		r.Timestamp, err = time.Parse("1/2/2006", row[rowDate])
+		r.TransactionDate, err = time.Parse("1/2/2006", row[rowDate])
 		if err != nil {
 			errbRow.Put("payment_date", err.Error())
 		}
-		r.Timestamp = r.Timestamp.UTC()
+		r.TransactionDate = r.TransactionDate.UTC()
 		records = append(records, r)
 	}
 
@@ -134,7 +125,7 @@ func readAmount(src string, errp errstack.Putter) float64 {
 	// Firstly let's fix numbers with thousend's separator, eg: "41'000"
 	src = strings.Replace(src, "'", "", -1)
 	src = strings.Replace(src, ",", "", -1)
-	// src = strings.TrimSpace(src)
+	src = strings.TrimSpace(src)
 	v, err := bat.Atof64(src)
 	if err != nil {
 		errp.Put(err)
