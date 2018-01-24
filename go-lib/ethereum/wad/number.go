@@ -20,16 +20,17 @@ import (
 	"github.com/robert-zaremba/errstack"
 )
 
+var oneCoinF = big.NewFloat(1e18)
 var oneCoin *big.Int
 var oneGwei *big.Int
 
 func init() {
 	var accuracy big.Accuracy
-	oneCoin, accuracy = big.NewFloat(1e18).Int(oneCoin)
+	oneCoin, accuracy = oneCoinF.Int(nil)
 	if accuracy != big.Exact {
 		logger.Fatal("Wrong wei accuracy", "accuracy", accuracy)
 	}
-	oneGwei, accuracy = big.NewFloat(1e9).Int(oneGwei)
+	oneGwei, accuracy = big.NewFloat(1e9).Int(nil)
 	if accuracy != big.Exact {
 		logger.Fatal("Wrong wei accuracy", "accuracy", accuracy)
 	}
@@ -40,6 +41,14 @@ func ToWei(amount uint64) *big.Int {
 	var a = new(big.Int)
 	a.SetUint64(amount)
 	return a.Mul(a, oneCoin)
+}
+
+// FToWei transforms float64 coin 1e16 denominated into wei.
+func FToWei(amount float64) *big.Int {
+	w := big.NewFloat(amount)
+	w = w.Mul(w, oneCoinF)
+	i, _ := w.Int(nil)
+	return i
 }
 
 // WeiToInt converts wei to integers (Ether units - 1e18)

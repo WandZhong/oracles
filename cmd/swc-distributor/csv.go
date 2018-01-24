@@ -47,10 +47,10 @@ func (r Record) String() string {
 
 func readRecords(fname string) ([]Record, errstack.E) {
 	f, err := os.Open(fname)
-	defer errstack.CallAndLog(logger, f.Close)
 	if err != nil {
 		return nil, errstack.WrapAsReq(err, "Can't open csv file: "+fname)
 	}
+	defer errstack.CallAndLog(logger, f.Close)
 	var hasher = md5.New()
 	var reader = csv.NewReader(io.TeeReader(f, hasher))
 	reader.Comment = '#'

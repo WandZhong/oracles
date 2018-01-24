@@ -102,14 +102,20 @@ build:
 build-direct-pledge:
 	@$(call _build,"direct-pledge")
 
+build-swc-distributor:
+	@$(call _build,"swc-distributor")
+
+build-tge-direct-buy-report:
+	@$(call _build,"tge-direct-buy-report")
+
+build-tge-spreadsheet-etl:
+	@$(call _build,"tge-spreadsheet-etl")
+
 build-tranche-queue:
 	@$(call _build,"tranche-queue")
 
 build-tranche-manager:
 	@$(call _build,"tranche-manager")
-
-build-swc-distributor:
-	@$(call _build,"swc-distributor")
 
 
 ###############################
