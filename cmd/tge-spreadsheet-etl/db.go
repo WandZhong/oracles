@@ -15,10 +15,10 @@
 package main
 
 import (
-	"strings"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
+	"bitbucket.org/sweetbridge/oracles/go-lib/model"
 	"github.com/robert-zaremba/errstack"
 	"github.com/robert-zaremba/go-pgt"
 )
@@ -28,10 +28,10 @@ func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
 	var user pgt.UUID
 	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
 	if err != nil {
-		if !strings.Contains(err.Error(), "no rows in") {
-			return user, errstack.WrapAsInf(err, "can't query DB")
+		if err := model.ErrNotNoRows("individual", err); err != nil {
+			return user, err
 		}
-		logger.Error("Can't find user", "email", r.Email, "name", r.FullName)
+		logger.Warn("Can't find user", "email", r.Email, "name", r.FullName)
 	}
 	return user, nil
 }

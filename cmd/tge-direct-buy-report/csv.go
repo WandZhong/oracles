@@ -17,13 +17,15 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"math/big"
 	"os"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/model"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
+	"github.com/robert-zaremba/go-bat"
+	"github.com/robert-zaremba/go-pgt"
 )
 
 func getDirectBuys(trancheID string) ([]directbuy.DirectBuy, errstack.E) {
@@ -32,6 +34,16 @@ func getDirectBuys(trancheID string) ([]directbuy.DirectBuy, errstack.E) {
 		Where("tranche_id = ?", trancheID).
 		Select()
 	return ds, errstack.WrapAsInf(err, "Can't get DirectBuy records")
+}
+
+func findDistributionAccount(userID pgt.UUID) (string, error) {
+	var account string
+	var query = `SELECT account_number
+	FROM member_account
+	WHERE individual_id = ? AND reference = 'primary' AND account_name = 'Sweetcoin Distribution' AND account_number IS NOT NULL
+	LIMIT 1`
+	_, err := db.QueryOne(&account, query, userID)
+	return account, err
 }
 
 func createDirectBuyReport(trancheID, filename string) errstack.E {
@@ -48,27 +60,46 @@ func createDirectBuyReport(trancheID, filename string) errstack.E {
 	defer errstack.CallAndLog(logger, fout.Close)
 	w := csv.NewWriter(fout)
 
-	// firstly let's aggregate records
+	logger.Debug("Aggregating directe buy", "tranche_id", trancheID)
 	var totals = map[string]*SWCRecord{}
 	for _, d := range ds {
-		// if d.UserID.Empty() {
-		// 	logger.Info("swc-distribution report. Ignoring DirectBuy - no usesr ID", "id", d.ID)
-		// 	continue
-		// }
-		fmt.Println("adding", d.Email)
+		if d.UserID.Empty() {
+			logger.Warn("DirectBuy with unmatched individual ID",
+				"direct_buy_id", d.ID, "user_email", d.Email)
+			continue
+		}
+		addressStr, err := findDistributionAccount(d.UserID)
+		if err != nil {
+			if err := model.ErrNotNoRows("individual", err); err != nil {
+				return err
+			}
+			logger.Warn("Can't find user swc distribution account",
+				"email", d.Email, "individual_id", d.UserID)
+		}
+		address, err := ethereum.ParseAddress(addressStr)
+		if err != nil {
+			logger.Error("Invalid ethereum address", err,
+				"email", d.Email, "individual_id", d.UserID, "address", addressStr)
+			continue
+		}
+
 		if sr, ok := totals[d.UserID.String()]; !ok {
 			totals[d.UserID.String()] = &SWCRecord{
-				common.Address{}, // TODO
-				wad.FToWei(d.AmountOut)}
+				address,
+				d.AmountOut,
+				fmt.Sprintf("email: %s; id: %v", d.Email, d.UserID)}
 		} else {
-			sr.Amount.Add(sr.Amount, wad.FToWei(d.AmountOut))
+			sr.Amount += d.AmountOut
 		}
 	}
 
-	logger.Info("Writing direct buy report", "filename", filename)
-	// now we create the report
+	logger.Debug("Writing direct buy report", "filename", filename)
+	if err = w.Write([]string{"list", "address", "amount", "comment", "done"}); err != nil {
+		return errstack.WrapAsInf(err, "Can't write header into direct buy report")
+	}
+	listName := "TGE_" + trancheID
 	for _, sr := range totals {
-		if err = w.Write([]string{"TGE1", sr.Address.Hex(), sr.Amount.String(), "", "false"}); err != nil {
+		if err = w.Write([]string{listName, sr.Address.Hex(), bat.F64toa(sr.Amount), sr.Comment, "false"}); err != nil {
 			return errstack.WrapAsInf(err, "Can't write row into direct buy report")
 		}
 	}
@@ -80,5 +111,6 @@ func createDirectBuyReport(trancheID, filename string) errstack.E {
 // aligned to swc-distributor
 type SWCRecord struct {
 	Address common.Address
-	Amount  *big.Int
+	Amount  float64
+	Comment string
 }

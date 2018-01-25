@@ -86,8 +86,8 @@ func readRecords(fname string) ([]Record, errstack.E) {
 		r.Address = ethereum.ParseAddressErrp(row[1], errbRow.Putter("address"))
 		errpAmount := errbRow.Putter("amount")
 		r.Amount = wad.AfToPosWei(row[2], errpAmount)
-		if r.Amount.Cmp(maxSWC) > 0 {
-			errpAmount.Put(fmt.Sprint("must be bigger or equal then ", *flags.maxSWC))
+		if r.Amount != nil && r.Amount.Cmp(maxSWC) > 0 {
+			errpAmount.Put(fmt.Sprint("must be smaller or equal then ", *flags.maxSWC))
 		}
 		records = append(records, r)
 	}
