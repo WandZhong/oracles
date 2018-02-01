@@ -64,7 +64,7 @@ func insert(records []Record) errstack.E {
 	logger.Info("All direct_buys created. Inserting into DB...")
 	result, errStd := db.Model(&ds).
 		OnConflict("(direct_buy_id) DO UPDATE").
-		Set("tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at").
+		Set("hash = EXCLUDED.hash, individual_id = EXCLUDED.individual_id, email = EXCLUDED.email, tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at").
 		Insert()
 	logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())
 	return errstack.WrapAsInf(errStd, "DB direct_buy insert")
