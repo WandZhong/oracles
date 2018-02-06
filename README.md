@@ -82,6 +82,13 @@ All applications are compiled into self-contained binaries (no external dependen
 	./bin/<app_name> -h
 
 
+### Logger
+
+All applications are using structured [log15](https://github.com/robert-zaremba/log15) logger.
+Logger is configured by default to construct colored output, which is helpful when printing the logs to the screen or storying in the system journal. However when redirecting the output to the file it's better to disable the colored output. We can configure logger with the following options:
+
++ `-log-colored=false` - disable the colored output
+
 ### Common ethereum parameters
 
 Oracles share the following, ethereum-specific obligatory parameters:
