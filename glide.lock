@@ -96,10 +96,8 @@ imports:
   - term
 - name: github.com/rs/cors
   version: eabcc6af4bbe5ad3a949d36450326a2b0b9894b8
-- name: github.com/scale-it/go-log
-  version: 0bd38940b27db07b5c4887bafe3a96a79f6f5556
 - name: github.com/scale-it/go-web
-  version: 7e4dca5224b2f5cf7bfecaf952acad645e483c56
+  version: 671edc4d3865dc320a3266e433fb5a4d25fa2a14
   subpackages:
   - handlers
 - name: github.com/spaolacci/murmur3
