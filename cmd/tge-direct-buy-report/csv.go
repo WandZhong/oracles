@@ -18,6 +18,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"strings"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
@@ -31,19 +32,54 @@ import (
 func getDirectBuys(trancheID string) ([]directbuy.DirectBuy, errstack.E) {
 	var ds = []directbuy.DirectBuy{}
 	err := db.Model(&ds).
-		Where("tranche_id = ?", trancheID).
+		Where("tranche_id = ? AND status < ?", trancheID, directbuy.StatusDone).
 		Select()
 	return ds, errstack.WrapAsInf(err, "Can't get DirectBuy records")
 }
 
-func findDistributionAccount(userID pgt.UUID) (string, error) {
+func queryDistributionAccount(userID pgt.UUID) (string, error) {
 	var account string
 	var query = `SELECT account_number
 	FROM member_account
-	WHERE individual_id = ? AND reference = 'primary' AND account_name = 'Sweetcoin Distribution' AND account_number IS NOT NULL
+	WHERE individual_id = ? AND account_number IS NOT NULL
+	  AND reference = 'primary' AND account_name = 'Sweetcoin Distribution'
 	LIMIT 1`
-	_, err := db.QueryOne(&account, query, userID)
+	_, err := db.QueryOne(&account, query, userID, directbuy.StatusDone)
 	return account, err
+}
+
+func findAddress(d *directbuy.DirectBuy) (common.Address, errstack.E) {
+	if d.UserID.Empty() {
+		logger.Warn("DirectBuy with unmatched individual ID",
+			"direct_buy_id", d.ID, "user_email", d.Email)
+		return ethereum.ZeroAddress, nil
+	}
+	addressStr, err := queryDistributionAccount(d.UserID)
+	if err != nil {
+		if err := model.ErrNotNoRows("account_number", err); err != nil {
+			return ethereum.ZeroAddress, err
+		}
+		logger.Warn("Can't find user ethereum account",
+			"email", d.Email, "individual_id", d.UserID)
+		return ethereum.ZeroAddress, nil
+	}
+	if addressStr == "" {
+		// blank address means that user doesn't want to get SWC (yet)
+		logger.Warn("Blank ethereum account (user want's SB to hold his SWC)",
+			"email", d.Email, "individual_id", d.UserID)
+		return ethereum.ZeroAddress, nil
+	}
+	if !strings.HasPrefix(addressStr, "0x") {
+		logger.Warn("Inconsistent Ethereum address: no '0x' prefix",
+			"email", d.Email, "individual_id", d.UserID, "address", addressStr)
+		addressStr = "0x" + addressStr
+	}
+	address, err := ethereum.ParseAddress(addressStr)
+	if err != nil {
+		logger.Error("Invalid ethereum address", err,
+			"email", d.Email, "individual_id", d.UserID, "address", addressStr)
+	}
+	return address, nil
 }
 
 func createDirectBuyReport(trancheID, filename string) errstack.E {
@@ -61,28 +97,23 @@ func createDirectBuyReport(trancheID, filename string) errstack.E {
 	w := csv.NewWriter(fout)
 
 	logger.Debug("Aggregating directe buy", "tranche_id", trancheID)
+	if *flags.setPendingStatus {
+		logger.Info("Setting 'pending' status for matched direct buy", "tranche", trancheID)
+	} else {
+		logger.Info("NOT updating statuses for matched direct buys", "tranche", trancheID)
+	}
 	var totals = map[string]*SWCRecord{}
 	for _, d := range ds {
-		if d.UserID.Empty() {
-			logger.Warn("DirectBuy with unmatched individual ID",
-				"direct_buy_id", d.ID, "user_email", d.Email)
+		if d.Status == directbuy.StatusDone {
 			continue
 		}
-		addressStr, err := findDistributionAccount(d.UserID)
+		address, err := findAddress(&d)
 		if err != nil {
-			if err := model.ErrNotNoRows("individual", err); err != nil {
-				return err
-			}
-			logger.Warn("Can't find user swc distribution account",
-				"email", d.Email, "individual_id", d.UserID)
+			return err
 		}
-		address, err := ethereum.ParseAddress(addressStr)
-		if err != nil {
-			logger.Error("Invalid ethereum address", err,
-				"email", d.Email, "individual_id", d.UserID, "address", addressStr)
+		if ethereum.IsZeroAddr(address) {
 			continue
 		}
-
 		if sr, ok := totals[d.UserID.String()]; !ok {
 			totals[d.UserID.String()] = &SWCRecord{
 				address,
@@ -90,6 +121,13 @@ func createDirectBuyReport(trancheID, filename string) errstack.E {
 				fmt.Sprintf("email: %s; id: %v", d.Email, d.UserID)}
 		} else {
 			sr.Amount += d.AmountOut
+		}
+		if *flags.setPendingStatus {
+			d.Status = directbuy.StatusPending
+			if err := directbuy.UpdateStatus(d.ID, d.Status, db); err != nil {
+				fmt.Println(">>>", err)
+				return err
+			}
 		}
 	}
 

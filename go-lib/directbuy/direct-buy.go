@@ -15,10 +15,13 @@
 package directbuy
 
 import (
+	"fmt"
 	"hash/fnv"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"bitbucket.org/sweetbridge/oracles/go-lib/model"
+	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
 )
@@ -35,11 +38,19 @@ type DirectBuy struct {
 	Currency  liquidity.Currency `sql:"currency_id"`
 	UsdRate   float64            `sql:"usd_rate,notnull"`
 	SenderID  string             `sql:"sender_id"`
+	Status    uint               `sql:"status,notnull"`
 
 	TransactionDate time.Time `sql:"transaction_date,notnull"`
 	CreatedAt       time.Time `sql:"created_at,notnull"`
 	UpdatedAt       time.Time `sql:"updated_at,notnull"`
 }
+
+// DirectBuy statuses
+const (
+	StatusNotDone = iota
+	StatusPending
+	StatusDone
+)
 
 // MkHash computes and assigns hash to the DirectBuy record
 func (d *DirectBuy) MkHash(txHash string) errstack.E {
@@ -54,4 +65,12 @@ func (d *DirectBuy) MkHash(txHash string) errstack.E {
 	}
 	d.Hash = h.Sum(nil)
 	return nil
+}
+
+// UpdateStatus sets status for given DirectBuy `id`.
+func UpdateStatus(id int64, status uint, db *pg.DB) errstack.E {
+	res, err := db.Model(&DirectBuy{}).Set("status = ?", status).
+		Where("direct_buy_id = ?", id).Update()
+	return model.CheckRowsAffected(fmt.Sprintf("Update direct_buy[%d] status", id),
+		1, res, err)
 }

@@ -22,14 +22,22 @@ import (
 	"github.com/go-pg/pg"
 )
 
+type mainFlags struct {
+	setup.PgFlags
+	setPendingStatus *bool
+}
+
 var (
 	db     *pg.DB
 	logger = log.Root()
-	flags  = setup.NewPgFlags()
+	flags  = mainFlags{PgFlags: setup.NewPgFlags(),
+		setPendingStatus: flag.Bool("set-pending-status", false,
+			"set matched not completed directbuy statuses to 'pending'")}
 )
 
 func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "tranche_id report_out_filename.csv", nil, flags)
+	setup.FlagSimpleInit("tge-spreadsheet-etl", "tranche_id report_out_filename.csv",
+		nil, flags)
 	db = flags.MustConnect()
 }
 

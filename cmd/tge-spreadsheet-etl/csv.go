@@ -28,28 +28,27 @@ import (
 )
 
 const (
-	rowDate = iota
-	_       // rowEmailConf
+	rowDate = iota // 0
+	_              // rowEmailConf
 	rowTranche
-	_ // rowEscrow
-	rowEmail
+	_        // rowEscrow
+	rowEmail // 4
 	rowFullName
-	_ // rowLastName
-	_ // rowFristName
-	rowCurrency
+	_           // rowLastName
+	_           // rowFristName
+	rowCurrency //  8
 	rowAmount
 	rowFXRate
 	_ // rowAmountUSD
-	_ // rowSWCPrice
+	_ // rowSWCPrice  12
 	rowSWCAmount
 	_ // rowMarketValue
 	_ // rowCryptoExRate
-	_ // rowSWCStatus
+	_ // rowSWCStatus  16
 	_ // rowMatchedAddr
-	_ // rowEmpty1
 	rowSenderID
 	rowTxHash
-	_ // rowDate2
+	_ // rowDate2  20
 	rowID
 )
 
@@ -67,9 +66,10 @@ func read(fname string) ([]Record, errstack.E) {
 	}
 	defer errstack.CallAndLog(logger, fclose)
 
-	if rowID != 22 || rowCurrency != 8 {
+	if rowID != 21 || rowCurrency != 8 {
 		logger.Fatal("CSV file columns has changed")
 	}
+	fmt.Println("ID", rowID)
 
 	var records []Record
 	var errb = errstack.NewBuilder()
