@@ -15,12 +15,13 @@
 package ethcrawl
 
 import (
-	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"context"
 	"fmt"
-	"github.com/robert-zaremba/errstack"
 	"time"
+
+	"bitbucket.org/sweetbridge/oracles/go-lib/crawlers"
+	"bitbucket.org/sweetbridge/oracles/go-lib/log"
+	"github.com/robert-zaremba/errstack"
 )
 
 var logger = log.Root()
@@ -88,20 +89,15 @@ func (r *crawler) Process() errstack.E {
 		}
 		time.Sleep(d)
 	}
-	return nil
 }
 
 // process process all the block from the current position up to the last block of the chain and returns
 func (r *crawler) process() errstack.E {
-	for true {
+	for {
 		block, err := r.iter.next()
-		if err != nil {
+		// error or no more block to process on the chain
+		if err != nil || block == nil {
 			return err
-		}
-
-		// no more block to process on the chain
-		if block == nil {
-			break
 		}
 
 		logger.Debug(fmt.Sprintf("Block :%d, Timetamp:%s (TxCount: %d)\n", block.Number(), time.Unix(block.Time().Int64(), 0).UTC().String(), block.Transactions().Len()))
@@ -119,5 +115,4 @@ func (r *crawler) process() errstack.E {
 			return err
 		}
 	}
-	return nil
 }
