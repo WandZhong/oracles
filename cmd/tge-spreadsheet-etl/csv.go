@@ -42,10 +42,10 @@ const (
 	_ // rowAmountUSD
 	_ // rowSWCPrice  12
 	rowSWCAmount
-	_ // rowMarketValue
-	_ // rowCryptoExRate
-	_ // rowSWCStatus  16
-	_ // rowMatchedAddr
+	_         // rowMarketValue
+	_         // rowCryptoExRate
+	rowStatus // 16
+	_         // rowMatchedAddr
 	rowSenderID
 	rowTxHash
 	_ // rowDate2  20
@@ -106,6 +106,7 @@ func read(fname string) ([]Record, errstack.E) {
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
 		r.AmountOut = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
 		r.UsdRate = readAmount(row[rowFXRate], errbRow.Putter("fx_rate"))
+		r.Status = directbuy.ParseStatusErrp(row[rowStatus], errbRow.Putter("status"))
 		errp := errbRow.Putter("swc_price")
 		r.TrancheID = uint64(bat.Atoi64Errp(row[rowTranche], errp))
 		if r.TrancheID < 1 {

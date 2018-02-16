@@ -17,6 +17,7 @@ package directbuy
 import (
 	"fmt"
 	"hash/fnv"
+	"strings"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
@@ -38,18 +39,35 @@ type DirectBuy struct {
 	Currency  liquidity.Currency `sql:"currency_id"`
 	UsdRate   float64            `sql:"usd_rate,notnull"`
 	SenderID  string             `sql:"sender_id"`
-	Status    uint               `sql:"status,notnull"`
+	Status    Status             `sql:"status,notnull"`
 
 	TransactionDate time.Time `sql:"transaction_date,notnull"`
 	CreatedAt       time.Time `sql:"created_at,notnull"`
 	UpdatedAt       time.Time `sql:"updated_at,notnull"`
 }
 
+// Status a type for DirectBuy.Status field
+type Status uint
+
+// ParseStatusErrp converts string status verose name to uint and sets error into errp
+func ParseStatusErrp(s string, errp errstack.Putter) Status {
+	switch strings.TrimSpace(strings.ToLower(s)) {
+	case "on hold":
+		return StatusOnHold
+	case "pending":
+		return StatusPending
+	case "sent":
+		return StatusSent
+	}
+	errp.Put("Unknown status " + s)
+	return StatusOnHold
+}
+
 // DirectBuy statuses
 const (
-	StatusNotDone = iota
+	StatusOnHold Status = iota
 	StatusPending
-	StatusDone
+	StatusSent
 )
 
 // MkHash computes and assigns hash to the DirectBuy record
@@ -73,4 +91,13 @@ func UpdateStatus(id int64, status uint, db *pg.DB) errstack.E {
 		Where("direct_buy_id = ?", id).Update()
 	return model.CheckRowsAffected(fmt.Sprintf("Update direct_buy[%d] status", id),
 		1, res, err)
+}
+
+// GetPendingDirectBuys retrieves pending direct buys from given trancheID.
+func GetPendingDirectBuys(trancheID string, db *pg.DB) ([]DirectBuy, errstack.E) {
+	var ds = []DirectBuy{}
+	err := db.Model(&ds).
+		Where("tranche_id = ? AND status = ?", trancheID, StatusPending).
+		Select()
+	return ds, errstack.WrapAsInf(err, "Can't get DirectBuy records")
 }
