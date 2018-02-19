@@ -10,3 +10,10 @@ Please refer for to ./cmd/tge-direct-buy-report/README.md for more information.
 ## Data flow
 
 Diagram: [tge-contributions-flow.pdf](https://drive.google.com/file/d/16vjNoWsjhVuFHbiOhdsppq2toc82tpUA/view?usp=sharing).
+
+## Status
+
+The Direct Buy records can be updated. However not fields are overwritten:
+
++ we keep old timestamp values
++ we don't allow to set a lower status then the one recorded in DB. The **status is always** the maximum of the status in DB and the status in the spreadsheet.

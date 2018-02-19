@@ -11,3 +11,8 @@ The Direct Buy use-case is reserved for handling contributions not handled the `
 ## Data flow
 
 Diagram: [tge-contributions-flow.pdf](https://drive.google.com/file/d/16vjNoWsjhVuFHbiOhdsppq2toc82tpUA/view?usp=sharing).
+
+
+## Status
+
+The Direct Buy reports is created only based on **pending** records!

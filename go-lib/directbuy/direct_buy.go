@@ -15,13 +15,11 @@
 package directbuy
 
 import (
-	"fmt"
 	"hash/fnv"
 	"strings"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
-	"bitbucket.org/sweetbridge/oracles/go-lib/model"
 	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
@@ -83,14 +81,6 @@ func (d *DirectBuy) MkHash(txHash string) errstack.E {
 	}
 	d.Hash = h.Sum(nil)
 	return nil
-}
-
-// UpdateStatus sets status for given DirectBuy `id`.
-func UpdateStatus(id int64, status uint, db *pg.DB) errstack.E {
-	res, err := db.Model(&DirectBuy{}).Set("status = ?", status).
-		Where("direct_buy_id = ?", id).Update()
-	return model.CheckRowsAffected(fmt.Sprintf("Update direct_buy[%d] status", id),
-		1, res, err)
 }
 
 // GetPendingDirectBuys retrieves pending direct buys from given trancheID.

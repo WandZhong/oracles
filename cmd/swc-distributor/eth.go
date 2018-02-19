@@ -15,52 +15,30 @@
 package main
 
 import (
-	"math/big"
-
-	contracts "bitbucket.org/sweetbridge/oracles/go-contracts"
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
-	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
+	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/utils"
 	"github.com/robert-zaremba/errstack"
 )
 
-func distributeSWC(records []Record) {
+func distributeSWC(summaries []directbuy.Summary) errstack.E {
 	_, cf := flags.MustEthFactory()
 	swcC, addr, err := cf.GetSWC()
 	utils.Assert(err, "Can't instantiate SWT contract")
 	logger.Debug("Contract address", "swc", addr.Hex())
 
-	checkOK(checkSWCbalance(records, swcC, cf))
+	checkOK(directbuy.CheckRequiredBalance(summaries, "SWC", swcC, cf))
 	// TODO - whitelists are failing
-	// checkOK(checkWhitelist(records, cf)
-	checkOK(transferSWC(records, swcC, cf))
-}
+	// checkOK(checkWhitelist(summaries, cf)
 
-func transferSWC(records []Record, swcC *contracts.SweetToken, cf ethereum.ContractFactory) errstack.E {
 	if *flags.dryRun {
 		logger.Debug("Dry run. Stopping execution.")
 		return nil
 	}
-
-	txo := cf.Txo()
-	for _, r := range records {
-		logger.Debug("Transfering", "SWC", wad.WeiToString(r.Amount),
-			"dest", r.Address.Hex(), "nonce", txo.Nonce)
-		tx, err := swcC.Transfer(txo, r.Address, r.Amount)
-		if err != nil {
-			logger.Error("Can't transfer TOKEN", err)
-			break
-		} else {
-			ethereum.LogTx("Transferred", tx)
-			ethereum.IncTxoNonce(txo, tx)
-			// logger.Debug(">>>> nonce after", "txo", txo.Nonce, "tx", tx.Nonce())
-		}
-	}
-	return nil
+	return directbuy.Distribute(summaries, swcC, cf, nil)
 }
 
 /* Not finished. Tests are still failing
-func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
+func checkWhitelist(summaries []directbuy.Summary, cf ethereum.ContractFactory) errstack.E {
 	swcLogic, _, err := cf.GetSWClogic()
 	utils.Assert(err, "Can't instantiate SWTlogic contract")
 
@@ -78,7 +56,7 @@ func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 		ethereum.LogTx("SWC whitelist created", tx)
 	}
 
-	for _, r := range records {
+	for _, r := range summaries {
 		if ok, err := swcLogic.WhiteLists(nil, r.Address, listName); err != nil {
 			return errstack.WrapAsInfF(err, "Can't check if user %s is in the whitelist",
 				r.Address)
@@ -95,23 +73,3 @@ func checkWhitelist(records []Record, cf ethereum.ContractFactory) errstack.E {
 
 }
 */
-
-func checkSWCbalance(records []Record, token *contracts.SweetToken, cf ethereum.ContractFactory) errstack.E {
-	var total = new(big.Int)
-	for _, r := range records {
-		total.Add(total, r.Amount)
-	}
-	addr := cf.Addr()
-	logger.Debug("SWC distribution account holder", "address", addr.Hex())
-	balance, err := token.BalanceOf(nil, addr)
-	if err != nil {
-		return errstack.WrapAsInf(err, "Can't check SWC balance")
-	}
-	if balance.Cmp(total) < 0 {
-		return errstack.NewReqF("Not enough funds in the source account = %v, min_expected=%v",
-			wad.WeiToString(balance), wad.WeiToInt(total))
-	}
-	logger.Debug("Distribution account balance", "swc.wei", balance.String(),
-		"required", total.String())
-	return nil
-}
