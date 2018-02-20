@@ -10,19 +10,6 @@ fi
 eval $(aws s3 cp s3://${SECRETS_BUCKET_NAME}/payment-forwarder.txt - | sed 's/^/export /')
 aws s3 cp s3://${SECRETS_BUCKET_NAME}/payment-forwarder.txt /
 
-
-echo  ./payment-forwarder -bcy-key="$BCYKEY" \
-	-bcy-net="$BCYNET" \
-	-contracts="$CONTRACTSPATH" \
-	-eth-network="$ETHNETWORK" \
-	-eth-network-file="$ETHNETWORKCONFIG" \
-	-pk-hex="$PKHEX" \
-	-port="$PORT" \
-	-btc-pool="$BTCPOOL"\
-	-eth-pool="$ETCPOOL"\
-	-tx-timeout="$TXTIMEOUT" \
-	-rollbar="$ROLLBAR"
-
 exec ./payment-forwarder -bcy-key="$BCYKEY" \
 	-bcy-net="$BCYNET" \
 	-contracts="$CONTRACTSPATH" \
