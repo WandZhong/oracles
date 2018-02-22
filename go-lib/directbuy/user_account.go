@@ -16,6 +16,7 @@ package directbuy
 
 import (
 	"strings"
+	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/model"
@@ -24,6 +25,31 @@ import (
 	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
 )
+
+const distributionAccountName = "Sweetcoin Distribution"
+
+// Account represents DB members account record
+type Account struct {
+	tableName    struct{} `sql:"member_account"`
+	ID           pgt.UUID `sql:"id,pk"`
+	IndividualID pgt.UUID `sql:"individual_id"`
+	Number       string   `sql:"account_number"`
+	Name         string   `sql:"account_name"`
+	Reference    string   `sql:"reference"`
+
+	CreatedAt time.Time `sql:"created_at,notnull"`
+	UpdatedAt time.Time `sql:"updated_at,notnull"`
+}
+
+// CreateDistributionAccount creates a SWC distribution account record into DB
+func CreateDistributionAccount(userID pgt.UUID, addr common.Address, db *pg.DB) errstack.E {
+	now := time.Now().UTC()
+	a := Account{
+		struct{}{}, pgt.RandomUUID(), userID, addr.Hex(),
+		distributionAccountName, "primary", now, now,
+	}
+	return errstack.WrapAsInf(db.Insert(&a), "Can't insert SWC distribution member_account")
+}
 
 // FindDistributionAccount selects user etherum account used to distribute SWC tokens.
 func FindDistributionAccount(userID pgt.UUID, db *pg.DB) (common.Address, errstack.E) {
@@ -35,14 +61,11 @@ func FindDistributionAccount(userID pgt.UUID, db *pg.DB) (common.Address, errsta
 	var query = `SELECT account_number
 	FROM member_account
 	WHERE individual_id = ? AND account_number IS NOT NULL
-	  AND reference = 'primary' AND account_name = 'Sweetcoin Distribution'
+	  AND reference = 'primary' AND account_name = ?
 	LIMIT 1`
-	_, err := db.QueryOne(&accountStr, query, userID, StatusSent)
-	if err != nil {
-		if err := model.ErrNotNoRows("account_number", err); err != nil {
-			return ethereum.ZeroAddress, err
-		}
-		return ethereum.ZeroAddress, errstack.NewReq("Not Found")
+	_, err := db.QueryOne(&accountStr, query, userID, distributionAccountName)
+	if err := model.CheckPgNoRows("account_number", err); err != nil {
+		return ethereum.ZeroAddress, err
 	}
 
 	// blank address means that user doesn't want to get SWC (yet)

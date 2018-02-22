@@ -15,14 +15,24 @@
 package ethereumt
 
 import (
-	"github.com/ethereum/go-ethereum/core/types"
-	"gopkg.in/check.v1"
+	"strconv"
+
+	"github.com/ethereum/go-ethereum/common"
 )
 
-// ParseLog parses ethereum log JSON
-func ParseLog(data string, c *check.C) *types.Log {
-	var log = new(types.Log)
-	err := log.UnmarshalJSON([]byte(data))
-	c.Assert(err, check.IsNil)
-	return log
+// AddrGen is a fake Ethereum address generator
+type AddrGen struct {
+	addr    string
+	Counter int
+}
+
+// NewAddrGen creates new AddrGen object
+func NewAddrGen() *AddrGen {
+	return &AddrGen{"0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f", 100}
+}
+
+// Next generates next new address
+func (ag *AddrGen) Next() common.Address {
+	ag.Counter++
+	return common.StringToAddress(ag.addr + strconv.Itoa(ag.Counter))
 }

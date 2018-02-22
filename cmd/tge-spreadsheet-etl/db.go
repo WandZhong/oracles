@@ -24,16 +24,12 @@ import (
 )
 
 // missing user is not reported as an error!
-func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
-	var user pgt.UUID
+func findUserByEmail(r Record) (user pgt.UUID, errS errstack.E) {
 	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
 	if err != nil {
-		if err := model.ErrNotNoRows("individual", err); err != nil {
-			return user, err
-		}
-		logger.Warn("Can't find user", "email", r.Email, "name", r.FullName)
+		errS = model.CheckPgNoRows("individual", err)
 	}
-	return user, nil
+	return user, errS
 }
 
 func createDirectBuys(records []Record) ([]directbuy.DirectBuy, errstack.E) {
@@ -43,7 +39,10 @@ func createDirectBuys(records []Record) ([]directbuy.DirectBuy, errstack.E) {
 	for _, r := range records {
 		d := r.DirectBuy
 		if d.UserID, err = findUserByEmail(r); err != nil {
-			return dbs, err
+			if !err.IsReq() {
+				return dbs, err
+			}
+			logger.Warn("Can't find user", "email", r.Email, "name", r.FullName)
 		}
 		d.CreatedAt = now
 		d.UpdatedAt = now

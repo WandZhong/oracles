@@ -69,7 +69,6 @@ func read(fname string) ([]Record, errstack.E) {
 	if rowID != 21 || rowCurrency != 8 {
 		logger.Fatal("CSV file columns has changed")
 	}
-	fmt.Println("ID", rowID)
 
 	var records []Record
 	var errb = errstack.NewBuilder()

@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ethereumt
+package members
 
 import (
-	"github.com/ethereum/go-ethereum/core/types"
-	"gopkg.in/check.v1"
+	"time"
+
+	pgt "github.com/robert-zaremba/go-pgt"
 )
 
-// ParseLog parses ethereum log JSON
-func ParseLog(data string, c *check.C) *types.Log {
-	var log = new(types.Log)
-	err := log.UnmarshalJSON([]byte(data))
-	c.Assert(err, check.IsNil)
-	return log
+// Individual represents the members individual DB record
+type Individual struct {
+	tableName struct{} `sql:"individual"`
+
+	ID            pgt.UUID `sql:"id,pk"`
+	AuthID        string   `sql:"auth_id"`
+	Email         string   `sql:"email_address"`
+	EmailVerified bool     `sql:"email_address_verified"`
+	Country       string   `sql:"fk_country"`
+	Language      string   `sql:"fk_language"`
+
+	CreatedAt time.Time `sql:"created_at,notnull"`
+	UpdatedAt time.Time `sql:"updated_at,notnull"`
 }
