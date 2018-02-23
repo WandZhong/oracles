@@ -84,7 +84,7 @@ func (d *DirectBuy) MkHash(txHash string) errstack.E {
 }
 
 // GetPendingDirectBuys retrieves pending direct buys from given trancheID.
-func GetPendingDirectBuys(trancheID string, db *pg.DB) ([]DirectBuy, errstack.E) {
+func GetPendingDirectBuys(trancheID uint64, db *pg.DB) ([]DirectBuy, errstack.E) {
 	var ds = []DirectBuy{}
 	err := db.Model(&ds).
 		Where("tranche_id = ? AND status = ?", trancheID, StatusPending).

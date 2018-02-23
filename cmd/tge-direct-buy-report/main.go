@@ -30,25 +30,39 @@ import (
 var (
 	db     *pg.DB
 	logger = log.Root()
-	flags  = setup.NewPgFlags()
-	// flags  = mainFlags{PgFlags: setup.NewPgFlags(),
-	// 	setPendingStatus: flag.Bool("set-pending-status", false,
-	// 		"set matched not completed directbuy statuses to 'pending'")}
+	flags  = mainFlags{PgFlags: setup.NewPgFlags(),
+		tranche: new(uint64)}
+	// setPendingStatus: flag.Bool("set-pending-status", false,
+	// 	"set matched not completed directbuy statuses to 'pending'")}
 )
+
+type mainFlags struct {
+	PgFlags setup.PgFlags
+	tranche *uint64
+}
+
+func (f mainFlags) Check() error {
+	var err error
+	*f.tranche, err = bat.Atoui64(flag.Arg(0))
+	if err != nil || *f.tranche == 0 {
+		return errstack.NewReq("Tranche ID must be specified (not 0)")
+	}
+	return f.PgFlags.Check()
+}
 
 func init() {
 	setup.FlagSimpleInit("tge-spreadsheet-etl", "tranche_id report_out_filename.csv",
 		nil, flags)
-	db = flags.MustConnect()
+	db = flags.PgFlags.MustConnect()
 }
 
 func main() {
-	if err := createDirectBuyReport(flag.Arg(0), flag.Arg(1)); err != nil {
+	if err := createDirectBuyReport(*flags.tranche, flag.Arg(1)); err != nil {
 		logger.Error("Can't build report", err)
 	}
 }
 
-func createDirectBuyReport(trancheID, filename string) errstack.E {
+func createDirectBuyReport(trancheID uint64, filename string) errstack.E {
 	logger.Debug("Writing direct buy report", "filename", filename)
 	fout, errStd := os.Create(filename)
 	if errStd != nil {

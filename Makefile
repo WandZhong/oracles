@@ -105,6 +105,9 @@ build-direct-pledge:
 build-swc-distributor:
 	@$(call _build,"swc-distributor")
 
+build-swc-distributor-direct-buy:
+	@$(call _build,"swc-distributor-direct-buy")
+
 build-tge-direct-buy-report:
 	@$(call _build,"tge-direct-buy-report")
 

@@ -82,7 +82,7 @@ func read(fname string) ([]Record, errstack.E) {
 			continue
 		}
 		if len(row) < 3 || row[0] == "" && row[1] == "" && row[2] == "" {
-			logger.Info("Columns 1,2,3 empty. Skipping further reading", "current_row", i)
+			logger.Info("Columns 1,2,3 empty. Skipping further reading", "last_row", i)
 			break
 		}
 		if len(row) < rowID-1 {

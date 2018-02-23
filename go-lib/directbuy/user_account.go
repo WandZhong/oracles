@@ -41,16 +41,6 @@ type Account struct {
 	UpdatedAt time.Time `sql:"updated_at,notnull"`
 }
 
-// CreateDistributionAccount creates a SWC distribution account record into DB
-func CreateDistributionAccount(userID pgt.UUID, addr common.Address, db *pg.DB) errstack.E {
-	now := time.Now().UTC()
-	a := Account{
-		struct{}{}, pgt.RandomUUID(), userID, addr.Hex(),
-		distributionAccountName, "primary", now, now,
-	}
-	return errstack.WrapAsInf(db.Insert(&a), "Can't insert SWC distribution member_account")
-}
-
 // FindDistributionAccount selects user etherum account used to distribute SWC tokens.
 func FindDistributionAccount(userID pgt.UUID, db *pg.DB) (common.Address, errstack.E) {
 	if userID.Empty() {
