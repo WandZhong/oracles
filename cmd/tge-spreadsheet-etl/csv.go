@@ -28,28 +28,27 @@ import (
 )
 
 const (
-	rowDate = iota
-	_       // rowEmailConf
+	rowDate = iota // 0
+	_              // rowEmailConf
 	rowTranche
-	_ // rowEscrow
-	rowEmail
+	_        // rowEscrow
+	rowEmail // 4
 	rowFullName
-	_ // rowLastName
-	_ // rowFristName
-	rowCurrency
+	_           // rowLastName
+	_           // rowFristName
+	rowCurrency //  8
 	rowAmount
 	rowFXRate
 	_ // rowAmountUSD
-	_ // rowSWCPrice
+	_ // rowSWCPrice  12
 	rowSWCAmount
-	_ // rowMarketValue
-	_ // rowCryptoExRate
-	_ // rowSWCStatus
-	_ // rowMatchedAddr
-	_ // rowEmpty1
+	_         // rowMarketValue
+	_         // rowCryptoExRate
+	rowStatus // 16
+	_         // rowMatchedAddr
 	rowSenderID
 	rowTxHash
-	_ // rowDate2
+	_ // rowDate2  20
 	rowID
 )
 
@@ -67,7 +66,7 @@ func read(fname string) ([]Record, errstack.E) {
 	}
 	defer errstack.CallAndLog(logger, fclose)
 
-	if rowID != 22 || rowCurrency != 8 {
+	if rowID != 21 || rowCurrency != 8 {
 		logger.Fatal("CSV file columns has changed")
 	}
 
@@ -83,7 +82,7 @@ func read(fname string) ([]Record, errstack.E) {
 			continue
 		}
 		if len(row) < 3 || row[0] == "" && row[1] == "" && row[2] == "" {
-			logger.Info("Columns 1,2,3 empty. Skipping further reading", "current_row", i)
+			logger.Info("Columns 1,2,3 empty. Skipping further reading", "last_row", i)
 			break
 		}
 		if len(row) < rowID-1 {
@@ -106,6 +105,7 @@ func read(fname string) ([]Record, errstack.E) {
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
 		r.AmountOut = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
 		r.UsdRate = readAmount(row[rowFXRate], errbRow.Putter("fx_rate"))
+		r.Status = directbuy.ParseStatusErrp(row[rowStatus], errbRow.Putter("status"))
 		errp := errbRow.Putter("swc_price")
 		r.TrancheID = uint64(bat.Atoi64Errp(row[rowTranche], errp))
 		if r.TrancheID < 1 {

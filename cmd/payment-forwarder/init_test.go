@@ -15,15 +15,12 @@
 package main
 
 import (
-	"flag"
 	"path"
 	"testing"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	. "gopkg.in/check.v1"
 )
-
-var flagIntegration = flag.Bool("integration", false, "Include integration tests")
 
 func Test(t *testing.T) { TestingT(t) }
 

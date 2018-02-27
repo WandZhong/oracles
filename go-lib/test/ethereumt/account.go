@@ -12,37 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package ethereumt
 
 import (
-	"flag"
-	"os"
+	"strconv"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"github.com/go-pg/pg"
+	"github.com/ethereum/go-ethereum/common"
 )
 
-var (
-	db     *pg.DB
-	logger = log.Root()
-	flags  = setup.NewPgFlags()
-)
-
-func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
-	db = flags.MustConnect()
+// AddrGen is a fake Ethereum address generator
+type AddrGen struct {
+	addr    string
+	Counter int
 }
 
-func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
+// NewAddrGen creates new AddrGen object
+func NewAddrGen() *AddrGen {
+	return &AddrGen{"0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f", 100}
 }
 
-func checkOK(err error) {
-	if err != nil {
-		logger.Error("Bad request", err)
-		os.Exit(2)
-	}
+// Next generates next new address
+func (ag *AddrGen) Next() common.Address {
+	ag.Counter++
+	return common.StringToAddress(ag.addr + strconv.Itoa(ag.Counter))
 }

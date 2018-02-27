@@ -20,45 +20,54 @@ import (
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/errstack"
+	"github.com/robert-zaremba/go-bat"
 	"github.com/robert-zaremba/log15/rollbar"
 )
 
-var logger = log.Root()
+var (
+	db     *pg.DB
+	logger = log.Root()
+)
 
 type mainFlags struct {
 	setup.BaseOracleFlags
-	dryRun      *bool
-	expectedMd5 *string
-	maxSWC      *uint64
+	PgFlags setup.PgFlags
+	dryRun  *bool
+	tranche *uint64
 }
 
 func (f mainFlags) Check() error {
-	if *f.maxSWC <= 0 {
-		return errstack.NewReq("`-max-swc` must be a positive number")
+	var err error
+	*f.tranche, err = bat.Atoui64(flag.Arg(0))
+	if err != nil || *f.tranche == 0 {
+		return errstack.NewReq("Tranche ID must be specified (not 0)")
 	}
 	return f.BaseOracleFlags.Check()
 }
 
 var flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
-	dryRun:      flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
-	expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum."),
-	maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]")}
+	PgFlags: setup.NewPgFlags(),
+	dryRun:  flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
+	tranche: new(uint64)}
 
 func init() {
-	setup.FlagSimpleInit("swc-distributor", "source_file.csv", flags.Rollbar, flags)
+	setup.FlagSimpleInit("swc-distributor", "tranche-id", flags.Rollbar, flags)
+	db = flags.PgFlags.MustConnect()
 }
 
 func main() {
 	defer rollbar.WaitForRollbar(logger)
 
-	records, err := readRecords(flag.Arg(0))
+	records, err := directbuy.CreateDirectBuyReport("TGE", *flags.tranche, db)
 	if err != nil {
 		logger.Error("Bad request", err)
 		return
 	}
 	_, cf := flags.MustEthFactory()
-	if err = directbuy.DistributeSWC(*flags.dryRun, records, cf, nil); err != nil {
+	summaries := directbuy.ReportRecordsToSummary(records)
+	if err = directbuy.DistributeSWC(*flags.dryRun, summaries, cf, db); err != nil {
 		logger.Error("Can't perform SWC distribution", err)
 	}
 }

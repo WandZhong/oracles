@@ -55,8 +55,8 @@ func (suite *TrancheS) SetUpSuite(c *C) {
 			ExecutesAt: suite.now.Add(time.Hour * 48),
 			Supply:     pgt.NewBigInt(10000)},
 		Prices: map[liquidity.Currency]float64{
-			liquidity.CurrUSD:  1.92,
-			liquidity.CurrcETH: 0.001,
+			liquidity.CurrUSD: 1.92,
+			liquidity.CurrETH: 0.001,
 		}}
 }
 

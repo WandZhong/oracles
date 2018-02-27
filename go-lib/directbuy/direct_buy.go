@@ -16,9 +16,11 @@ package directbuy
 
 import (
 	"hash/fnv"
+	"strings"
 	"time"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
+	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/errstack"
 	pgt "github.com/robert-zaremba/go-pgt"
 )
@@ -35,11 +37,36 @@ type DirectBuy struct {
 	Currency  liquidity.Currency `sql:"currency_id"`
 	UsdRate   float64            `sql:"usd_rate,notnull"`
 	SenderID  string             `sql:"sender_id"`
+	Status    Status             `sql:"status,notnull"`
 
 	TransactionDate time.Time `sql:"transaction_date,notnull"`
 	CreatedAt       time.Time `sql:"created_at,notnull"`
 	UpdatedAt       time.Time `sql:"updated_at,notnull"`
 }
+
+// Status a type for DirectBuy.Status field
+type Status uint
+
+// ParseStatusErrp converts string status verose name to uint and sets error into errp
+func ParseStatusErrp(s string, errp errstack.Putter) Status {
+	switch strings.TrimSpace(strings.ToLower(s)) {
+	case "on hold":
+		return StatusOnHold
+	case "pending":
+		return StatusPending
+	case "sent":
+		return StatusSent
+	}
+	errp.Put("Unknown status " + s)
+	return StatusOnHold
+}
+
+// DirectBuy statuses
+const (
+	StatusOnHold Status = iota
+	StatusPending
+	StatusSent
+)
 
 // MkHash computes and assigns hash to the DirectBuy record
 func (d *DirectBuy) MkHash(txHash string) errstack.E {
@@ -54,4 +81,13 @@ func (d *DirectBuy) MkHash(txHash string) errstack.E {
 	}
 	d.Hash = h.Sum(nil)
 	return nil
+}
+
+// GetPendingDirectBuys retrieves pending direct buys from given trancheID.
+func GetPendingDirectBuys(trancheID uint64, db *pg.DB) ([]DirectBuy, errstack.E) {
+	var ds = []DirectBuy{}
+	err := db.Model(&ds).
+		Where("tranche_id = ? AND status = ?", trancheID, StatusPending).
+		Select()
+	return ds, errstack.WrapAsInf(err, "Can't get DirectBuy records")
 }

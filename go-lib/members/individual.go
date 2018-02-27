@@ -12,37 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package members
 
 import (
-	"flag"
-	"os"
+	"time"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"github.com/go-pg/pg"
+	pgt "github.com/robert-zaremba/go-pgt"
 )
 
-var (
-	db     *pg.DB
-	logger = log.Root()
-	flags  = setup.NewPgFlags()
-)
+// Individual represents the members individual DB record
+type Individual struct {
+	tableName struct{} `sql:"individual"`
 
-func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
-	db = flags.MustConnect()
-}
+	ID            pgt.UUID `sql:"id,pk"`
+	AuthID        string   `sql:"auth_id"`
+	Email         string   `sql:"email_address"`
+	EmailVerified bool     `sql:"email_address_verified"`
+	Country       string   `sql:"fk_country"`
+	Language      string   `sql:"fk_language"`
 
-func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
-}
-
-func checkOK(err error) {
-	if err != nil {
-		logger.Error("Bad request", err)
-		os.Exit(2)
-	}
+	CreatedAt time.Time `sql:"created_at,notnull"`
+	UpdatedAt time.Time `sql:"updated_at,notnull"`
 }

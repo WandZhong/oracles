@@ -15,11 +15,14 @@
 package setup
 
 import (
+	"flag"
 	"strings"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"github.com/robert-zaremba/log15/rollbar"
 )
+
+var flagColorLog = flag.Bool("log-colored", true, "Use colored log (good for terminal output)")
 
 // MustLogger setups logger
 func MustLogger(appname string, rollbartoken string) {
@@ -31,7 +34,7 @@ func MustLogger(appname string, rollbartoken string) {
 		Token:   rollbartoken}
 	// it's OK. Logger is a pointer, so we don't need to overwrite the global object
 	_, err := log.New(log.RootName,
-		log.Config{Color: true, TimeFmt: "sec", Level: "DEBUG"}, rc)
+		log.Config{Color: *flagColorLog, TimeFmt: "sec", Level: "DEBUG"}, rc)
 	assert(err)
 	if strings.HasPrefix(envName, "prod") && rollbartoken == "" {
 		logger.Error("Rollbar token must be set in production environment")

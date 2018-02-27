@@ -20,11 +20,11 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
-	"math/big"
 	"os"
 	"strconv"
 	"strings"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"github.com/ethereum/go-ethereum/common"
@@ -32,20 +32,7 @@ import (
 	bat "github.com/robert-zaremba/go-bat"
 )
 
-// Record represent SWC distribution record
-type Record struct {
-	List    string
-	Address common.Address
-	Amount  *big.Int
-	Idx     int
-}
-
-// String implements stringer interface
-func (r Record) String() string {
-	return fmt.Sprint("{", r.List, " ", r.Address.Hex(), " ", r.Amount, "}")
-}
-
-func readRecords(fname string) ([]Record, errstack.E) {
+func readRecords(fname string) ([]directbuy.Summary, errstack.E) {
 	f, err := os.Open(fname)
 	if err != nil {
 		return nil, errstack.WrapAsReq(err, "Can't open csv file: "+fname)
@@ -65,7 +52,7 @@ func readRecords(fname string) ([]Record, errstack.E) {
 			expectedHeader)
 	}
 
-	var records []Record
+	var records []directbuy.Summary
 	var notDone = []string{"", "0", "no", "false"}
 	var maxSWC = wad.ToWei(*flags.maxSWC)
 	var errb = errstack.NewBuilder()
@@ -82,7 +69,7 @@ func readRecords(fname string) ([]Record, errstack.E) {
 			logger.Info("Ignoring done row", "row", i)
 			continue
 		}
-		var r = Record{List: row[0], Idx: i}
+		var r = directbuy.Summary{List: row[0], Idx: i}
 		r.Address = ethereum.ParseAddressErrp(row[1], errbRow.Putter("address"))
 		errpAmount := errbRow.Putter("amount")
 		r.Amount = wad.AfToPosWei(row[2], errpAmount)
@@ -104,7 +91,7 @@ func checkControlSum(controlSum string, errb errstack.Builder) {
 	}
 }
 
-func validate(rs []Record, errb errstack.Builder) errstack.E {
+func validate(rs []directbuy.Summary, errb errstack.Builder) errstack.E {
 	var dup = 0
 	var dupMap = map[common.Address]int{}
 	for _, r := range rs {

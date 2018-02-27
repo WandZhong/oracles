@@ -12,37 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package directbuy
 
-import (
-	"flag"
-	"os"
+import "bitbucket.org/sweetbridge/oracles/go-lib/log"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"github.com/go-pg/pg"
-)
-
-var (
-	db     *pg.DB
-	logger = log.Root()
-	flags  = setup.NewPgFlags()
-)
-
-func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
-	db = flags.MustConnect()
-}
-
-func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
-}
-
-func checkOK(err error) {
-	if err != nil {
-		logger.Error("Bad request", err)
-		os.Exit(2)
-	}
-}
+var logger = log.Root()

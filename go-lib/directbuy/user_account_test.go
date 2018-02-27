@@ -12,37 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package directbuy
 
 import (
-	"flag"
-	"os"
+	"time"
 
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
+	"github.com/ethereum/go-ethereum/common"
 	"github.com/go-pg/pg"
+	"github.com/robert-zaremba/errstack"
+	pgt "github.com/robert-zaremba/go-pgt"
 )
 
-var (
-	db     *pg.DB
-	logger = log.Root()
-	flags  = setup.NewPgFlags()
-)
-
-func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
-	db = flags.MustConnect()
-}
-
-func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
-}
-
-func checkOK(err error) {
-	if err != nil {
-		logger.Error("Bad request", err)
-		os.Exit(2)
+// CreateDistributionAccount creates a SWC distribution account record into DB
+func CreateDistributionAccount(userID pgt.UUID, addr common.Address, db *pg.DB) errstack.E {
+	now := time.Now().UTC()
+	a := Account{
+		struct{}{}, pgt.RandomUUID(), userID, addr.Hex(),
+		distributionAccountName, "primary", now, now,
 	}
+	return errstack.WrapAsInf(db.Insert(&a), "Can't insert SWC distribution member_account")
 }

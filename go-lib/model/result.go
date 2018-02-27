@@ -12,37 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package model
 
 import (
-	"flag"
-	"os"
-
-	"bitbucket.org/sweetbridge/oracles/go-lib/log"
-	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
-	"github.com/go-pg/pg"
+	"github.com/go-pg/pg/orm"
+	"github.com/robert-zaremba/errstack"
 )
 
-var (
-	db     *pg.DB
-	logger = log.Root()
-	flags  = setup.NewPgFlags()
-)
-
-func init() {
-	setup.FlagSimpleInit("tge-spreadsheet-etl", "confirmed_payments.csv", nil, flags)
-	db = flags.MustConnect()
-}
-
-func main() {
-	records, err := read(flag.Arg(0))
-	checkOK(err)
-	checkOK(insert(records))
-}
-
-func checkOK(err error) {
+// CheckRowsAffected asserts that expected number of rows has been affected in the
+// SQL operation.
+func CheckRowsAffected(title string, expected int, res orm.Result, err error) errstack.E {
 	if err != nil {
-		logger.Error("Bad request", err)
-		os.Exit(2)
+		return errstack.WrapAsDomainF(err, "Query execution error %q", title)
 	}
+	if res.RowsAffected() != expected {
+		return errstack.NewDomainF("Expected to affect %d rows, got: %d", expected,
+			res.RowsAffected())
+	}
+	return nil
 }

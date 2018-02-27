@@ -24,16 +24,12 @@ import (
 )
 
 // missing user is not reported as an error!
-func findUserByEmail(r Record) (pgt.UUID, errstack.E) {
-	var user pgt.UUID
+func findUserByEmail(r Record) (user pgt.UUID, errS errstack.E) {
 	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
 	if err != nil {
-		if err := model.ErrNotNoRows("individual", err); err != nil {
-			return user, err
-		}
-		logger.Warn("Can't find user", "email", r.Email, "name", r.FullName)
+		errS = model.CheckPgNoRows("individual", err)
 	}
-	return user, nil
+	return user, errS
 }
 
 func createDirectBuys(records []Record) ([]directbuy.DirectBuy, errstack.E) {
@@ -43,7 +39,10 @@ func createDirectBuys(records []Record) ([]directbuy.DirectBuy, errstack.E) {
 	for _, r := range records {
 		d := r.DirectBuy
 		if d.UserID, err = findUserByEmail(r); err != nil {
-			return dbs, err
+			if !err.IsReq() {
+				return dbs, err
+			}
+			logger.Warn("Can't find user", "email", r.Email, "name", r.FullName)
 		}
 		d.CreatedAt = now
 		d.UpdatedAt = now
@@ -64,9 +63,11 @@ func insert(records []Record) errstack.E {
 	logger.Info("All direct_buys created. Inserting into DB...")
 	result, errStd := db.Model(&ds).
 		OnConflict("(direct_buy_id) DO UPDATE").
-		Set("hash = EXCLUDED.hash, individual_id = EXCLUDED.individual_id, email = EXCLUDED.email, tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at").
+		Set("hash = EXCLUDED.hash, individual_id = EXCLUDED.individual_id, email = EXCLUDED.email, tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at, status = CASE WHEN direct_buy.status=? THEN direct_buy.status ELSE EXCLUDED.status END", directbuy.StatusSent).
 		Insert()
-	logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())
+	if errStd == nil {
+		logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())
+	}
 	return errstack.WrapAsInf(errStd, "DB direct_buy insert")
 	// for i := range ds {
 	// 	err = errstack.WrapAsInf(db.Insert(&ds[i]), "DB direct_buy insert")

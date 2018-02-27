@@ -55,8 +55,8 @@ go-generate:
 # validate-go-generate-is-uptodate:
 # 	@./test/validate_go_generate_is_up_to_date.sh || exit 1
 
-abigen-backstage:
-	@node scripts/abigen.js submodules/contract-deployments/backstage/
+abigen-backstage-dev:
+	@node scripts/abigen.js submodules/contract-deployments/backstage-dev
 
 ###############################
 # linting
@@ -73,7 +73,7 @@ lint-go:
 	@errcheck ./go-lib/... ./cmd/...
 
 lint-go-mega:
-	@megacheck ./cmd/... ./go-lib/...
+	@megacheck -unused.fields=false ./cmd/... ./go-lib/...
 	@unconvert -v ./go-lib/... ./cmd/...
 	@dupl -v -t 90 ./go-lib ./cmd
 
@@ -104,6 +104,9 @@ build-direct-pledge:
 
 build-swc-distributor:
 	@$(call _build,"swc-distributor")
+
+build-swc-distributor-direct-buy:
+	@$(call _build,"swc-distributor-direct-buy")
 
 build-tge-direct-buy-report:
 	@$(call _build,"tge-direct-buy-report")
