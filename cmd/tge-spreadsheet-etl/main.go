@@ -37,6 +37,7 @@ func init() {
 func main() {
 	records, err := read(flag.Arg(0))
 	checkOK(err)
+	checkOK(checkDuplicates(records))
 	checkOK(insert(records))
 }
 

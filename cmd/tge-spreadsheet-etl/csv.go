@@ -57,6 +57,7 @@ type Record struct {
 	directbuy.DirectBuy
 	TxHash   string
 	FullName string
+	Row      int
 }
 
 func read(fname string) ([]Record, errstack.E) {
@@ -99,7 +100,8 @@ func read(fname string) ([]Record, errstack.E) {
 				SenderID: row[rowSenderID],
 			},
 			FullName: row[rowFullName],
-			TxHash:   row[rowTxHash]}
+			TxHash:   row[rowTxHash],
+			Row:      i}
 		r.ID = bat.Atoi64Errp(row[rowID], errbRow.Putter("id"))
 		r.Currency = liquidity.ParseCurrencyErrp(row[rowCurrency], errbRow.Putter("currency"))
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
@@ -134,4 +136,17 @@ func readAmount(src string, errp errstack.Putter) float64 {
 		errp.Put("must be positive: " + src)
 	}
 	return v
+}
+
+func checkDuplicates(records []Record) error {
+	var ids = map[int64]int{}
+	errb := errstack.NewBuilder().Fork("ID")
+	for _, r := range records {
+		if row, ok := ids[r.ID]; ok {
+			errb.Put(fmt.Sprint(r.Row), fmt.Sprint("ID already exists (", row, ")"))
+		} else {
+			ids[r.ID] = r.Row
+		}
+	}
+	return errb.ToReqErr()
 }

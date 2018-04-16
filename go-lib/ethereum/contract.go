@@ -74,20 +74,7 @@ func NewContractFactory(c *ethclient.Client, sf SchemaFactory, txrF TxrFactory, 
 
 // Txo implements TxrFactory interface
 func (cf contractFactory) Txo() *bind.TransactOpts {
-	txo := cf.txrF.Txo()
-	// nonce, err := cf.client.PendingNonceAt(context.TODO(), txo.From)
-	// logger.Info("nonce", "val", nonce)
-	// if err != nil {
-	// 	logger.Error("Can't get pending nonce", err)
-	// 	txo.Nonce = big.NewInt(1)
-	// 	return txo
-	// }
-	// if !cf.isTestRPC {
-	// 	nonce++
-	// }
-	// txo.Nonce = big.NewInt(int64(nonce))
-
-	return txo
+	return cf.txrF.Txo()
 }
 
 // Addr returns signer address
