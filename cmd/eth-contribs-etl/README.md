@@ -8,6 +8,7 @@ That means that the program can process one day of block validation (6000) in 1h
 The more specific documentation:
 
 * [TGE Ethereum Contributions ETL](https://docs.google.com/document/d/1h9-4Hm16ygKrzVdwWO9nPu8sVO6RriPgDI11nZ_RTpY/edit#heading=h.xnl5gebzkyed)
+* [tge-contributions-flow.pdf](https://drive.google.com/file/d/1hujmGMOZRm09xLzssf2IJtRufrifVGm0/view).
 
 ## Usage
 
