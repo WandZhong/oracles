@@ -71,6 +71,10 @@ Next, whenever you want to build the applications:
 
 **NOTE**: For docker build we are using Alpine Linux. This allows is compatible for putting the binaries in a tiny Alpine container. However to run the same binary in other distributions (Fedora, Ubuntu, OpenSUSE) you will need to use `libc` from `musl` (which is using by Alpine during linking).
 
+####  Building using Docker compatible with AWS Linux
+
+For the reasons explained above, the alpine based builds are not working with Debian or Red Hat based distributions. To overcome this we provide alternative docker builders which produce compatible binaries.
+The procedure is similar to the one above - just use builder commands with `-debian` suffix, eg: `make docker-run-builder-debian`
 
 
 ## Applications
