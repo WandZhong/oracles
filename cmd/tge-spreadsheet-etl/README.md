@@ -13,6 +13,14 @@ Diagram: [tge-contributions-flow.pdf](https://drive.google.com/file/d/16vjNoWsjh
 
 ## Status
 
+We support following statuses:
+
++ "on hold"  -- order acknowledged but not scheduled for distribution
++ "pending"  -- scheduled for the TGE distribution
++ "done"  -- distribution is done.
+
+The direct buy operator can update status between _on hold_ and _pending_ (in any way). But once status is set to **done** it can't be changed.
+
 The Direct Buy records can be updated. However not fields are overwritten:
 
 + we keep old timestamp values

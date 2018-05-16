@@ -25,7 +25,7 @@ import (
 
 // missing user is not reported as an error!
 func findUserByEmail(r Record) (user pgt.UUID, errS errstack.E) {
-	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE email_address = ?", r.Email)
+	_, err := db.QueryOne(&user, "SELECT id FROM individual WHERE lower(email_address) = ?", r.Email)
 	if err != nil {
 		errS = model.CheckPgNoRows("individual", err)
 	}

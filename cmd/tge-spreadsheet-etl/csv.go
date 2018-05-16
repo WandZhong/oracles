@@ -96,7 +96,7 @@ func read(fname string) ([]Record, errstack.E) {
 		}
 		var r = Record{
 			DirectBuy: directbuy.DirectBuy{
-				Email:    row[rowEmail],
+				Email:    strings.ToLower(row[rowEmail]),
 				SenderID: row[rowSenderID],
 			},
 			FullName: row[rowFullName],
