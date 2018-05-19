@@ -12,7 +12,11 @@ The Direct Buy use-case is reserved for handling contributions not handled the `
 
 Diagram: [tge-contributions-flow.pdf](https://drive.google.com/file/d/1hujmGMOZRm09xLzssf2IJtRufrifVGm0/view).
 
+### Amounts
+
+Please refer to the `tge-spreadsheet-etl` README file for more information and constraints about amounts.
 
 ## Status
 
 The Direct Buy reports is created only based on **pending** records!
+Please refer to the `tge-spreadsheet-etl` README file for more information.
