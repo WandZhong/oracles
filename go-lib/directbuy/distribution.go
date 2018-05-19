@@ -30,6 +30,8 @@ import (
 	"github.com/robert-zaremba/log15"
 )
 
+var zero = big.NewInt(0)
+
 // Token is the minimum interface to execute distribution
 type Token interface {
 	BalanceOf(opts *bind.CallOpts, who common.Address) (*big.Int, error)
@@ -78,6 +80,9 @@ func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.Contr
 	for _, s := range summaries {
 		logger.Debug("Transfering", "amount", wad.WeiToString(s.Amount),
 			"dest", s.Address.Hex(), "nonce", txo.Nonce)
+		if s.Amount.Cmp(zero) == 0 {
+			logger.Debug("ignoring, the amount_out is zero")
+		}
 		tx, err := token.Transfer(txo, s.Address, s.Amount)
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)

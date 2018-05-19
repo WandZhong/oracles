@@ -81,7 +81,7 @@ func createDirectBuyReport(trancheID uint64, filename string) errstack.E {
 	}
 
 	for _, sr := range records {
-		err := w.Write([]string{sr.List, sr.Address.Hex(), bat.F64toa(sr.Amount), sr.Comment, "false"})
+		err := w.Write([]string{sr.List, sr.Address.Hex(), bat.F64toa(sr.AmountOut), sr.Comment, "false"})
 		if err != nil {
 			return errstack.WrapAsInf(err, "Can't write row into direct buy report")
 		}

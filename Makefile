@@ -124,10 +124,10 @@ build-tranche-manager:
 ###############################
 # docker
 
-docker-mk-builder-bash:
+docker-mk-builder-debian:
 	@docker build -t oracle-builder-debian ./docker-debian
 
-docker-run-builder:
+docker-run-builder-debian:
 	@docker container start -a oracle-builder-debian_1  2> /dev/null || \
 		docker run -v ${PWD}:/go/src/bitbucket.org/sweetbridge/oracles -t  --name oracle-builder-debian_1 oracle-builder make install-deps build
 

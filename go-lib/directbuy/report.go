@@ -55,40 +55,47 @@ func CreateDirectBuyReport(title string, trancheID uint64, db *pg.DB) ([]*Report
 			byUser[d.UserID.String()] = &ReportRecord{
 				title,
 				addr,
+				d.AmountIn,
 				d.AmountOut,
 				fmt.Sprintf("email: %s; individual_id: %v", d.Email, d.UserID),
 				false,
 				[]DirectBuy{d}}
 		} else {
-			sr.Amount += d.AmountOut
+			sr.AmountIn += d.AmountIn
+			sr.AmountOut += d.AmountOut
 			sr.DBs = append(sr.DBs, d)
 		}
-
-		// if *flags.setPendingStatus {
-		// 	d.Status = directbuy.StatusPending
-		// 	if err := directbuy.UpdateStatus(d.ID, d.Status, db); err != nil {
-		// 		return err
-		// 	}
-		// }
 	}
+	var errb = errstack.NewBuilder()
 	var records = make([]*ReportRecord, len(byUser))
 	var i = 0
 	for _, v := range byUser {
+		v.validate(errb.ForkIdx(i))
 		records[i] = v
 		i++
 	}
-	return records, nil
+	return records, errb.ToReqErr()
 }
 
 // ReportRecord represent SWC distribution record
 // aligned to swc-distributor
 type ReportRecord struct {
-	List    string
-	Address common.Address
-	Amount  float64
-	Comment string
-	Done    bool
-	DBs     []DirectBuy
+	List      string
+	Address   common.Address
+	AmountIn  float64
+	AmountOut float64
+	Comment   string
+	Done      bool
+	DBs       []DirectBuy
+}
+
+func (r *ReportRecord) validate(errb errstack.Builder) {
+	if r.AmountIn < 0 {
+		errb.Put("amountIn", "must be positive")
+	}
+	if r.AmountOut < 0 {
+		errb.Put("amountOut", "must be positive")
+	}
 }
 
 // ReportRecordsToSummary converts aggregated DirectBuy records into Summary
@@ -97,12 +104,12 @@ func ReportRecordsToSummary(rs []*ReportRecord) []Summary {
 	errb := errstack.NewBuilder()
 	for i, r := range rs {
 		// TODO we need to round the float numbers. This may loose precision.
-		amountStr := bat.F64toa(r.Amount, 9)
+		amountStr := bat.F64toa(r.AmountOut, 9)
 		summaries[i].Amount = wad.AfToPosWei(amountStr, errb.Putter("amount"))
 		summaries[i].Address = r.Address
 		summaries[i].DBs = r.DBs
 		logger.Debug("Distribution record:", "user", r.Comment,
-			"wei", summaries[i].Amount, "float", r.Amount, "float_round", amountStr,
+			"wei", summaries[i].Amount, "float", r.AmountOut, "float_round", amountStr,
 			"coins", wad.WeiToString(summaries[i].Amount))
 	}
 	return summaries

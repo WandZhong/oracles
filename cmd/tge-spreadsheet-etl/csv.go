@@ -17,6 +17,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"math"
 	"strings"
 	"time"
 
@@ -106,6 +107,9 @@ func read(fname string) ([]Record, errstack.E) {
 		r.Currency = liquidity.ParseCurrencyErrp(row[rowCurrency], errbRow.Putter("currency"))
 		r.AmountIn = readAmount(row[rowAmount], errbRow.Putter("amount_in"))
 		r.AmountOut = readAmount(row[rowSWCAmount], errbRow.Putter("amount_swc"))
+		if math.Signbit(r.AmountIn) != math.Signbit(r.AmountOut) {
+			errbRow.Put("amount_in", "amount_in and amount_swc have to have the same sign")
+		}
 		r.UsdRate = readAmount(row[rowFXRate], errbRow.Putter("fx_rate"))
 		r.Status = directbuy.ParseStatusErrp(row[rowStatus], errbRow.Putter("status"))
 		errp := errbRow.Putter("swc_price")
@@ -132,10 +136,17 @@ func readAmount(src string, errp errstack.Putter) float64 {
 	v, err := bat.Atof64(src)
 	if err != nil {
 		errp.Put(err)
-	} else if v <= 0 {
-		errp.Put("must be positive: " + src)
+	} else if v == 0 {
+		errp.Put("can not be 0: " + src)
 	}
 	return v
+}
+
+func sign(x int) int {
+	if x < 0 {
+		return -1
+	}
+	return 1
 }
 
 func checkDuplicates(records []Record) error {
