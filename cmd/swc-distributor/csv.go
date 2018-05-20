@@ -72,7 +72,7 @@ func readRecords(fname string) ([]directbuy.Summary, errstack.E) {
 		var r = directbuy.Summary{List: row[0], Idx: i}
 		r.Address = ethereum.ParseAddressErrp(row[1], errbRow.Putter("address"))
 		errpAmount := errbRow.Putter("amount")
-		r.Amount = wad.AfToPosWei(row[2], errpAmount)
+		r.Amount = wad.AfToNotNegWei(row[2], errpAmount)
 		if r.Amount != nil && r.Amount.Cmp(maxSWC) > 0 {
 			errpAmount.Put(fmt.Sprint("must be smaller or equal then ", *flags.maxSWC))
 		}

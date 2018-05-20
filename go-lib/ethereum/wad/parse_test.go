@@ -73,6 +73,7 @@ func (suite *ParseSuite) TestAfToCoinStr(c *C) {
 		{"0.123456789", "123456789" + gweiZeros},
 		{"0.123456789123456789", "123456789123456789"},
 		{"22.123456789123456789", "22123456789123456789"},
+		{"-1.2", "-1200000000" + gweiZeros},
 	}
 	for _, x := range cases {
 		s, err := afToCoinStr(x.str)

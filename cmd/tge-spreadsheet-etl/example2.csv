@@ -2,5 +2,5 @@
 Payment Date,Emailed Conf,Tranche,Member/Escrow?,Email,Full Name,Last Name,First Name,Currency,Amount (PCY),FX Rate,Amount (USD),SWC Price,SWC Tokens,Market Value (USD),SWC Exch. Rate,SWC Distribution Status,Matched Address?,Sender ID,TxHash,Payment Date,(DO NOT CHANGE OR DELETE)
 12/20/2017,951,1,Member,test@example.com,Todd  ,A,A,USD,25000,1,25000,2.4,10416.67,0,0.42,pending,TRUE,123,SVB-MFA,43089,59
 1/12/2018,1818,2,Member,test@example.com,Todd  ,A,A,USD,10000,1,10000,2.6,3846.15,0,0.38,pending,TRUE,,,,227
-4/23/2018,2345,1,Member,test@example.com,Todd  ,A,A,USD,-20000,1,-20000,2.4,-8333.33,0,0.42,pending,TRUE,123,SVB-MFA,43089,9999
+4/23/2018,2345,1,Member,test@example.com,Todd  ,A,A,USD,-20000,1,-20000,2.4,-9333.33,0,0.42,pending,TRUE,123,SVB-MFA,43089,9999
 5/1/2018,6432,2,Member,test@example.com,Todd  ,A,A,USD,-10000,1,-10000,2.6,-3846.15,0,0.38,pending,TRUE,,,,99999

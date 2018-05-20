@@ -16,6 +16,7 @@ package wad
 
 import (
 	"math/big"
+	"strings"
 
 	"github.com/robert-zaremba/errstack"
 )
@@ -23,6 +24,15 @@ import (
 var oneCoinF = big.NewFloat(1e18)
 var oneCoin *big.Int
 var oneGwei *big.Int
+
+type numberType int
+
+const (
+	anyNumber numberType = iota
+	negative
+	notNegative
+	positive
+)
 
 func init() {
 	var accuracy big.Accuracy
@@ -58,15 +68,28 @@ func WeiToInt(wei *big.Int) uint64 {
 	return i.Div(wei, oneCoin).Uint64()
 }
 
-func parseDec9(amount string, isPositive bool, errp errstack.Putter) *big.Int {
+func parseDec9(amount string, numberT numberType, errp errstack.Putter) *big.Int {
 	amount, err := afToCoinStr(amount)
 	if err != nil {
 		errp.Put(err)
 		return nil
 	}
-	if isPositive && amount == "0" {
-		errp.Put("must be positive")
-		return nil
+	switch numberT {
+	case negative:
+		if !strings.HasPrefix(amount, "-") {
+			errp.Put("must be negative")
+			return nil
+		}
+	case notNegative:
+		if strings.HasPrefix(amount, "-") {
+			errp.Put("must not be negative")
+			return nil
+		}
+	case positive:
+		if amount == "0" || strings.HasPrefix(amount, "-") {
+			errp.Put("must be positive")
+			return nil
+		}
 	}
 	var wei = new(big.Int)
 	_, ok := wei.SetString(amount, 10)
@@ -79,11 +102,17 @@ func parseDec9(amount string, isPositive bool, errp errstack.Putter) *big.Int {
 
 // AfToWei takes float number in Ascii, with max  9 digits after comman and converts it to Wei.
 func AfToWei(amount string, errp errstack.Putter) *big.Int {
-	return parseDec9(amount, false, errp)
+	return parseDec9(amount, anyNumber, errp)
+}
+
+// AfToNotNegWei takes float number in Ascii, with max  9 digits after comman and converts it to
+// Wei. It puts an error if amount less  then zero.
+func AfToNotNegWei(amount string, errp errstack.Putter) *big.Int {
+	return parseDec9(amount, notNegative, errp)
 }
 
 // AfToPosWei takes float number in Ascii, with max  9 digits after comman and converts it to
-// Wei. It puts an error if amount is zero.
+// Wei. It puts an error if amount less or equal zero.
 func AfToPosWei(amount string, errp errstack.Putter) *big.Int {
-	return parseDec9(amount, true, errp)
+	return parseDec9(amount, positive, errp)
 }

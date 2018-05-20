@@ -69,6 +69,7 @@ func (suite *NumberSuite) TestAfToWei(c *C) {
 		{"1230.00123", "1230001230000" + gweiZeros, false},
 		{"001230.0012300", "1230001230000" + gweiZeros, false},
 		{"123456789001230.0012300", "123456789001230001230000" + gweiZeros, false},
+		{"-1.2", "-1200000000" + gweiZeros, false},
 	}
 	runner := func(parser func(amount string, errp errstack.Putter) *big.Int) {
 		for _, x := range cases {
@@ -87,6 +88,10 @@ func (suite *NumberSuite) TestAfToWei(c *C) {
 
 	runner(AfToWei)
 
+	cases[len(cases)-1].hasErr = true
+	runner(AfToNotNegWei)
+
+	// check positive values
 	for i := 0; i < 3; i++ {
 		cases[i].hasErr = true
 	}

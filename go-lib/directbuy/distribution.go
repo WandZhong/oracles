@@ -81,7 +81,7 @@ func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.Contr
 		logger.Debug("Transfering", "amount", wad.WeiToString(s.Amount),
 			"dest", s.Address.Hex(), "nonce", txo.Nonce)
 		if s.Amount.Cmp(zero) == 0 {
-			logger.Debug("ignoring, the amount_out is zero")
+			logger.Warn("Ignoring, the amount_out is zero", "row", s.Idx)
 		}
 		tx, err := token.Transfer(txo, s.Address, s.Amount)
 		if err != nil {
