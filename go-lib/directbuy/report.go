@@ -99,18 +99,18 @@ func (r *ReportRecord) validate(errb errstack.Builder) {
 }
 
 // ReportRecordsToSummary converts aggregated DirectBuy records into Summary
-func ReportRecordsToSummary(rs []*ReportRecord) []Summary {
+func ReportRecordsToSummary(rs []*ReportRecord) ([]Summary, errstack.E) {
 	var summaries = make([]Summary, len(rs))
 	errb := errstack.NewBuilder()
 	for i, r := range rs {
 		// TODO we need to round the float numbers. This may loose precision.
 		amountStr := bat.F64toa(r.AmountOut, 9)
-		summaries[i].Amount = wad.AfToPosWei(amountStr, errb.Putter("amount"))
+		summaries[i].Amount = wad.AfToNotNegWei(amountStr, errb.Putter("amount"))
 		summaries[i].Address = r.Address
 		summaries[i].DBs = r.DBs
 		logger.Debug("Distribution record:", "user", r.Comment,
 			"wei", summaries[i].Amount, "float", r.AmountOut, "float_round", amountStr,
 			"coins", wad.WeiToString(summaries[i].Amount))
 	}
-	return summaries
+	return summaries, errb.ToReqErr()
 }

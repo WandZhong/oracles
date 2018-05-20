@@ -22,6 +22,9 @@ import (
 
 // WeiToString turns a number of Wei in to a string.
 func WeiToString(wei *big.Int) string {
+	if wei == nil {
+		return "undefined"
+	}
 	s := etherutils.WeiToString(wei, true)
 	l := len(s) - 5
 	if l > 1 && s[l:] == "Ether" {

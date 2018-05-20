@@ -66,7 +66,11 @@ func main() {
 		return
 	}
 	_, cf := flags.MustEthFactory()
-	summaries := directbuy.ReportRecordsToSummary(records)
+	summaries, err := directbuy.ReportRecordsToSummary(records)
+	if err != nil {
+		logger.Error("Wrong direct-buy data", err)
+		return
+	}
 	if err = directbuy.DistributeSWC(*flags.dryRun, summaries, cf, db); err != nil {
 		logger.Error("Can't perform SWC distribution", err)
 	}
