@@ -12,4 +12,4 @@ LABEL name=oracle-builder
 RUN mkdir -p /go/src/bitbucket.org/sweetbridge
 WORKDIR /go/src/bitbucket.org/sweetbridge/oracles
 
-RUN apk add --update make git gcc libc-dev
+RUN apt-get install --upgrade make git gcc libc-dev
