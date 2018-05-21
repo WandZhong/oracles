@@ -46,7 +46,7 @@ func NewJSONTxrFactory(filename, passphrase string) (TxrFactory, errstack.E) {
 	}
 	key, errStd := keystore.DecryptKey(data, passphrase)
 	if errStd != nil {
-		return nil, errstack.WrapAsReq(err, "Wrong passphrase")
+		return nil, errstack.WrapAsReq(errStd, "Wrong passphrase")
 	}
 	return txrFactory{key.PrivateKey, key.Address}, nil
 }
