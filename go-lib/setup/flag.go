@@ -33,6 +33,7 @@ func FlagFail(err error) {
 // `commands` if provided is a positional argument command description.
 func Flag(positionalArgs string, commands ...string) {
 	flag.Usage = func() {
+		fmt.Fprint(os.Stderr, "Version: "+GitVersion)
 		fmt.Fprintf(os.Stderr,
 			"\nusage: %s <parameters> %s:\n", os.Args[0], positionalArgs)
 		if len(commands) != 0 {

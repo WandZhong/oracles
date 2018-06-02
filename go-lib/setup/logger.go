@@ -39,4 +39,5 @@ func MustLogger(appname string, rollbartoken string) {
 	if strings.HasPrefix(envName, "prod") && rollbartoken == "" {
 		logger.Error("Rollbar token must be set in production environment")
 	}
+	logger.Debug("Logger initialized", "app_version", GitVersion)
 }
