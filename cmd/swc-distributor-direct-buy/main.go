@@ -16,8 +16,10 @@ package main
 
 import (
 	"flag"
+	"math/big"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"github.com/go-pg/pg"
@@ -33,9 +35,10 @@ var (
 
 type mainFlags struct {
 	setup.BaseOracleFlags
-	PgFlags setup.PgFlags
-	dryRun  *bool
-	tranche *uint64
+	PgFlags  setup.PgFlags
+	dryRun   *bool
+	tranche  *uint64
+	gasPrice *uint64
 }
 
 func (f mainFlags) Check() error {
@@ -48,9 +51,10 @@ func (f mainFlags) Check() error {
 }
 
 var flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
-	PgFlags: setup.NewPgFlags(),
-	dryRun:  flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
-	tranche: new(uint64)}
+	PgFlags:  setup.NewPgFlags(),
+	dryRun:   flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
+	tranche:  new(uint64),
+	gasPrice: flag.Uint64("gas-price", 0, "gas price in Gwei to be used for single transaction. 0 = use gas price oracle")}
 
 func init() {
 	setup.FlagSimpleInit("swc-distributor", "tranche-id", flags.Rollbar, flags)
@@ -71,7 +75,11 @@ func main() {
 		logger.Error("Wrong direct-buy data", err)
 		return
 	}
-	if err = directbuy.DistributeSWC(*flags.dryRun, summaries, cf, db); err != nil {
+	var gasPrice *big.Int
+	if *flags.gasPrice > 0 {
+		gasPrice = wad.GweiToWei(*flags.gasPrice)
+	}
+	if err = directbuy.DistributeSWC(*flags.dryRun, summaries, gasPrice, cf, db); err != nil {
 		logger.Error("Can't perform SWC distribution", err)
 	}
 }

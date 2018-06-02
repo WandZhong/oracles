@@ -61,11 +61,18 @@ func FToWei(amount float64) *big.Int {
 	return i
 }
 
-// WeiToInt converts wei to integers (Ether units - 1e18)
+// WeiToInt converts wei to coins unit (Ether units - 1e18)
 func WeiToInt(wei *big.Int) uint64 {
 	var i = new(big.Int)
 	i.Set(wei)
 	return i.Div(wei, oneCoin).Uint64()
+}
+
+// GweiToWei converts gwei to wei amount
+func GweiToWei(n uint64) *big.Int {
+	gwei := new(big.Int)
+	gwei.SetUint64(n)
+	return gwei.Mul(gwei, oneGwei)
 }
 
 func parseDec9(amount string, numberT numberType, errp errstack.Putter) *big.Int {

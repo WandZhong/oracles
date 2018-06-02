@@ -62,7 +62,9 @@ func CheckRequiredBalance(summaries []Summary, tokenname string, token Token, cf
 }
 
 // Distribute performs on-chain token distirubtion based of aggregated summaries.
-func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.ContractFactory, db *pg.DB) errstack.E {
+// If gasPrice (in wei) is provided then it's used for setting the gas price of a transaction.
+// Otherwise the gas price oracle is used for estimation.
+func Distribute(dryRun bool, summaries []Summary, token Token, gasPrice *big.Int, cf ethereum.ContractFactory, db *pg.DB) errstack.E {
 	if len(summaries) == 0 {
 		logger.Info("Nothing to distribute - no pending records in given tranche")
 		return nil
@@ -77,6 +79,7 @@ func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.Contr
 	logger.Info("Starting token distribution")
 	var totalGas uint64
 	txo := cf.Txo()
+	txo.GasPrice = gasPrice
 	for _, s := range summaries {
 		logger.Debug("Transfering", "amount", wad.WeiToString(s.Amount),
 			"dest", s.Address.Hex(), "nonce", txo.Nonce)
@@ -84,6 +87,7 @@ func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.Contr
 			logger.Warn("Ignoring, the amount_out is zero", "row", s.Idx)
 			continue
 		}
+		// suggestedGas, err := cf.Client().SuggestGasPrice(context.TODO())
 		tx, err := token.Transfer(txo, s.Address, s.Amount)
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
@@ -110,12 +114,12 @@ func Distribute(dryRun bool, summaries []Summary, token Token, cf ethereum.Contr
 }
 
 // DistributeSWC performs on-chain SWC token distirubtion based of aggregated summaries.
-func DistributeSWC(dryRun bool, summaries []Summary, cf ethereum.ContractFactory, db *pg.DB) errstack.E {
+func DistributeSWC(dryRun bool, summaries []Summary, gasPrice *big.Int, cf ethereum.ContractFactory, db *pg.DB) errstack.E {
 	swcC, addr, err := cf.GetSWC()
 	utils.Assert(err, "Can't instantiate SWT contract")
 	logger.Debug("Contract address", "swc", addr.Hex())
 
-	return Distribute(dryRun, summaries, swcC, cf, db)
+	return Distribute(dryRun, summaries, swcC, gasPrice, cf, db)
 }
 
 // Summary represents the aggregated (per user) view of DirectBuy distribution

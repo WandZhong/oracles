@@ -56,6 +56,11 @@ func (suite *NumberSuite) TestToWei(c *C) {
 	}
 }
 
+func (suite *NumberSuite) TestGweiToWei(c *C) {
+	gwei := GweiToWei(31)
+	c.Check(gwei.String(), Equals, "31"+gweiZeros)
+}
+
 func (suite *NumberSuite) TestAfToWei(c *C) {
 	var cases = []struct {
 		str, expected string

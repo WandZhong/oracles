@@ -16,8 +16,10 @@ package main
 
 import (
 	"flag"
+	"math/big"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"bitbucket.org/sweetbridge/oracles/go-lib/log"
 	"bitbucket.org/sweetbridge/oracles/go-lib/setup"
 	"github.com/robert-zaremba/errstack"
@@ -31,6 +33,7 @@ type mainFlags struct {
 	dryRun      *bool
 	expectedMd5 *string
 	maxSWC      *uint64
+	gasPrice    *uint64
 }
 
 func (f mainFlags) Check() error {
@@ -43,7 +46,8 @@ func (f mainFlags) Check() error {
 var flags = mainFlags{BaseOracleFlags: setup.NewBaseOracleFlags(),
 	dryRun:      flag.Bool("dry-run", false, "Make a dry run - if set, not transaction is executed"),
 	expectedMd5: flag.String("md5sum", "", "If specified the application will check if the input file matches the given control sum."),
-	maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]")}
+	maxSWC:      flag.Uint64("max-swc", 0, "Max SWC amount per row [required]"),
+	gasPrice:    flag.Uint64("gas-price", 0, "gas price in Gwei to be used for single transaction. 0 = use gas price oracle")}
 
 func init() {
 	setup.FlagSimpleInit("swc-distributor", "source_file.csv", flags.Rollbar, flags)
@@ -57,8 +61,12 @@ func main() {
 		logger.Error("Bad request", err)
 		return
 	}
+	var gasPrice *big.Int
+	if *flags.gasPrice > 0 {
+		gasPrice = wad.GweiToWei(*flags.gasPrice)
+	}
 	_, cf := flags.MustEthFactory()
-	if err = directbuy.DistributeSWC(*flags.dryRun, records, cf, nil); err != nil {
+	if err = directbuy.DistributeSWC(*flags.dryRun, records, gasPrice, cf, nil); err != nil {
 		logger.Error("Can't perform SWC distribution", err)
 	}
 }

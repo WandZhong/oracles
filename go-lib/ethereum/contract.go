@@ -54,6 +54,7 @@ type ContractFactory interface {
 	GetSWCqueue() (*contracts.SWCqueue, common.Address, errstack.E)
 	GetForwarderFactory() (*contracts.ForwarderFactory, common.Address, errstack.E)
 
+	Client() *ethclient.Client
 	TxrFactory
 }
 
@@ -80,6 +81,11 @@ func (cf contractFactory) Txo() *bind.TransactOpts {
 // Addr returns signer address
 func (cf contractFactory) Addr() common.Address {
 	return cf.txrF.Addr()
+}
+
+// Client returns EthClient
+func (cf contractFactory) Client() *ethclient.Client {
+	return cf.client
 }
 
 func (cf contractFactory) getSchemaAddres(contractName string) (common.Address, errstack.E) {
