@@ -19,6 +19,7 @@ import (
 	"strings"
 	"time"
 
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/liquidity"
 	"github.com/go-pg/pg"
 	"github.com/robert-zaremba/errstack"
@@ -38,6 +39,8 @@ type DirectBuy struct {
 	UsdRate   float64            `sql:"usd_rate,notnull"`
 	SenderID  string             `sql:"sender_id"`
 	Status    Status             `sql:"status,notnull"`
+	HashOut   *ethereum.PgtHash  `sql:"hash_out,notnull"`
+	Nonce     uint64             `sql:"nonce,notnull"`
 
 	TransactionDate time.Time `sql:"transaction_date,notnull"`
 	CreatedAt       time.Time `sql:"created_at,notnull"`

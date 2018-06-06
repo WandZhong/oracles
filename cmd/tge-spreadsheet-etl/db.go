@@ -63,7 +63,11 @@ func insert(records []Record) errstack.E {
 	logger.Info("All direct_buys created. Inserting into DB...")
 	result, errStd := db.Model(&ds).
 		OnConflict("(direct_buy_id) DO UPDATE").
-		Set("hash = EXCLUDED.hash, individual_id = EXCLUDED.individual_id, email = EXCLUDED.email, tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at, status = CASE WHEN direct_buy.status=? THEN direct_buy.status ELSE EXCLUDED.status END", directbuy.StatusSent).
+		Set(`hash = EXCLUDED.hash, individual_id = EXCLUDED.individual_id, email = EXCLUDED.email, tranche_id = EXCLUDED.tranche_id, amount_out = EXCLUDED.amount_out, amount_in = EXCLUDED.amount_in, currency_id = EXCLUDED.currency_id, usd_rate = EXCLUDED.usd_rate, sender_id = EXCLUDED.sender_id, updated_at = EXCLUDED.updated_at,
+hash_out = CASE WHEN direct_buy.status=? THEN direct_buy.hash_out ELSE EXCLUDED.hash_out END,
+nonce = CASE WHEN direct_buy.status=? THEN direct_buy.nonce ELSE EXCLUDED.nonce END,
+status = CASE WHEN direct_buy.status=? THEN direct_buy.status ELSE EXCLUDED.status END`,
+			directbuy.StatusSent, directbuy.StatusSent, directbuy.StatusSent).
 		Insert()
 	if errStd == nil {
 		logger.Info("direct_buys insert finished", "rows_affected", result.RowsAffected())

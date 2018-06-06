@@ -92,14 +92,12 @@ func Distribute(dryRun bool, summaries []Summary, token Token, gasPrice *big.Int
 		if err != nil {
 			logger.Error("Can't transfer TOKEN", err)
 			break
-		} else {
-			ethereum.LogTx("Transferred", tx)
-			totalGas += tx.Gas()
-			ethereum.IncTxoNonce(txo, tx)
-			// logger.Debug(">>>> nonce after", "txo", txo.Nonce, "tx", tx.Nonce())
 		}
+		ethereum.LogTx("Transferred", tx)
+		totalGas += tx.Gas()
+		ethereum.IncTxoNonce(txo, tx)
 		if db != nil {
-			if err := s.SetStatusSent(db); err != nil {
+			if err := s.SetStatusSent(db, tx); err != nil {
 				logger.Info("Stopping distribution", "total_gas_spent", totalGas)
 				logger.Crit("Can't set status DONE", log15.Spew(s))
 				return err
@@ -137,17 +135,21 @@ func (s Summary) String() string {
 }
 
 // SetStatusSent update the status for each DirectBuy record in summary to Done
-func (s Summary) SetStatusSent(db *pg.DB) errstack.E {
+func (s Summary) SetStatusSent(db *pg.DB, tx *types.Transaction) errstack.E {
 	if len(s.DBs) == 0 {
 		return nil
 	}
 	var ids = make([]int64, len(s.DBs))
+	hashOut := tx.Hash()
 	for i := range s.DBs {
 		ids[i] = s.DBs[i].ID
 		s.DBs[i].Status = StatusSent
+		s.DBs[i].Nonce = tx.Nonce()
+		s.DBs[i].HashOut = &ethereum.PgtHash{Hash: hashOut}
 	}
 	logger.Debug("updating status", "dbs", ids)
-	res, err := db.Model(&DirectBuy{}).Set("status = ?", StatusSent).
+	res, err := db.Model(&DirectBuy{}).Set("status=?, nonce=?, hash_out=?",
+		StatusSent, tx.Nonce(), hashOut.Hex()).
 		Where("direct_buy_id IN (?)", pg.In(ids)).Update()
 	return model.CheckRowsAffected(fmt.Sprintf("Update direct_buy %v status", ids),
 		len(ids), res, err)
