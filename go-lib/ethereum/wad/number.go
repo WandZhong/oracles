@@ -23,7 +23,9 @@ import (
 
 var oneCoinF = big.NewFloat(1e18)
 var oneCoin *big.Int
-var oneGwei *big.Int
+
+// OneGwei is a constant equal to 1 billion (1e9)
+var OneGwei *big.Int
 
 type numberType int
 
@@ -40,7 +42,7 @@ func init() {
 	if accuracy != big.Exact {
 		logger.Fatal("Wrong wei accuracy", "accuracy", accuracy)
 	}
-	oneGwei, accuracy = big.NewFloat(1e9).Int(nil)
+	OneGwei, accuracy = big.NewFloat(1e9).Int(nil)
 	if accuracy != big.Exact {
 		logger.Fatal("Wrong wei accuracy", "accuracy", accuracy)
 	}
@@ -53,7 +55,7 @@ func ToWei(amount uint64) *big.Int {
 	return a.Mul(a, oneCoin)
 }
 
-// FToWei transforms float64 coin 1e16 denominated into wei.
+// FToWei transforms float64 coin 1e18 denominated into wei.
 func FToWei(amount float64) *big.Int {
 	w := big.NewFloat(amount)
 	w = w.Mul(w, oneCoinF)
@@ -72,7 +74,13 @@ func WeiToInt(wei *big.Int) uint64 {
 func GweiToWei(n uint64) *big.Int {
 	gwei := new(big.Int)
 	gwei.SetUint64(n)
-	return gwei.Mul(gwei, oneGwei)
+	return gwei.Mul(gwei, OneGwei)
+}
+
+// WeiToGwei return wei in Gwei, skipping decimal digits
+func WeiToGwei(wei *big.Int) uint64 {
+	z := new(big.Int)
+	return z.Div(wei, OneGwei).Uint64()
 }
 
 func parseDec9(amount string, numberT numberType, errp errstack.Putter) *big.Int {
