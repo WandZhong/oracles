@@ -21,13 +21,11 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 	"strings"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/directbuy"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/robert-zaremba/errstack"
 	bat "github.com/robert-zaremba/go-bat"
 )
@@ -92,17 +90,17 @@ func checkControlSum(controlSum string, errb errstack.Builder) {
 }
 
 func validate(rs []directbuy.Summary, errb errstack.Builder) errstack.E {
-	var dup = 0
-	var dupMap = map[common.Address]int{}
+	// var dup = 0
+	// var dupMap = map[common.Address]int{}
 	for _, r := range rs {
 		errbRow := errb.ForkIdx(r.Idx)
-		if len(r.List) < 3 {
-			errbRow.Put("list", "List name should be at least 3 character long")
+		if len(r.List) < 1 {
+			errbRow.Put("list", "List name can't be empty")
 		}
-		if dup = dupMap[r.Address]; dup > 0 {
-			errbRow.Put("duplication", "address already used in row "+strconv.Itoa(dup))
-		}
-		dupMap[r.Address] = r.Idx
+		// if dup = dupMap[r.Address]; dup > 0 {
+		// 	errbRow.Put("duplication", "address already used in row "+strconv.Itoa(dup))
+		// }
+		// dupMap[r.Address] = r.Idx
 	}
 	return errb.ToReqErr()
 }
