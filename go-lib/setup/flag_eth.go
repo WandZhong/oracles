@@ -16,8 +16,10 @@ package setup
 
 import (
 	"flag"
+	"math/big"
 
 	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum"
+	"bitbucket.org/sweetbridge/oracles/go-lib/ethereum/wad"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/robert-zaremba/errstack"
@@ -103,4 +105,33 @@ func (ef EthFlags) MustEthFactory() (*ethclient.Client, ethereum.ContractFactory
 	}
 	txrF := ef.mustNewTxrFactory()
 	return MustEthFactory(n, *ef.ContractsPath, txrF)
+}
+
+// GasPriceFlags defines flag to customize gas price.
+type GasPriceFlags struct {
+	gasPriceStr *string
+	GasPrice    *big.Int
+}
+
+// NewGasPriceFlags instantiates GasPriceFlags.
+// This should be called before flag.Parse or Flag function.
+func NewGasPriceFlags() *GasPriceFlags {
+	return &GasPriceFlags{
+		gasPriceStr: flag.String("gas-price", "", "gas price in Gwei to be used for single transaction. Must be a positive integer or 'default' (string). 'default' = use gas price oracle. [required]")}
+}
+
+// Check validates the flags.
+func (gp *GasPriceFlags) Check() error {
+	if *gp.gasPriceStr == "default" {
+		gp.GasPrice = nil
+		return nil
+	}
+	n, err := bat.Atoui64(*gp.gasPriceStr)
+	if err != nil {
+		return errstack.WrapAsReq(err, "Wrong gas-price value. Must be positive integer or 'default'")
+	} else if n == 0 {
+		return errstack.NewReq("Wrong gas-price value. Must be positive integer or 'default' (0 was given).")
+	}
+	gp.GasPrice = wad.GweiToWei(n)
+	return nil
 }

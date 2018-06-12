@@ -80,6 +80,7 @@ func Distribute(dryRun bool, summaries []Summary, token Token, gasPrice *big.Int
 	var totalGas uint64
 	txo := cf.Txo()
 	txo.GasPrice = gasPrice
+	logger.Info("Gas price param", "val", txo.GasPrice)
 	for _, s := range summaries {
 		logger.Debug("Transfering", "amount", wad.WeiToString(s.Amount),
 			"dest", s.Address.Hex(), "nonce", txo.Nonce)

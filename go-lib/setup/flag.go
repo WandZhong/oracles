@@ -59,6 +59,16 @@ func FlagValidate(positionalArgs string, checkers ...Checker) {
 	}
 }
 
+// FlagCheckMany is a helper function to check many flag components
+func FlagCheckMany(checkers ...Checker) error {
+	for _, c := range checkers {
+		if err := c.Check(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // FlagSimpleInit provides a common functionality to setup the command line flags.
 // `positionalArgs` documents expected positional argumentes, eg `"arg1 arg2 arg3"`.
 // `rollbarKey` is a pointer, because it can be a flag, which is gonig to be initialized
